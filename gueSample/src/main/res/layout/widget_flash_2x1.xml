@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="@dimen/widget_margin"
+              android:padding="20dp"
+    >
+    <!--     android:background="@drawable/box_round_pannel" -->
+    <ImageView
+        android:id="@+id/ivFlash"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/bt_flash_off"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        />
+
+    <ImageView
+        android:id="@+id/ivLink"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/link"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        />
+</LinearLayout>

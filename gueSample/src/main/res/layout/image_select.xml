@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#ddff8800"
+              android:baselineAligned="true"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:id="@+id/llIimageBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_dot"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:visibility="visible"
+                />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <FrameLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            >
+
+            <ImageView
+                android:id="@+id/ivThumb1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="fitCenter"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:textColor="#66ffffff"
+                android:textSize="25sp"
+                android:text="path"
+                android:background="@drawable/box_square_white"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_weight="0"
+            >
+
+            <ImageView
+                android:id="@+id/ivThumb2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/box_square_white"
+                android:scaleType="fitCenter"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:textColor="#66ffffff"
+                android:textSize="25sp"
+                android:text="uri"
+                android:background="@drawable/box_square_white"
+                />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <Button
+            android:id="@+id/btGallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="이미지 선택"
+            />
+
+        <Button
+            android:id="@+id/btCamera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="카메라"
+            />
+
+        <Button
+            android:id="@+id/btEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="에디터 실행"
+            />
+    </LinearLayout>
+
+</LinearLayout>

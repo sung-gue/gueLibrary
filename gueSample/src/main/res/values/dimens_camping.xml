@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- max lenth -->
+    <string name="max_album_name">"20"</string>
+    <string name="max_moim_name">"20"</string>
+    <string name="max_login">"12"</string>
+
+
+    <!-- thumbNail view -->
+    <dimen name="thumb_font">11sp</dimen>
+    <dimen name="thumb_font1">10sp</dimen>
+    <dimen name="thumb_icon">8dp</dimen>
+    <dimen name="thumb_height">18dp</dimen>
+
+
+    <!-- hotAlbumNewPhoto listView -->
+    <dimen name="list_date1">9sp</dimen>
+    <dimen name="list_date2">13sp</dimen>
+    <dimen name="list_count">14sp</dimen>
+    <dimen name="list_tag">13sp</dimen>
+
+
+    <!-- project declare size -->
+    <dimen name="pt_16">9sp</dimen>
+    <dimen name="pt_17">10sp</dimen>
+    <dimen name="pt_18">11sp</dimen>
+    <dimen name="pt_20">13sp</dimen>
+    <dimen name="pt_22">14sp</dimen>
+    <dimen name="pt_24">15sp</dimen>
+    <dimen name="pt_26">16sp</dimen>
+    <dimen name="pt_28">17sp</dimen>
+    <dimen name="pt_30">18sp</dimen>
+    <dimen name="pt_32">19sp</dimen>
+    <dimen name="pt_34">20sp</dimen>
+    <dimen name="pt_36">21sp</dimen>
+    <dimen name="pt_38">22sp</dimen>
+    <dimen name="pt_40">23sp</dimen>
+    <dimen name="pt_42">24sp</dimen>
+    <dimen name="pt_44">25sp</dimen>
+    <dimen name="pt_46">26sp</dimen>
+    <dimen name="pt_48">27sp</dimen>
+    <dimen name="pt_50">28sp</dimen>
+    <dimen name="pt_52">29sp</dimen>
+    <dimen name="pt_54">30sp</dimen>
+    <dimen name="pt_56">31sp</dimen>
+    <dimen name="pt_58">32sp</dimen>
+    <dimen name="pt_60">33sp</dimen>
+    <dimen name="pt_62">34sp</dimen>
+
+    <dimen name="small_font0">14sp</dimen>
+    <dimen name="small_font0_1">15sp</dimen>
+    <dimen name="small_font1">16sp</dimen>
+    <dimen name="small_font2">17sp</dimen>
+
+    <!-- base size -->
+    <dimen name="small_font">16sp</dimen>
+    <dimen name="medium_font">18sp</dimen>
+    <dimen name="large_font">24sp</dimen>
+
+    <!-- btn base font -->
+    <dimen name="btn_small">12sp</dimen>
+    <dimen name="btn_medium">14sp</dimen>
+    <dimen name="btn_large">16sp</dimen>
+
+
+    <!-- margin -->
+    <dimen name="gap_0">1px</dimen>
+    <dimen name="gap_1">5px</dimen>
+    <dimen name="gap_2">10px</dimen>
+    <dimen name="gap_3">15px</dimen>
+    <dimen name="gap_4">20px</dimen>
+    <dimen name="gap_0px">0px</dimen>
+    <dimen name="gap_2px">2px</dimen>
+
+    <dimen name="gap_d0">1dp</dimen>
+    <dimen name="gap_d1">5dp</dimen>
+    <dimen name="gap_d2">10dp</dimen>
+    <dimen name="gap_d3">15dp</dimen>
+    <dimen name="gap_d4">20dp</dimen>
+
+</resources>

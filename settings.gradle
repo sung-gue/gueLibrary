@@ -1,0 +1,8 @@
+include ':guelib'
+include ':gueSample'
+/*include ':pulltorefresh-library'
+project(':pulltorefresh-library').projectDir = new File('../../open_source/Chrisbanes-PullToRefresh/pulltorefresh-library')*/
+/* 경로가 다른 위치의 module 삽입
+include ':guelib'
+project(':guelib').projectDir = new File('../../gue/gue_project/guelib')
+ */

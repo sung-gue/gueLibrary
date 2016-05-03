@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:minWidth="146dp"
+                    android:minHeight="72dp"
+                    android:previewImage="@drawable/bt_flash_on"
+                    android:initialLayout="@layout/widget_flash_2x1"
+                    android:widgetCategory="home_screen"
+    >
+    <!-- 	android:configure="test.sample.device.FlashWidgetConfigure"  -->
+    <!-- 	android:widgetCategory="home_screen|keyguard" -->
+    <!-- 	android:resizeMode="horizontal|vertical" -->
+    <!-- 	android:initialKeyguardLayout="@layout/example_keyguard" -->
+    <!-- 	android:updatePeriodMillis="" -->
+    <!-- 	android:minResizeWidth="" -->
+    <!-- 	android:minResizeHeight="" -->
+</appwidget-provider>

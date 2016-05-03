@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="server : "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/llInitArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etUserName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="User Name"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/etUserPw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Password"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="80dp"
+                android:text="single chat"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etTargetUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="User Name"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="80dp"
+                android:text="room chat"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etTargetRoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Room Name"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btJoin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Join"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llChatArea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@+id/lvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:scrollbars="horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etChatMsg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="msg"
+                android:maxHeight="200dp"
+                android:scrollHorizontally="true">
+            </EditText>
+
+            <Button
+                android:id="@+id/btSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Send"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

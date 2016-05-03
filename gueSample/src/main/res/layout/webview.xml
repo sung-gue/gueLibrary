@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageButton
+            android:id="@+id/btBack"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_media_previous"
+            />
+
+        <ImageButton
+            android:id="@+id/btNext"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_media_next"
+            />
+
+        <EditText
+            android:id="@+id/etUrl"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/hint_url"
+            android:imeOptions="actionGo"
+            android:inputType="textUri"
+            android:singleLine="true"
+            android:textSize="16sp"
+            />
+
+        <ImageButton
+            android:id="@+id/btMove"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_media_play"
+            />
+    </LinearLayout>
+
+
+    <WebView
+        android:id="@+id/wv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>

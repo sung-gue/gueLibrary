@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="#ddff8800"
+              android:baselineAligned="true"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+    >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:visibility="visible"
+                />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/white"
+                />
+
+            <ImageView
+                android:id="@+id/ivImageFilter"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:visibility="visible"
+                />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:padding="5dp"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:id="@+id/llFOriginal"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:background="@drawable/box_square_white"
+                >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="origin"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFGray"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="gray"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter02"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter02"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter02"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter03"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter03"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter03"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter04"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter04"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter04"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter05"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter05"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter05"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter06"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter06"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter06"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter07"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter07"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter07"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter08"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter08"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter08"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter09"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter09"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter09"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter10"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter10"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter10"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFilter11"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/ivFilter11"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/filter_oringinal"
+                    />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="filter11"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <Button
+            android:id="@+id/btRotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="회전"
+            />
+
+        <Button
+            android:id="@+id/btOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="확인"
+            />
+
+        <Button
+            android:id="@+id/btCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:includeFontPadding="false"
+            android:text="취소"
+            />
+    </LinearLayout>
+
+</LinearLayout>

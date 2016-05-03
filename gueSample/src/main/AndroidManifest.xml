@@ -1,0 +1,376 @@
+<manifest
+    package="com.breakout.sample"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="auto"
+    >
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true"
+        />
+    <!--android:resizeable="true" -->
+    <!--android:anyDensity="true"  -->
+
+    <!-- use user data -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <!--<uses-permission android:name="android.permission.CALL_PHONE" /> -->
+    <!--<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/> -->
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
+    <!--<uses-permission android:name="android.permission.USE_CREDENTIALS"/> -->
+
+    <!-- use sd -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- media -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+    <!-- network -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!-- bluetooth -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <!-- location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!--<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES"/> -->
+
+    <!-- carmara -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <!--<uses-feature android:name="android.hardware.camera"/> -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+
+    <!-- manage task -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+    <!-- device -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+
+    <!-- Required to send logcat using ACRA -->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+
+    <!-- use sendStickyBroadcast() -->
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+
+    <!-- GCM -->
+    <permission
+        android:name="com.breakout.sample.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+
+    <uses-permission android:name="com.breakout.sample.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+
+    <!--android:allowTaskReparenting="true"  :  Affinity allow -->
+    <!--android:largeHeap="true" -->
+    <!--android:hardwareAccelerated="true" -->
+    <!--android:name=".BaseApplication"-->
+    <application
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        >
+
+        <!-- MainActivity ********************************************************************************** -->
+        <!--android:configChanges="orientation|keyboardHidden|keyboard|screenSize|loacal" -->
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
+        <!-- sqlite 사용 예시 ********************************************************************************** -->
+        <activity
+            android:name=".sqlite.SQLiteActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+        </activity>
+
+
+        <!-- 사진 공유나 보내기 등을 이용하여 진입하게 될때 최초 intent를 받는 activity ****************************** -->
+        <activity
+            android:name=".ImageEntryActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensor"
+            android:taskAffinity="test.sample"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="intro1"
+                    android:scheme="sample"/>
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="intro"
+                    android:scheme="sample"/>
+            </intent-filter>
+        </activity>
+
+
+        <!-- 내부 라이브러리를 이용한 이미지 필터 사용 예시 ********************************************************* -->
+        <!-- 내부 라이브러리를 이용한 Image 선택 -->
+        <activity
+            android:name=".image_filter_gue.ImageSelectActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+
+        <!-- 내부 라이브러리를 이용한 Image Filter 적용 -->
+        <activity
+            android:name=".image_filter_gue.ImageFilterActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+
+
+        <!-- Custom View를 이용한 Dialog 변형 적용 *************************************************************** -->
+        <activity
+            android:name=".ui.DialogActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+
+
+        <!-- 홈에 아이콘 추가 *********************************************************************************** -->
+        <activity
+            android:name=".ui.BookMarkActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen.Translucent"
+            >
+        </activity>
+
+
+        <!-- Notification ************************************************************************************** -->
+        <activity
+            android:name=".ui.NotificationActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+
+
+        <!-- Theme ********************************************************************************************** -->
+        <activity
+            android:name=".theme.ThemeActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            >
+        </activity>
+
+
+        <!-- Hybrid - phonegap *********************************************************************************** -->
+        <activity
+            android:name="com.breakout.sample.hybrid.phonegap.PhonegapActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="Hybrid : Phonegap"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+        </activity>
+
+
+        <!-- Share WebView *************************************************************************************** -->
+        <activity
+            android:name=".web.WebViewActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            >
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.SEND"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".web.WebView2Activity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"
+            >
+        </activity>
+
+
+        <!-- Camera Flash *************************************************************************************** -->
+        <activity
+            android:name=".device.flash.FlashActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+
+
+        <!-- XMPP chat *************************************************************************************** -->
+        <activity
+            android:name=".xmpp.ChatTestActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            >
+        </activity>
+
+
+        <!-- Widget *************************************************************************************** -->
+        <receiver
+            android:name="com.breakout.sample.device.flash.FlashWidget1x1Provider"
+            android:label="GUE FLASH 1x1">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.com.breakout.util.flash_widget1x1.CLICK"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_flash_1x1"/>
+        </receiver>
+
+        <receiver
+            android:name="com.breakout.sample.device.flash.FlashWidget2x1Provider"
+            android:label="GUE FLASH 2x1">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.com.breakout.util.flash_widget2x1.CLICK"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_flash_2x1"/>
+        </receiver>
+
+        <service android:name="com.breakout.sample.device.flash.FlashWidgetUpdateService"/>
+
+
+        <!-- test ********************************************************************************** -->
+        <activity
+            android:name=".test.TestActivity"
+            android:configChanges="orientation|keyboard"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+        </activity>
+        <!--
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:configChanges="keyboard|keyboardHidden|orientation"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:windowSoftInputMode="adjustPan"
+        -->
+
+
+        <!-- 외부 실행 activity -->
+        <!--         <activity -->
+        <!--             android:name=".UriActivity" -->
+        <!--             android:screenOrientation="portrait" -->
+        <!--             android:theme="@style/AppTheme.NoActionBar"  -->
+        <!--             > -->
+        <!--             <intent-filter> -->
+        <!--                 <action android:name="android.intent.action.VIEW" /> -->
+        <!--                 <category android:name="android.intent.category.BROWSABLE" /> -->
+        <!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+        <!--                 <data 	android:host="uri" -->
+        <!--                     	android:scheme="sample" /> -->
+        <!--             </intent-filter> -->
+        <!--         </activity> -->
+
+
+        <!-- GCM 셋팅 -->
+        <!-- android:name="com.google.android.gcm.GCMBroadcastReceiver" -->
+        <!-- android:name="com.breakout.sample.gcm.GCMBroadcastReceiver" -->
+        <!--         <receiver -->
+        <!--             android:name="com.google.android.gcm.GCMBroadcastReceiver" -->
+        <!--             android:permission="com.google.android.c2dm.permission.SEND" > -->
+        <!--             <intent-filter> -->
+        <!--                 <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
+        <!--                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" /> -->
+
+        <!--                 <category android:name="test.sample" /> -->
+        <!--             </intent-filter> -->
+        <!--         </receiver> -->
+        <!--         <service android:name=".GCMIntentService" /> -->
+
+    </application>
+
+</manifest>

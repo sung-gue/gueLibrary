@@ -1,0 +1,92 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+//        applicationId "com.breakout.util"
+        minSdkVersion 9
+        targetSdkVersion 18
+        versionCode 5
+        versionName "1.0.4"
+//        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // off lint options
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+//    packagingOptions {
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/NOTICE.txt'
+//    }
+
+    useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
+}
+
+dependencies {
+    /* ex
+    compile group: '[group-id]', name: '[artifact-id]', version: '[version]'
+    compile '[group-id]:[artifact-id]:[version]'
+    compile project(':[module-name ]')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    */
+
+    /* Google Support Library
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    */
+
+    /* Google PLay Service api
+    compile 'com.google.android.gms:play-services:8.4.0'                  // all api
+    compile 'com.google.android.gms:play-services-plus:8.4.0'             // Google+
+    compile 'com.google.android.gms:play-services-auth:8.4.0'             // Google Account Login
+    compile 'com.google.android.gms:play-services-base:8.4.0'             // Google Actions, Base Client Library
+    compile 'com.google.android.gms:play-services-identity:8.4.0'         // Google Address API
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'      // Google App Indexing
+    compile 'com.google.android.gms:play-services-appinvite:8.4.0'        // Google App Invites
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'        // Google Analytics
+    compile 'com.google.android.gms:play-services-cast:8.4.0'             // Google Cast
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'              // Google Cloud Messaging
+    compile 'com.google.android.gms:play-services-drive:8.4.0'            // Google Drive
+    compile 'com.google.android.gms:play-services-fitness:8.4.0'          // Google Fit
+    compile 'com.google.android.gms:play-services-location:8.4.0'         // Google Location, Activity Recognition, and Places
+    compile 'com.google.android.gms:play-services-maps:8.4.0'             // Google Maps
+    compile 'com.google.android.gms:play-services-ads:8.4.0'              // Google Mobile Ads
+    compile 'com.google.android.gms:play-services-vision:8.4.0'           // Mobile Vision
+    compile 'com.google.android.gms:play-services-nearby:8.4.0'           // Google Nearby
+    compile 'com.google.android.gms:play-services-panorama:8.4.0'         // Google Panorama Viewer
+    compile 'com.google.android.gms:play-services-games:8.4.0'            // Google Play Game services
+    compile 'com.google.android.gms:play-services-safetynet:8.4.0'        // SafetyNet
+    compile 'com.google.android.gms:play-services-wallet:8.4.0'           // Google Wallet
+    compile 'com.google.android.gms:play-services-wearable:8.4.0'         // Android Wear
+    */
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.google.code.gson:gson:2.5'
+    compile 'com.google.android.gms:play-services-base:8.4.0'             // Google Actions, Base Client Library
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+<!-- 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+<!-- 	<meta name="format-detection" content="telephone=no" /> -->
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<!-- 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+	
+	<script type="text/javascript" src="cordova-2.5.0.js"></script>
+	
+<!-- 	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" /> -->
+<!-- 	<script src="js/jquery-1.9.1.min.js"></script> -->
+<!-- 	<script src="js/jquery.mobile-1.3.0.min.js"></script> -->
+	
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.css" />
+<!-- 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.3.0.css" /> -->
+<!-- 	<link rel="stylesheet" href="css/gueTheme.css" /> -->
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery.mobile-1.3.0.js"></script>
+
+<!-- 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" /> -->
+<!-- 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+<!-- 	<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script> -->
+
+	<link rel="stylesheet" href="css/gue.css" />
+	<script src="js/gue.js"></script>
+	
+	<style type="text/css" >
+	</style>
+	
+	<script type="text/javascript" charset="utf-8" >
+		function test(){
+		}
+	</script>
+	
+	<title>Ajax test</title>
+</head>
+<body >
+
+
+<div id="ajax" data-role="page" data-add-back-btn="true">
+	<script type="text/javascript" charset="utf-8" >
+		var jsonimage = "http://www.followkr.com/rank/image.php?callback=?";
+		var params = {
+			from: 1,
+			to: 10
+		};
+		
+		$.getJSON(jsonimage, params, function(data, stauts){
+			if (data.rankedTwitList) {
+				for (var i=0; data.rankedTwitList.length ; i++) {
+					imageInsert(data.rankedTwitList[i].links.image[0].thumbnailUrl, data.rankedTwitList[i].links.image[0].url);					
+				}
+			}
+		});
+		
+		function imageInsert(thumbnailUrl, url) {
+			$(function() {
+				$('#twiImage').after('<a href='+url+'><img src='+thumbnailUrl+'></a>');		   	
+			});
+		}
+	</script>
+	<div class="gue_header" data-role="header">
+		<h1>ajax call</h1>
+	</div>
+	<div data-role="content">
+		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="flow" 
+			href="imageList.html" >imageList.html</a>
+		<a href="#about_inner" data-role="button">About Inner Page</a>
+		<div>
+		<span id='twiImage'></span>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div id="about_inner" data-role="page" data-add-back-btn="true">
+	<div class="gue_header" data-role="header">
+<!-- 		<a href="javascript:history.back();" data-role="button">Back</a> -->
+		<h1>About Inner Page</h1>
+	</div>
+	<div data-role="content">
+		<h2>jQueryMobile 예제</h2>
+		<p>쉽고 재밌나?</p>
+		<p>쉽고 재밌나?</p>
+		<p>쉽고 재밌나?</p>
+		<p>쉽고 재밌나?</p>
+	</div>
+</div>
+
+
+</body>
+</html>

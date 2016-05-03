@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+<!-- 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+<!-- 	<meta name="format-detection" content="telephone=no" /> -->
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+<!-- 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /> -->
+	
+	<script type="text/javascript" src="cordova-2.5.0.js"></script>
+	
+<!-- 	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" /> -->
+<!-- 	<script src="js/jquery-1.9.1.min.js"></script> -->
+<!-- 	<script src="js/jquery.mobile-1.3.0.min.js"></script> -->
+	
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.0.css" />
+<!-- 	<link rel="stylesheet" href="css/jquery.mobile.structure-1.3.0.css" /> -->
+<!-- 	<link rel="stylesheet" href="css/gueTheme.css" /> -->
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery.mobile-1.3.0.js"></script>
+
+<!-- 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" /> -->
+<!-- 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+<!-- 	<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script> -->
+
+	<link rel="stylesheet" href="css/gue.css" />
+	<script src="js/gue.js"></script>
+	
+	<style type="text/css" >
+	</style>
+	
+	<script type="text/javascript" charset="utf-8" >
+		function test(){
+			
+		}
+	</script>
+	
+	<title>Hello PhoneGap</title>
+</head>
+<body >
+
+
+<!-- <div id="home" data-role="page" data-add-back-btn="true" data-theme="a"> -->
+<div id="home" data-role="page" data-add-back-btn="true" >
+	<div class="gue_header" data-role="header" >
+<!-- 	<div class="ui-bar gue_header" data-role="header" > -->
+<!-- 	<div class="ui-bar ui-bar-b gue_header" data-role="header" > -->
+<!-- 		<a href="javascript:onBackKeyDownMsg(1);" data-role="button">Exit</a> -->
+		<h1>Start Page</h1>
+	</div>
+	
+<!-- 로딩이미지 생성 class추가 -> "show-page-loading-msg"  -->
+	<div data-role="content">
+		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="flip" data-ajax="false" 
+			href="ajax.html" >ajax.html</a>
+			
+		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="flip" data-ajax="false" 
+			href="ajax.html" >ajax.html : data-ajax="false"</a>
+			
+<!-- 		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="flow"  -->
+		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="slide" 
+			href="imageList.html" >imageList.html</a>
+			
+		<a data-role="button" data-icon="arrow-r" data-iconpos="right" data-transition="flow" rel="external" 
+			href="imageList.html" >imageList.html : rel="external"</a>
+			
+		<div id="location" style="background-color: pink; padding: 20px; display: none"></div>
+		<a data-role="button" data-icon="arrow-u" class="show-page-loading-msg" onclick="getLocation('location')" 
+			>getLocation</a>
+			
+		<a data-role="button" data-icon="arrow-d" data-iconpos="left"  data-transition="pop"
+			href="#innerPage" >Inner Page</a>
+			
+		<a data-role="button" data-icon="arrow-d" data-iconpos="left" class="show-page-loading-msg" data-transition="slide" 
+			href="#webStorage" >Storage</a>
+			
+		<input type="date" placeholder="날짜입력" >
+		
+		<a data-role="button" data-icon="alert" data-iconpos="right" 
+			href="sample://intro1?scheme_host=join&msg=call_app1" >sample app call scheme1</a>
+			
+		<a data-role="button" data-icon="alert" data-iconpos="right"  
+			href="sample://intro?scheme_host=join&msg=call_app" >sample app call scheme</a>
+			
+		<a data-role="button" data-icon="alert" data-iconpos="right"  
+			href="ilikecamping://intro?scheme_host=join&msg=" >camping app</a>
+	</div>
+	
+	<div class="gue_footer" data-role="footer" data-position="fixed">
+<!-- 	<div class="gue_footer" data-role="footer" data-position="fixed" data-theme="e"> -->
+<!-- 	<div class="ui-bar gue_footer" data-role="footer" data-position="fixed"> -->
+		<h1>Footer</h1>
+	</div>
+</div>
+
+
+
+
+<div id="webStorage" data-role="page" data-add-back-btn="true">
+<script type="text/javascript">
+	// 로컬 스토리지에 데이터 저장
+	function setLocalStorage() {
+		if (!!window["localStorage"]) {
+			var textBox = document.querySelector("#textBox1");
+			window.localStorage["key1"] = textBox.value;
+		}
+	}
+	// 로컬 스토리지 조회
+	function getLocalStorage() {
+		if (!!window["localStorage"]) {
+			var textBox = document.querySelector("#textBox2");
+			textBox.value = window.localStorage["key1"];
+		}
+	}
+	// 세션 스토리지에 데이터 저장
+	function setSessionStorage() {
+		if (!!window["sessionStorage"]) {
+			var textBox = document.querySelector("#textBox3");
+			window.sessionStorage["key1"] = textBox.value;
+		}
+	}
+	// 세션 스토리지 조회
+	function getSessionStorage() {
+		if (!!window["sessionStorage"]) {
+			var textBox = document.querySelector("#textBox4");
+			textBox.value = window.sessionStorage["key1"];
+		}
+	}
+</script>
+	<div class="gue_header" data-role="header">
+		<h1>Storage</h1>
+	</div>
+	
+	<div data-role="content">
+		<input type="text" id="textBox1" /><a href="#" data-role="button" onclick="setLocalStorage()">setLocalStorage</a>
+		<input type="text" id="textBox2" /><a href="#" data-role="button" onclick="getLocalStorage()">getLocalStorage</a>
+		<input type="text" id="textBox3" /><a href="#" data-role="button" onclick="setSessionStorage()">setSessionStorage</a>
+		<input type="text" id="textBox4" /><a href="#" data-role="button" onclick="getSessionStorage()">getSessionStorage</a>
+	</div>
+</div>
+
+
+
+
+<div id="innerPage" data-role="page" data-add-back-btn="true">
+	<div class="gue_header" data-role="header">
+<!-- 		<a href="javascript:history.back();" data-role="button">Back</a> -->
+		<h1>Inner Page</h1>
+	</div>
+	
+	<div data-role="content">
+		<h2>List</h2>
+		<ul data-role="listview" data-inset="true" data-split-icon="star" data-split-theme="c">
+			<li data-role="list-divider">차례인가?</li>
+			<li><a href="ajax.html" >ajax.html</a></li>
+			<li>
+				<a href="#">쉽고 재밌나? Google</a>
+				<p>Google inc</p>
+				<a href="google.co.kr" >GoogleA</a>
+				<span class="ui-li-count">150</span>
+			</li>
+			<li>
+				<a href="naver.com">Naver</a>
+				<span class="ui-li-count">12</span>
+			</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+			<li>쉽고 재밌나?</li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript" charset="utf-8" >
+	test();
+</script>
+
+
+</body>
+</html>

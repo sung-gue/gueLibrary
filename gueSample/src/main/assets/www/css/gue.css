@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+
+.gue_header {
+/* 	height: 58px; */
+	background: transparent url(../img/top_bg.jpg) ;
+	border-color: transparent;
+}
+
+.gue_footer {
+/* 	height: 77px; */
+	background: transparent url(../img/bottom_bg.jpg) ;
+	border-color: transparent;
+}
+
+.gue_grid {
+	text-align: center;
+}
+
+.gue_grid img {
+	width: 80%;
+	margin: 5%;
+	border: rgba(243, 108, 108, 0.88) 5px solid;
+}

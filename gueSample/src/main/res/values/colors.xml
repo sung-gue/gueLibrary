@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--theme color-->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="statusBarColor">#88000000</color>
+
+    <!-- base colors -->
+    <color name="black_transparent">#d1000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="red">#ffff0000</color>
+    <color name="green">#ff00ff00</color>
+    <color name="yellow">#ffffff00</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="blue_sky">#ff8ce6f2</color>
+    <color name="blue_sky_weak">#ffdce6f2</color>
+    <color name="purple">#77800080</color>
+    <color name="grege">#fff7f7f7</color>
+    <color name="gray">#ff747474</color>
+
+
+    <!-- 영역확인용 테스트 -->
+    <!-- <color name="t_red">#55990000</color> -->
+    <!-- <color name="t_blue">#55000099</color> -->
+    <!-- <color name="t_green">#55009900</color> -->
+    <!-- <color name="t_yellow">#55ffff00</color> -->
+    <!-- <color name="t_gray">#55747474</color> -->
+
+
+    <!-- 영역확인용 배포용 (투명으로 변경) -->
+    <!-- <color name="t_red">#00000000</color> -->
+    <!-- <color name="t_blue">#00000000</color> -->
+    <!-- <color name="t_green">#00000000</color> -->
+    <!-- <color name="t_yellow">#00000000</color> -->
+    <!-- <color name="t_gray">#00000000</color> -->
+
+
+    <!-- 지정 -->
+
+</resources>

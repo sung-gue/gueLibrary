@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">GUE</string>
+
+    <string name="nt_flash_title">GUE FLASH</string>
+    <string name="nt_flash_on">Flash가 점등되었습니다.</string>
+    <string name="hint_url">URL을 입력하세요.</string>
+
+    <string-array name="pager_title">
+        <item>"View Sample"</item>
+        <item>"Test"</item>
+        <item>"Etc"</item>
+    </string-array>
+
+</resources>
