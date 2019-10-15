@@ -1,13 +1,21 @@
 # default
 /local.properties
-/.idea/workspace.xml
+/.idea/caches
 /.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
 /build
 /captures
+.externalNativeBuild
+.cxx
+
+# svn root
+.svn
 
 # Gradle
 .gradle
-build
 
 # IntelliJ IDEA
 .idea/

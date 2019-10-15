@@ -1,23 +1,73 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'com.google.gms.google-services'
+
+/*repositories {
+    jcenter()
+    // https://docs.gradle.org/current/userguide/dependency_management.html#sec:flat_dir_resolver
+    flatDir {
+        dirs 'libs'
+    }
+    mavenCentral()
+}*/
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    /*signingConfigs {
+        // def keyProps = new Properties()
+        // def keyPropsFile = rootProject.file("../keys/keystore.properties")
+        // def keyPropsFile = new File("keys/keystore.properties")
+        // keyProps.load(new FileInputStream(keyPropsFile))
+        // release {
+        //     storeFile file(keyProps['release_storeFile'])
+        //     storePassword keyProps['release_storePassword']
+        //     keyAlias keyProps['release_keyAlias']
+        //     keyPassword keyProps['release_keyPassword']
+        // }
+
+        release {
+            storeFile file(release_storeFile)
+            storePassword release_storePassword
+            keyAlias release_keyAlias
+            keyPassword release_keyPassword
+        }
+
+        debug {
+            storeFile file(debug_storeFile)
+            storePassword debug_storePassword
+            keyAlias debug_keyAlias
+            keyPassword debug_keyPassword
+        }
+    }*/
+
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
-//        applicationId "com.breakout.util"
-        minSdkVersion 9
-        targetSdkVersion 18
+        // applicationId "com.breakout.util"
+        minSdkVersion 18
+        targetSdkVersion 29
         versionCode 5
         versionName "1.0.4"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 //        multiDexEnabled true
+//        vectorDrawables.useSupportLibrary = true
     }
+
+    /*dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2g"
+        jumboMode true
+    }*/
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        /*debug {
+            signingConfig signingConfigs.debug
+        }*/
     }
 
     // off lint options
@@ -28,65 +78,103 @@ android {
         abortOnError false
     }
 
-//    packagingOptions {
-//        exclude 'META-INF/DEPENDENCIES'
-//        exclude 'META-INF/NOTICE'
-//        exclude 'META-INF/LICENSE'
-//        exclude 'META-INF/LICENSE.txt'
-//        exclude 'META-INF/NOTICE.txt'
-//    }
+    /*packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }*/
 
     useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    implementation "androidx.core:core-ktx:1.1.0"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.android.gms:play-services-base:17.1.0'   // Google Actions, Base Client Library
+
+    // FCM
+//    implementation 'com.google.firebase:firebase-core:17.2.1'
+//    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+
+
+    /**
+     * todo 하단 패키지 확인 필요
+     */
+    implementation 'com.android.support:design:28.0.0'
+//    implementation 'com.android.support:support-v4:28.0.0'
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+//    implementation 'com.android.support:cardview-v7:28.0.0'
+//    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
+
     /* ex
-    compile group: '[group-id]', name: '[artifact-id]', version: '[version]'
-    compile '[group-id]:[artifact-id]:[version]'
-    compile project(':[module-name ]')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation group: '[group-id]', name: '[artifact-id]', version: '[version]'
+    implementation '[group-id]:[artifact-id]:[version]'
+    implementation project(':[module-name ]')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     */
 
     /* Google Support Library
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    implementation 'com.android.support:support-v4:23.1.1'
+    implementation 'com.android.support:appcompat-v7:23.1.1'
+    implementation 'com.android.support:cardview-v7:23.1.1'
+    implementation 'com.android.support:recyclerview-v7:23.1.1'
+    implementation 'com.android.support:design:23.1.1'
     */
 
-    /* Google PLay Service api
-    compile 'com.google.android.gms:play-services:8.4.0'                  // all api
-    compile 'com.google.android.gms:play-services-plus:8.4.0'             // Google+
-    compile 'com.google.android.gms:play-services-auth:8.4.0'             // Google Account Login
-    compile 'com.google.android.gms:play-services-base:8.4.0'             // Google Actions, Base Client Library
-    compile 'com.google.android.gms:play-services-identity:8.4.0'         // Google Address API
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'      // Google App Indexing
-    compile 'com.google.android.gms:play-services-appinvite:8.4.0'        // Google App Invites
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'        // Google Analytics
-    compile 'com.google.android.gms:play-services-cast:8.4.0'             // Google Cast
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'              // Google Cloud Messaging
-    compile 'com.google.android.gms:play-services-drive:8.4.0'            // Google Drive
-    compile 'com.google.android.gms:play-services-fitness:8.4.0'          // Google Fit
-    compile 'com.google.android.gms:play-services-location:8.4.0'         // Google Location, Activity Recognition, and Places
-    compile 'com.google.android.gms:play-services-maps:8.4.0'             // Google Maps
-    compile 'com.google.android.gms:play-services-ads:8.4.0'              // Google Mobile Ads
-    compile 'com.google.android.gms:play-services-vision:8.4.0'           // Mobile Vision
-    compile 'com.google.android.gms:play-services-nearby:8.4.0'           // Google Nearby
-    compile 'com.google.android.gms:play-services-panorama:8.4.0'         // Google Panorama Viewer
-    compile 'com.google.android.gms:play-services-games:8.4.0'            // Google Play Game services
-    compile 'com.google.android.gms:play-services-safetynet:8.4.0'        // SafetyNet
-    compile 'com.google.android.gms:play-services-wallet:8.4.0'           // Google Wallet
-    compile 'com.google.android.gms:play-services-wearable:8.4.0'         // Android Wear
+    /*  Google PLay Service api
+        https://developers.google.com/android/guides/google-services-plugin
+    implementation 'com.google.android.gms:play-services:10.0.1'                   // all api
+    implementation 'com.google.android.gms:play-services-plus:10.0.1'              // Google+
+    implementation 'com.google.android.gms:play-services-auth:10.0.1'              // Google Account Login
+    implementation 'com.google.android.gms:play-services-base:10.0.1'              // Google Actions, Base Client Library
+    implementation 'com.google.android.gms:play-services-identity:10.0.1'          // Google Address API
+    implementation 'com.google.firebase:firebase-appindexing:10.0.1'               // Firebase App Indexing
+    implementation 'com.google.android.gms:play-services-analytics:10.0.1'         // Google Analytics
+    implementation 'com.google.android.gms:play-services-awareness:10.0.1'         // Google Awareness
+    implementation 'com.google.android.gms:play-services-cast:10.0.1'              // Google Cast
+    implementation 'com.google.android.gms:play-services-gcm:10.0.1'               // Google Cloud Messaging
+    implementation 'com.google.android.gms:play-services-drive:10.0.1'             // Google Drive
+    implementation 'com.google.android.gms:play-services-fitness:10.0.1'           // Google Fit
+    implementation 'com.google.android.gms:play-services-location:10.0.1'          // Google Location and Activity Recognition
+    implementation 'com.google.android.gms:play-services-maps:10.0.1'              // Google Maps
+    implementation 'com.google.android.gms:play-services-ads:10.0.1'               // Google Mobile Ads
+    implementation 'com.google.android.gms:play-services-places:10.0.1'            // Google Places
+    implementation 'com.google.android.gms:play-services-vision:10.0.1'            // Mobile Vision
+    implementation 'com.google.android.gms:play-services-nearby:10.0.1'            // Google Nearby
+    implementation 'com.google.android.gms:play-services-panorama:10.0.1'          // Google Panorama Viewer
+    implementation 'com.google.android.gms:play-services-games:10.0.1'             // Google Play Game services
+    implementation 'com.google.android.gms:play-services-safetynet:10.0.1'         // SafetyNet
+    implementation 'com.google.android.gms:play-services-wallet:10.0.1'            // Android Pay
+    implementation 'com.google.android.gms:play-services-wearable:10.0.1'          // Android Wear
     */
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:cardview-v7:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.google.code.gson:gson:2.5'
-    compile 'com.google.android.gms:play-services-base:8.4.0'             // Google Actions, Base Client Library
+    /*  Firebase
+        https://firebase.google.com/docs/android/setup#available_libraries
+    implementation 'com.google.firebase:firebase-core:10.0.1'                      // Analytics
+    implementation 'com.google.firebase:firebase-database:10.0.1'                  // 실시간 데이터베이스
+    implementation 'com.google.firebase:firebase-storage:10.0.1'                   // 저장소
+    implementation 'com.google.firebase:firebase-crash:10.0.1'                     // 오류 보고
+    implementation 'com.google.firebase:firebase-auth:10.0.1'                      // 인증
+    implementation 'com.google.firebase:firebase-messaging:10.0.1'                 // 클라우드 메시징 / 알림
+    implementation 'com.google.firebase:firebase-config:10.0.1'                    // 원격 구성
+    implementation 'com.google.firebase:firebase-invites:10.0.1'                   // 초대 / 동적 링크
+    implementation 'com.google.firebase:firebase-ads:10.0.1'                       // AdMob
+    implementation 'com.google.android.gms:play-services-appindexing:10.0.1'       // 앱 색인 생성
+    */
 }

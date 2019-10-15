@@ -100,12 +100,17 @@ public abstract class BaseController<T extends Object> {
         GET,
         POST;
     }
+    private Method _method = Method.POST;
 
     /**
      * network 처리 후 data를 담아 controller를 호출한 곳으로 돌려주기 위한 callback handler<br>
      * {@link BaseController}의 Constructor에서 입력 받는다.
      */
     protected Handler _handler;
+    /**
+     * header
+     */
+    protected final HashMap<String, String> _requestHeaderMap;
     /**
      * parameter map : stringBody for text/plain enctype
      *
@@ -169,8 +174,9 @@ public abstract class BaseController<T extends Object> {
         this._handler = handler;
         this._context = context;
         this.ALERT_DEBUG = ALERT_DEBUG;
-        _requestMap = new HashMap<String, String>();
-        _requestImageMap = new HashMap<String, String>();
+        _requestMap = new HashMap<>();
+        _requestHeaderMap = new HashMap<>();
+        _requestImageMap = new HashMap<>();
         _controllerThreadHandler = new ControllerHandler(this);
     }
 
@@ -610,7 +616,7 @@ public abstract class BaseController<T extends Object> {
      * INFO BaseControllerThread
      */
     protected class BaseControllerThread extends ControllerThread {
-        private Method _method = Method.POST;
+//        private Method _method = Method.POST;
 
         public BaseControllerThread() {
             super(_context);
@@ -640,7 +646,7 @@ public abstract class BaseController<T extends Object> {
             // 1. request
             String responseStr = null;
             try {
-                responseStr = sendRequest(_method, _sendUrl, _requestMap, _requestImageMap);
+                responseStr = sendRequest(_method, _sendUrl, _requestHeaderMap, _requestMap, _requestImageMap);
             } catch (ParseException e) {
                 Log.e(TAG, "ParseException : " + e.getMessage(), e);
                 _currentNetState = EXCEPTION_PARSE;

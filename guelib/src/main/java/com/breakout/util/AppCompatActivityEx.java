@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.breakout.util.widget.DialogView;
 import com.breakout.util.widget.DialogView.Size;
@@ -79,9 +81,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected Context _context = this;
 
 
-/* ************************************************************************************************
- * INFO UI 구현
- */
+    /* ************************************************************************************************
+     * INFO UI 구현
+     */
 
     /**
      * UI는 일반적으로 title, body, footer로 구성되었다는 것에 착안하여 UI구현을 나누어 작업 할수 있도록 한다.<br/>
@@ -115,9 +117,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected abstract void refreshUI();
 
 
-/* ************************************************************************************************
- * INFO dialog
- */
+    /* ************************************************************************************************
+     * INFO dialog
+     */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
      */
@@ -177,9 +179,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-/* ************************************************************************************************
- * INFO finish receiver
- */
+    /* ************************************************************************************************
+     * INFO finish receiver
+     */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
      */
@@ -221,9 +223,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     };
 
 
-/* ************************************************************************************************
- * INFO : intent method
- */
+    /* ************************************************************************************************
+     * INFO : intent method
+     */
 
     /**
      * startActivity check
@@ -254,10 +256,10 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         super.startActivityForResult(intent, requestCode);
     }
 
-    
-/* ************************************************************************************************
- * INFO activity life cycle
- */
+
+    /* ************************************************************************************************
+     * INFO activity life cycle
+     */
 
     /**
      * 데이터의 초기화 작업 이후에 UI를 설정하기 위하여 {@link #initUI()}를 하여 주어야 한다.
@@ -395,9 +397,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-/* ************************************************************************************************
- * INFO db control
- */
+    /* ************************************************************************************************
+     * INFO db control
+     */
 //    /**
 //     * SQLite3 instance 
 //     */

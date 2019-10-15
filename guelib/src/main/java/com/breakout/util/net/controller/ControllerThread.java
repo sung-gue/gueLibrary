@@ -86,28 +86,32 @@ abstract class ControllerThread extends Thread {
     /**
      * send request
      *
-     * @param sendURL         접속 url
+     * @param sendUrl         접속 url
      * @param requestMap      parameter map : stringBody for text/plain enctype
      * @param requestImageMap parameter map : fileBody for multipart/form-data enctype
      * @author gue
      * @since 2012. 12. 21.
      */
-    String sendRequest(Method method, String sendURL, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+    String sendRequest(Method method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
         String response = null;
         if (_currentEnctype) {
-            response = BaseNet.getInstance().sendMultiPart(sendURL, requestMap, requestImageMap);
+            response = BaseNet.getInstance().sendMultiPart(sendUrl, requestHeaderMap, requestMap, requestImageMap);
         } else {
             switch (method) {
                 case GET:
-                    response = BaseNet.getInstance().sendGet(sendURL, requestMap);
+                    response = BaseNet.getInstance().sendGet(sendUrl, requestHeaderMap, requestMap);
                     break;
                 case POST:
-                    response = BaseNet.getInstance().sendPost(sendURL, requestMap);
+                    response = BaseNet.getInstance().sendPost(sendUrl, requestHeaderMap, requestMap);
                     break;
                 default:
                     break;
             }
         }
         return response;
+    }
+
+    String sendRequest(Method method, String sendurl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+        return sendRequest(method, sendurl, null, requestMap, requestImageMap);
     }
 }

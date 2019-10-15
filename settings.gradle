@@ -6,3 +6,4 @@ project(':pulltorefresh-library').projectDir = new File('../../open_source/Chris
 include ':guelib'
 project(':guelib').projectDir = new File('../../gue/gue_project/guelib')
  */
+rootProject.name='gueLibrary'

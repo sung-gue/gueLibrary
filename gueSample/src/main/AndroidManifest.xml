@@ -1,15 +1,15 @@
-<manifest
-    package="com.breakout.sample"
+<manifest package="com.breakout.sample"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto"
     >
 
-    <supports-screens
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:smallScreens="true"
-        android:xlargeScreens="true"
-        />
+<!--    <supports-screens-->
+<!--        android:largeScreens="true"-->
+<!--        android:normalScreens="true"-->
+<!--        android:smallScreens="true"-->
+<!--        android:xlargeScreens="true"-->
+<!--        />-->
     <!--android:resizeable="true" -->
     <!--android:anyDensity="true"  -->
 
@@ -21,7 +21,7 @@
     <!--<uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <!--<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/> -->
     <!--<uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
-    <!--<uses-permission android:name="android.permission.USE_CREDENTIALS"/> -->
+<!--    <uses-permission android:name="android.permission.USE_CREDENTIALS"/> -->
 
     <!-- use sd -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -73,7 +73,7 @@
     <!--<uses-permission android:name="android.permission.WAKE_LOCK" /> -->
 
     <!-- Required to send logcat using ACRA -->
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+<!--    <uses-permission android:name="android.permission.READ_LOGS"/>-->
 
     <!-- use sendStickyBroadcast() -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
@@ -103,6 +103,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
+
+        <uses-library android:name="org.apache.http.legacy"  android:required="false" />
 
         <!-- MainActivity ********************************************************************************** -->
         <!--android:configChanges="orientation|keyboardHidden|keyboard|screenSize|loacal" -->

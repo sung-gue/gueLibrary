@@ -132,9 +132,9 @@ public abstract class CopyOfControllerThread extends Thread {
 		String response = null;
 		// enctype에 따른 전송 방식 결정
 		if (enctypeMode) {
-			response = BaseNet.getInstance().sendMultiPart(sendURL, requestMap, requestImageMap);
+			response = BaseNet.getInstance().sendMultiPart(sendURL, null, requestMap, requestImageMap);
 		} else {
-			response = BaseNet.getInstance().sendPost(sendURL, requestMap);
+			response = BaseNet.getInstance().sendPost(sendURL, null, requestMap);
 		}
 		return response;
 	}

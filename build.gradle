@@ -1,11 +1,35 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+def keyProps = new Properties()
+def keyPropsFile = rootProject.file("keys/keystore.properties")
+//def keyPropsFile = new File("keys/keystore.properties")
+keyProps.load(new FileInputStream(keyPropsFile))
+
+ext {
+    test_var = 'test'
+    debug_storeFile = keyProps['debug_storeFile']
+    debug_storePassword = keyProps['debug_storePassword']
+    debug_keyAlias = keyProps['debug_keyAlias']
+    debug_keyPassword = keyProps['debug_keyPassword']
+
+    release_storeFile = keyProps['release_storeFile']
+    release_storePassword = keyProps['release_storePassword']
+    release_keyAlias = keyProps['release_keyAlias']
+    release_keyPassword = keyProps['release_keyPassword']
+}
+
 buildscript {
+    ext.kotlin_version = '1.3.50'
+
     repositories {
+        google()
         jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        //classpath 'com.google.gms:google-services:4.3.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,9 +38,17 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
+
+/*subprojects {
+    repositories {
+        mavenCentral()
+        // maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+    }
+}*/
 
 task clean(type: Delete) {
     delete rootProject.buildDir

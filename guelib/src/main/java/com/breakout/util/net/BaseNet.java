@@ -92,7 +92,7 @@ public class BaseNet {
      * @author gue
      * @since 2015. 3. 31.
      */
-    public synchronized String sendGet(String sendUrl, HashMap<String, String> requestMap) throws ClientProtocolException, IOException, Exception {
+    public synchronized String sendGet(String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws ClientProtocolException, IOException, Exception {
         if (_client == null) _client = createHttpClient();
 
         StringBuilder logBuilder = new StringBuilder("[set request parameter] start----------------------------");
@@ -114,6 +114,9 @@ public class BaseNet {
         URI uri = new URI(sendUrl);
         uri = URIUtils.createURI(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath(), URLEncodedUtils.format(params, HTTP.UTF_8), null);
         HttpGet get = new HttpGet(uri);
+
+        // TODO set reauest header
+
         HttpResponse response = _client.execute(get);
         return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
     }
@@ -143,7 +146,7 @@ public class BaseNet {
      * @author gue
      * @since 2012.05.30
      */
-    public synchronized String sendPost(String sendUrl, HashMap<String, String> requestMap) throws ClientProtocolException, IOException, Exception {
+    public synchronized String sendPost(String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws ClientProtocolException, IOException, Exception {
         if (_client == null) _client = createHttpClient();
 
         StringBuilder logBuilder = new StringBuilder("[set request parameter] start----------------------------");
@@ -165,6 +168,9 @@ public class BaseNet {
 
         HttpPost post = new HttpPost(sendUrl);
         post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+
+        // TODO set reauest header
+
         HttpResponse response = _client.execute(post);
         return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
     }
@@ -215,10 +221,10 @@ public class BaseNet {
      * @author gue
      * @since 2012.05.30
      */
-    public String sendMultiPart(String sendUrl, HashMap<String, String> requestMap, String imageParam, String imagePath) throws ParseException, IOException, Exception {
-        HashMap<String, String> requestImageMap = new HashMap<String, String>();
+    public String sendMultiPart(String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, String imageParam, String imagePath) throws ParseException, IOException, Exception {
+        HashMap<String, String> requestImageMap = new HashMap<>();
         requestImageMap.put(imageParam, imagePath);
-        return this.sendMultiPart(sendUrl, requestMap, requestImageMap);
+        return this.sendMultiPart(sendUrl, requestHeaderMap, requestMap, requestImageMap);
     }
 
     /**
@@ -230,7 +236,7 @@ public class BaseNet {
      * @author gue
      * @since 2012.05.30
      */
-    public String sendMultiPart(String sendUrl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, IOException, Exception {
+    public String sendMultiPart(String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, IOException, Exception {
         if (_client == null) _client = createHttpClient();
 
         StringBuilder logBuilder = new StringBuilder("[set request parameter] start----------------------------");
@@ -259,6 +265,9 @@ public class BaseNet {
 
         HttpPost post = new HttpPost(sendUrl);
         post.setEntity(entity);
+
+        // TODO set reauest header
+
         HttpResponse response = _client.execute(post);
         return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
     }
