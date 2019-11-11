@@ -174,8 +174,8 @@ public abstract class BaseController<T extends Object> {
         this._handler = handler;
         this._context = context;
         this.ALERT_DEBUG = ALERT_DEBUG;
-        _requestMap = new HashMap<>();
         _requestHeaderMap = new HashMap<>();
+        _requestMap = new HashMap<>();
         _requestImageMap = new HashMap<>();
         _controllerThreadHandler = new ControllerHandler(this);
     }
@@ -225,6 +225,15 @@ public abstract class BaseController<T extends Object> {
  */
 
     /**
+     * 파라미터로 넘어온 value가 null이거나 ""인경우에는 {@link #_requestHeaderMap}에 입력하지 않는다.
+     *
+     * @author gue
+     */
+    protected final void setHeaderAfterNullCheck(String key, String value) {
+        if (StringUtil.nullCheckB(value)) _requestHeaderMap.put(key, value);
+    }
+
+    /**
      * 파라미터로 넘어온 value가 null이거나 ""인경우에는 {@link #_requestMap}에 입력하지 않는다.
      *
      * @author gue
@@ -249,6 +258,7 @@ public abstract class BaseController<T extends Object> {
      */
     protected final void clearRequestMap() {
         _currentNetState = NOT_INIT_CONTROLLER;
+        _requestHeaderMap.clear();
         _requestMap.clear();
         _requestImageMap.clear();
     }

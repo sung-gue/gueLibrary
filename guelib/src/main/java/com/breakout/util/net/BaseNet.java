@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 import com.breakout.util.Log;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
@@ -22,6 +23,8 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.Header;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
@@ -109,13 +112,20 @@ public class BaseNet {
 
         logBuilder.append(urlBuilder);
         logBuilder.append("\n[set request parameter] end------------------------------");
-        Log.d(TAG, logBuilder.toString());
 
         URI uri = new URI(sendUrl);
         uri = URIUtils.createURI(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath(), URLEncodedUtils.format(params, HTTP.UTF_8), null);
         HttpGet get = new HttpGet(uri);
 
-        // TODO set reauest header
+        logBuilder.append("\n[set header] start------------------------------");
+        Iterator<String> headerKeys = requestHeaderMap.keySet().iterator();
+        while (headerKeys.hasNext()) {
+            String key = headerKeys.next();
+            get.setHeader(key,requestHeaderMap.get(key));
+            logBuilder.append(String.format("\n    | %s : %s", key, requestHeaderMap.get(key)));
+        }
+        logBuilder.append("\n[set header] end------------------------------");
+        Log.d(TAG, logBuilder.toString());
 
         HttpResponse response = _client.execute(get);
         return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
@@ -153,7 +163,7 @@ public class BaseNet {
         logBuilder.append(String.format("\n    url : %s?", sendUrl));
         StringBuilder urlBuilder = new StringBuilder(String.format("\n    url : %s?", sendUrl));
 
-        Vector<NameValuePair> params = new Vector<NameValuePair>();
+        Vector<NameValuePair> params = new Vector<>();
         Iterator<String> keys = requestMap.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -164,12 +174,29 @@ public class BaseNet {
 
         logBuilder.append(urlBuilder);
         logBuilder.append("\n[set request parameter] end------------------------------");
-        Log.d(TAG, logBuilder.toString());
 
         HttpPost post = new HttpPost(sendUrl);
-        post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+//        post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 
-        // TODO set reauest header
+        if (requestHeaderMap.containsValue("application/json")) {
+            StringEntity entity = new StringEntity(requestMap.get("body"), HTTP.UTF_8);
+            entity.setContentType("application/json");
+            post.setEntity(entity);
+//            post.setEntity(new StringEntity(requestMap.get("body"), HTTP.UTF_8));
+        }
+        else {
+            post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+        }
+
+        logBuilder.append("\n[set header] start------------------------------");
+        Iterator<String> headerKeys = requestHeaderMap.keySet().iterator();
+        while (headerKeys.hasNext()) {
+            String key = headerKeys.next();
+            post.setHeader(key,requestHeaderMap.get(key));
+            logBuilder.append(String.format("\n    | %s : %s", key, requestHeaderMap.get(key)));
+        }
+        logBuilder.append("\n[set header] end------------------------------");
+        Log.d(TAG, logBuilder.toString());
 
         HttpResponse response = _client.execute(post);
         return EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
