@@ -753,6 +753,33 @@ public final class ImageAlter {
 		
 		return output;
 	}
+
+	public final static Bitmap circleImage(Bitmap bitmapSrc, int width, int height) throws OutOfMemoryError, Exception {
+		if (width == 0 ) {
+			width = bitmapSrc.getWidth();
+			height = bitmapSrc.getHeight();
+		} else {
+			bitmapSrc = ImageUtil.sizeConvert(bitmapSrc, width, height, false);
+		}
+
+		Bitmap output = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		canvas.drawARGB(0, 0, 0, 0);
+
+
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setColor(0xff424242);
+
+		final Rect rect = new Rect(0, 0, width, height);
+		final RectF rectF = new RectF(rect);
+		canvas.drawRoundRect(rectF, width/2, width/2, paint);
+
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmapSrc, rect, rect, paint);
+
+		return output;
+	}
 	
 	public final static Bitmap roundCorner(Bitmap bitmapSrc, int roundPixel) throws OutOfMemoryError, Exception {
 		return roundCorner(bitmapSrc, roundPixel, 0, 0);

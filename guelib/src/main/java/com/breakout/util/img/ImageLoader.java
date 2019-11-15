@@ -343,6 +343,41 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
+     * INFO gue/2014. 9. 16. : [임시코드] 이미지 라운드 처리 관련
+     * 2-2. image loading : url<br>
+     * imageView에 쓰이는 Image를 device의 display size를 사용하여 최적화된 size로 decode하여 system의 부하를 줄인다. <br/>
+     * 추가로 이미지 라운드 처리를 한다.
+     *
+     * @param url       image url, null일경우 baseImage를 셋팅해준다.
+     * @param imageView set down image, null일경우 return
+     * @param baseImage bitmap of base image
+     * @param scroll    리스트에서 스크롤 상태값, true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
+     * @author gue
+     */
+    public final void downloadOptimizeCircleImg(String url, ImageView imageView, Bitmap baseImage, boolean scroll) {
+        if (checkBeforeStartLoader(url, imageView, baseImage)) return;
+        int loaderForm = 6;
+        Bitmap bitmap = getBitmapFromCache(url, -1);
+        boolean cancelTask = cancelPotentialDownload(url, imageView, loaderForm);
+
+        if (bitmap == null && !scroll) {
+            if (cancelTask) {
+                ImageLoaderTask task = new ImageLoaderTask(imageView, _cacheDir, this, loaderForm);
+                task.setWantImageInfo(new int[]{displaySize[0], displaySize[1], 0});
+                imageView.setImageDrawable(setBaseDrawable(task, baseImage, url));
+//                imageView.setMinimumHeight(156);
+//                task.execute(url);
+                startLoader(task, url);
+            }
+        } else if (bitmap == null && scroll) {
+            imageView.setImageBitmap(baseImage);
+        } else if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+            imageView.setBackgroundResource(0);
+        }
+    }
+
+    /**
      * 3. image loading : url<br>
      * gridView등을 사용할 때 imageView가 thumbnail 형태의 작은 이미지일 경우
      * device의 display size를 사용하여 입력받은 thumbNumOfWidth를 사용하여
@@ -855,6 +890,32 @@ public final class ImageLoader implements ImageLoadCompleteListener {
                         }
                         if (form == 3) url = url + "_thumb";
                         if (radiusPxToRound > 0) url = url + "_round";
+                        sHardBitmapCache.put(url, bitmap);
+                    }
+                }
+                break;
+            case 6:
+                synchronized (this) {
+                    String drawableTag = getDrawableTag(imageView);
+                    if (bitmap != null) {
+                        try {
+                            Bitmap roundBitmap = ImageAlter.circleImage(bitmap, 0,0);
+                            bitmap.recycle();
+                            bitmap = null;
+                            bitmap = roundBitmap;
+                        } catch (OutOfMemoryError e) {
+                            Log.e(TAG, e.getMessage(), e);
+                            ;
+                        } catch (Exception e) {
+                            Log.e(TAG, e.getMessage(), e);
+                            ;
+                        }
+                        if (imageView != null && bitmap != null && drawableTag != null && drawableTag.equals(url)) {
+                            imageView.setImageBitmap(bitmap);
+                            imageView.startAnimation(AnimationSuite.fadeIn());
+                            imageView.setBackgroundResource(0);
+                        }
+                        url = url + "_circle";
                         sHardBitmapCache.put(url, bitmap);
                     }
                 }

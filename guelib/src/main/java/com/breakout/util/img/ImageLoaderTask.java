@@ -50,6 +50,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
      * <li>1~3. url download후 url을 md5로 변환한 후에 {@link #cacheDir}에 image file 저장, file 존재하다면 local decode</li>
      * <li>4. url 대신 file path를 사용하여 1번과 동일한 작업</li>
      * <li>5. 4번 작업에 image rotation 추가</li>
+     * <li>6. circle image</li>
      */
     private int form;
     /**
@@ -105,6 +106,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                 case 1:
                 case 2:
                 case 3:
+                case 6:
                     file = new File(cacheDir + CodeAction.EncodeMD5(_url));
                     if (file.exists()) {
                         fileLength = file.length();
