@@ -50,6 +50,7 @@ public final class DateUtil {
 	 * 		<li>a h:mm > 오전 2:20</li>
 	 * 		<li>a hh:mm > 오전 02:20</li>
 	 * 		<li>yyyy > 2012</li>
+	 * 		<li>yyyy.MM > 2012.08</li>
 	 * 	</ol>
 	 * @author gue
 	 * @since 2012. 8. 13.
@@ -73,6 +74,7 @@ public final class DateUtil {
 			new SimpleDateFormat("a h:mm", DEFAULT_LOCALE),
 			new SimpleDateFormat("a hh:mm", DEFAULT_LOCALE),
 			new SimpleDateFormat("yyyy", DEFAULT_LOCALE),
+			new SimpleDateFormat("yyyy.MM", DEFAULT_LOCALE),
 	};
 	
 	
