@@ -1,5 +1,6 @@
 package com.breakout.util;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Dialog;
@@ -8,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -143,7 +143,6 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
             _pDialog = dv.getDialog();
         }
         if (_pDialog != null && !_pDialog.isShowing()) {
-            Log.v(TAG, "progress show");
             try {
                 _pDialog.show();
             } catch (Exception e) {
@@ -172,7 +171,6 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     public void closeProgress() {
         if (_pDialog != null && _pDialog.isShowing()) {
-            Log.v(TAG, "progress close");
             _pDialog.dismiss();
             _pDialog = null;
         }
@@ -193,7 +191,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     private void unregisterReceiver() {
         try {
             if (_finishReceiverIsRegistered) unregisterReceiver(finishReceiver);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -230,28 +228,28 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     /**
      * startActivity check
      */
+    @SuppressLint("DefaultLocale")
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         if (CValue.DEBUG) {
-            StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
-            logBuilder.append(String.format("| %s | startActivity\n", TAG));
-            logBuilder.append(String.format("|  intent      | %s\n", intent));
-            logBuilder.append(String.format("|  requestCode | %d\n", requestCode));
-            logBuilder.append(String.format("|  component   | %s\n", intent != null ? intent.getComponent() : ""));
-            logBuilder.append(String.format("|  uri         | %s\n", intent != null ? intent.getData() : ""));
+            StringBuilder logBuilder = new StringBuilder("\n---------------");
+            logBuilder.append(String.format("\n| [%s] | startActivityForResult()", TAG));
+            logBuilder.append(String.format("\n| intent      | %s", intent));
+            logBuilder.append(String.format("\n| requestCode | %d", requestCode));
+            logBuilder.append(String.format("\n| component   | %s", intent != null ? intent.getComponent() : ""));
+            logBuilder.append(String.format("\n| uri         | %s", intent != null ? intent.getData() : ""));
             try {
                 if (intent != null && intent.getExtras() != null) {
-                    logBuilder.append("|  extra       |\n");
                     Bundle bundle = intent.getExtras();
                     for (String key : bundle.keySet()) {
-                        logBuilder.append(String.format("       %s : %s\n", key, bundle.get(key)));
+                        logBuilder.append(String.format("\n|  extra       | %s : %s", key, bundle.get(key)));
                     }
                 }
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
+                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
             }
-            logBuilder.append("-------------------------------------------------");
-            Log.i(TAG, logBuilder.toString());
+            logBuilder.append("\n---------------");
+            Log.d(getPackageName(), logBuilder.toString());
         }
         super.startActivityForResult(intent, requestCode);
     }
@@ -266,7 +264,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(getPackageName(), TAG + " | onCreate");
+        Log.d(getPackageName(), TAG + " | onCreate");
         _appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
         logTask("oncreate()");
@@ -274,26 +272,25 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         if (CValue.DEBUG) {
             try {
                 Intent intent = getIntent();
-                StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
-                logBuilder.append(String.format("| %s - oncreate() | check intent \n", TAG));
-                logBuilder.append(String.format("|  intent      | %s\n", intent));
-                logBuilder.append(String.format("|  component   | %s\n", intent.getComponent()));
-                logBuilder.append(String.format("|  uri         | %s\n", intent.getData()));
+                StringBuilder logBuilder = new StringBuilder("\n---------------");
+                logBuilder.append(String.format("\n| [%s] | onCreate() - check intent", TAG));
+                logBuilder.append(String.format("\n| intent      | %s", intent));
+                logBuilder.append(String.format("\n| component   | %s", intent.getComponent()));
+                logBuilder.append(String.format("\n| uri         | %s", intent.getData()));
                 try {
                     if (intent.getExtras() != null) {
-                        logBuilder.append("|  extra       |\n");
                         Bundle bundle = intent.getExtras();
                         for (String key : bundle.keySet()) {
-                            logBuilder.append(String.format("       %s : %s\n", key, bundle.get(key)));
+                            logBuilder.append(String.format("\n| extra       | %s : %s", key, bundle.get(key)));
                         }
                     }
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                 }
-                logBuilder.append("-------------------------------------------------");
-                Log.i(TAG, logBuilder.toString());
+                logBuilder.append("\n---------------");
+                Log.d(getPackageName(), logBuilder.toString());
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
+                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
             }
         }
 
@@ -302,45 +299,45 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        Log.v(getPackageName(), TAG + " | onStart");
+        Log.d(getPackageName(), TAG + " | onStart");
         super.onStart();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.v(getPackageName(), TAG + " | onNewIntent");
+        Log.d(getPackageName(), TAG + " | onNewIntent");
         super.onNewIntent(intent);
     }
 
     @Override
     protected void onRestart() {
-        Log.v(getPackageName(), TAG + " | onRestart");
+        Log.d(getPackageName(), TAG + " | onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        Log.v(getPackageName(), TAG + " | onResume");
+        Log.d(getPackageName(), TAG + " | onResume");
         if (_appContext == null) _appContext = getApplicationContext();
         super.onResume();
     }
 
     @Override
     protected void onStop() {
-        Log.v(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
+        Log.d(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
         super.onStop();
     }
 
     @Override
     public void finish() {
-        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
+        Log.d(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
         logTask("finish()");
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-        Log.v(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
+        Log.d(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
         if (_pDialog != null && _pDialog.isShowing()) {
             _pDialog.dismiss();
             _pDialog = null;
@@ -356,7 +353,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.v(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
+        Log.d(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
         super.onBackPressed();
     }
 
@@ -383,13 +380,13 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
         try {
             List<RunningTaskInfo> info = am.getRunningTasks(1);
-            Log.i(TAG, String.format("-------------------------------------------------\n" +
-                            "| %s - %s\n" +
-                            "|  baseActivity    | %s\n" +
-                            "|  topActivity     | %s\n" +
-                            "|  numActivities   | %s\n" +
-                            "|  numRunning      | %s\n" +
-                            "-------------------------------------------------",
+            Log.d(getPackageName(), String.format("\n-------------------" +
+                            "\n| [%s] | %s - logTask" +
+                            "\n| baseActivity    | %s" +
+                            "\n| topActivity     | %s" +
+                            "\n| numActivities   | %s" +
+                            "\n| numRunning      | %s" +
+                            "\n-------------------",
                     TAG, title, info.get(0).baseActivity.getClassName(), info.get(0).topActivity.getClassName(), info.get(0).numActivities, info.get(0).numRunning));
         } catch (Exception e) {
             Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
