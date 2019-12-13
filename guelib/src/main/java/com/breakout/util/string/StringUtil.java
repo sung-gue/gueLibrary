@@ -36,6 +36,7 @@ public final class StringUtil {
      * @author gue
      * @since 2011. 10. 16.
      */
+    @Deprecated
     public final static String nullCheck(String str) {
         if (str != null && str.length() != 0) return str;
         else return null;
@@ -47,6 +48,7 @@ public final class StringUtil {
      * @author gue
      * @since 2011. 10. 16.
      */
+    @Deprecated
     public final static boolean nullCheckB(String str) {
         return str != null && str.length() != 0;
     }
@@ -74,7 +76,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 7. 19.
      */
-    public final static String convertNumberNotation(String count, int form) {
+    public static String convertNumberNotation(String count, int form) {
         String result = "0";
         if (isValidNumber_1(count)) {
             try {
@@ -118,7 +120,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 10. 5.
      */
-    public final static String convertFileSizeFormat(double byteSize) {
+    public static String convertFileSizeFormat(double byteSize) {
         return convertFileSizeFormat(byteSize, ",###.#");
     }
 
@@ -128,7 +130,7 @@ public final class StringUtil {
      * @author gue
      * @since 2013. 1. 23.
      */
-    public final static String convertFileSizeFormat(double byteSize, String pattern) {
+    public static String convertFileSizeFormat(double byteSize, String pattern) {
         String suffix = "B";
         if (byteSize >= 1024) {
             suffix = "KB";
@@ -158,7 +160,7 @@ public final class StringUtil {
      * @author gue
      * @since 2014. 1. 14.
      */
-    public final static String changeMoneyFormat(int price, String moneyUnit, boolean isMoneyUnitSuffix) {
+    public static String changeMoneyFormat(int price, String moneyUnit, boolean isMoneyUnitSuffix) {
         String result = null;
         DecimalFormat format = null;
         try {
@@ -171,9 +173,9 @@ public final class StringUtil {
         return result;
     }
 
-/* ************************************************************************************************
- * INFO pattern
- */
+    /* ************************************************************************************************
+     * INFO pattern
+     */
     /**
      * Pattern ","
      */
@@ -201,7 +203,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValid_1(String value, int minLenth, int maxLenth) {
+    public static boolean isValid_1(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
             return Pattern.compile(String.format(DEFAULT_LOCALE, "^[가-힣a-z0-9]{%d,%d}$", minLenth, maxLenth)).matcher(value).matches();
         else return false;
@@ -213,7 +215,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValid_2(String value, int minLenth, int maxLenth) {
+    public static boolean isValid_2(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
             return Pattern.compile(String.format(DEFAULT_LOCALE, "^[가-힣a-zA-Z0-9]{%d,%d}$", minLenth, maxLenth)).matcher(value).matches();
         else return false;
@@ -225,7 +227,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValid_3(String value, int minLenth, int maxLenth) {
+    public static boolean isValid_3(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
             return Pattern.compile(String.format(DEFAULT_LOCALE, "^[a-z0-9]{%d,%d}$", minLenth, maxLenth)).matcher(value).matches();
         else return false;
@@ -237,7 +239,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 10. 2.
      */
-    public final static boolean isValid_4(String value, int minLenth, int maxLenth) {
+    public static boolean isValid_4(String value, int minLenth, int maxLenth) {
         boolean result = false;
         if (nullCheck(value) != null) {
             if (value.matches("^\\p{Alnum}{" + minLenth + "," + maxLenth + "}")) {
@@ -255,7 +257,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValid_5(String value, int fixLenth) {
+    public static boolean isValid_5(String value, int fixLenth) {
         if (nullCheck(value) != null)
             return Pattern.compile(String.format(DEFAULT_LOCALE, "^[a-z0-9]{%d}$", fixLenth)).matcher(value).matches();
         else return false;
@@ -267,7 +269,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValidEmail(String value) {
+    public static boolean isValidEmail(String value) {
         if (nullCheck(value) != null)
             return Pattern.compile("^[\\w-_]+.*[\\w-_]*@(\\w+\\.)+\\w+$").matcher(value).matches();
         else return false;
@@ -279,7 +281,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValidNumber_1(String value) {
+    public static boolean isValidNumber_1(String value) {
         if (nullCheck(value) != null) return Pattern.compile("^[0-9]*$").matcher(value).matches();
         else return false;
     }
@@ -290,7 +292,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 1.
      */
-    public final static boolean isValidNumber_2(String value) {
+    public static boolean isValidNumber_2(String value) {
         if (nullCheck(value) != null)
             return Pattern.compile("^[0-9]+\\.([0-9]+)$").matcher(value).matches();
         else return false;
@@ -303,7 +305,7 @@ public final class StringUtil {
      * @author gue
      * @since 2015. 4. 18.
      */
-    public final static boolean isValidPhoneNumber(String value) {
+    public static boolean isValidPhoneNumber(String value) {
         if (nullCheckB(value)) {
             return Pattern.compile("^(010|011|016|017|018|019)[\\d]*$").matcher(value).matches();
         } else {
@@ -317,7 +319,7 @@ public final class StringUtil {
      * @author gue
      * @since 2015. 4. 18.
      */
-    public final static String getNumber(String value) {
+    public static String getNumber(String value) {
         if (nullCheckB(value)) {
             return Pattern.compile("\\D").matcher(value).replaceAll("");
         } else {
@@ -326,16 +328,16 @@ public final class StringUtil {
     }
 
 
-/* ************************************************************************************************
- * INFO InputFilter
- */
+    /* ************************************************************************************************
+     * INFO InputFilter
+     */
     /**
      * {@link InputFilter} : no space
      *
      * @author gue
      * @since 2012. 9. 15.
      */
-    public final static InputFilter IF_NoSpace = new InputFilter() {
+    public static InputFilter IF_NoSpace = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
             if (Pattern.compile("^ +$").matcher(source).matches()) {
@@ -351,7 +353,7 @@ public final class StringUtil {
      * @author gue
      * @since 2012. 9. 17.
      */
-    public final static InputFilter IF_NoEnter = new InputFilter() {
+    public static InputFilter IF_NoEnter = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
             if (Pattern.compile("^\n+$").matcher(source).matches()) {

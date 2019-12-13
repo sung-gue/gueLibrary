@@ -70,10 +70,14 @@ public abstract class FragmentEx extends Fragment {
      */
     protected Context _context;
 
+    public FragmentEx() {
+        Log.d(TAG, "FragmentEx Constructor");
+    }
 
-/* ************************************************************************************************
- * INFO UI 구현
- */
+
+    /* ************************************************************
+     * DESC: UI 구현
+     */
 
     /**
      * UI 구현
@@ -86,9 +90,9 @@ public abstract class FragmentEx extends Fragment {
     protected abstract void refreshUI();
 
 
-/* ************************************************************************************************
- * INFO dialog
- */
+    /* ************************************************************
+     * DESC dialog
+     */
     // TODO: 2016-02-17 Fragment 에서 사용될 수 있는 dialog 변경작업 필요
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
@@ -149,15 +153,15 @@ public abstract class FragmentEx extends Fragment {
     }
 
 
-/* ************************************************************************************************
- * INFO Fragment management
- */
+    /* ************************************************************
+     * DESC Fragment management
+     */
     // TODO: 2016-02-17 Fragment stack 등 관리 목적 코드 필요
 
 
-/* ************************************************************************************************
- * INFO : intent method
- */
+    /* ************************************************************
+     * DESC : intent method
+     */
 
     /**
      * startActivity check
@@ -198,10 +202,10 @@ public abstract class FragmentEx extends Fragment {
         fragmentTransaction.commit();
     }*/
 
-    
-/* ************************************************************************************************
- * INFO fragment life cycle
- */
+
+    /* ************************************************************
+     * DESC fragment life cycle
+     */
 
     /**
      * Fragment가 Activity에 최초로 연결될 때 호출
@@ -376,9 +380,9 @@ public abstract class FragmentEx extends Fragment {
 //    }
 
 
-/* ************************************************************************************************
- * INFO option
- */
+    /* ************************************************************
+     * DESC option
+     */
 
     /**
      * Activity의 option menu를 변경할 경우 작성
@@ -409,9 +413,9 @@ public abstract class FragmentEx extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-/* ************************************************************************************************
- * INFO db control
- */
+    /* ************************************************************
+     * DESC db control
+     */
 //    /**
 //     * SQLite3 instance 
 //     */

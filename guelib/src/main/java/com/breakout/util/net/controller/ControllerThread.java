@@ -3,7 +3,7 @@ package com.breakout.util.net.controller;
 import android.content.Context;
 
 import com.breakout.util.net.BaseNet;
-import com.breakout.util.net.controller.BaseController.Method;
+import com.breakout.util.net.HttpMethod;
 
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -77,8 +77,8 @@ abstract class ControllerThread extends Thread {
     /**
      * network을 사용할 수 없는 상태일때 실행될 작업 작성
      *
-     * @see {@link BaseController#_currentNetState}
      * @author gue
+     * @see {@link BaseController#_currentNetState}
      * @since 2012. 12. 26.
      */
     abstract void connectFail(int currentNetState);
@@ -86,23 +86,35 @@ abstract class ControllerThread extends Thread {
     /**
      * send request
      *
-     * @param sendUrl         접속 url
-     * @param requestMap      parameter map : stringBody for text/plain enctype
-     * @param requestImageMap parameter map : fileBody for multipart/form-data enctype
+     * @param method           get, post, delete, put
+     * @param sendUrl          target url
+     * @param requestHeaderMap header map
+     * @param requestMap       parameter map : stringBody for text/plain enctype
+     * @param requestImageMap  parameter map : fileBody for multipart/form-data enctype
+     * @return response string
      * @author gue
      * @since 2012. 12. 21.
      */
-    String sendRequest(Method method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+    String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
         String response = null;
         if (_currentEnctype) {
-            response = BaseNet.getInstance().sendMultiPart(sendUrl, requestHeaderMap, requestMap, requestImageMap);
+            switch (method) {
+                case POST:
+                case PUT:
+                    response = BaseNet.getInstance().sendMultiPartRequest(method, sendUrl, requestHeaderMap, requestMap, requestImageMap);
+                    break;
+                case GET:
+                case DELETE:
+                default:
+                    throw new Exception("multipart not support GET, DELETE ...");
+            }
         } else {
             switch (method) {
                 case GET:
-                    response = BaseNet.getInstance().sendGet(sendUrl, requestHeaderMap, requestMap);
-                    break;
                 case POST:
-                    response = BaseNet.getInstance().sendPost(sendUrl, requestHeaderMap, requestMap);
+                case PUT:
+                case DELETE:
+                    response = BaseNet.getInstance().sendRequest(method, sendUrl, requestHeaderMap, requestMap);
                     break;
                 default:
                     break;
@@ -111,7 +123,10 @@ abstract class ControllerThread extends Thread {
         return response;
     }
 
-    String sendRequest(Method method, String sendurl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+    /**
+     * @see #sendRequest(HttpMethod, String, HashMap, HashMap, HashMap)
+     */
+    String sendRequest(HttpMethod method, String sendurl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
         return sendRequest(method, sendurl, null, requestMap, requestImageMap);
     }
 }

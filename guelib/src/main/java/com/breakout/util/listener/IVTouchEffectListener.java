@@ -38,7 +38,7 @@ public final class IVTouchEffectListener implements OnTouchListener {
 				fX = event.getX();
 				fY = event.getY();
 //				imagebtn.setColorFilter(Color.argb(50, 0, 255, 0));
-				imagebtn.setColorFilter(Color.argb(120, 100, 100, 100));
+				imagebtn.setColorFilter(Color.argb(100, 0, 0, 0));
 				break;
 			case MotionEvent.ACTION_UP:
 				imagebtn.clearColorFilter();

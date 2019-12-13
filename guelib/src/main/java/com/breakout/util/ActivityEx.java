@@ -65,7 +65,7 @@ import java.util.List;
  * @since 2013. 1. 7.
  */
 public abstract class ActivityEx extends Activity {
-     /**
+    /**
      * Activity Tag : class simpleName
      */
     protected final String TAG = getClass().getSimpleName();
@@ -78,10 +78,11 @@ public abstract class ActivityEx extends Activity {
      */
     protected Context _context = this;
 
-    
-/* ************************************************************************************************
- * INFO UI 설정
- */
+
+    /* ************************************************************
+     * DESC UI 설정
+     */
+
     /**
      * child class에서 override한 abstracr method 실행!<p>
      * 보통 App의 UI의 모양이 title, header, body, footer로 나뉘어 진 형태가 많기 때문에
@@ -141,9 +142,9 @@ public abstract class ActivityEx extends Activity {
     protected abstract void refreshUI();
 
 
-/* ************************************************************************************************
- * INFO dialog
- */
+    /* ************************************************************
+     * DESC dialog
+     */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
      */
@@ -209,9 +210,9 @@ public abstract class ActivityEx extends Activity {
     }
 
 
-/* ************************************************************************************************
- * INFO finish receiver
- */
+    /* ************************************************************
+     * DESC finish receiver
+     */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
      */
@@ -253,8 +254,8 @@ public abstract class ActivityEx extends Activity {
     };
 
 
-    /* ************************************************************************************************
-     * INFO : intent method
+    /* ************************************************************
+     * DESC : intent method
      */
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
@@ -268,10 +269,10 @@ public abstract class ActivityEx extends Activity {
         super.startActivityForResult(intent, requestCode);
     }
 
-    
-/* ************************************************************************************************
- * INFO activity life cycle
- */
+
+    /* ************************************************************
+     * DESC activity life cycle
+     */
 
     /**
      * 데이터의 초기화 작업 이후에 UI를 설정하기 위하여 {@link #setUI()}를 하여 주어야 한다.
@@ -370,9 +371,9 @@ public abstract class ActivityEx extends Activity {
     }
 
 
-/* ************************************************************************************************
- * INFO db control
- */
+    /* ************************************************************
+     * DESC db control
+     */
 //    /**
 //     * SQLite3 instance 
 //     */

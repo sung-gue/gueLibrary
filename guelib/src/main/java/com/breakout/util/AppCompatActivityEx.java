@@ -81,8 +81,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected Context _context = this;
 
 
-    /* ************************************************************************************************
-     * INFO UI 구현
+    /* ************************************************************
+     * DESC UI 구현
      */
 
     /**
@@ -117,8 +117,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected abstract void refreshUI();
 
 
-    /* ************************************************************************************************
-     * INFO dialog
+    /* ************************************************************
+     * DESC dialog
      */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
@@ -177,8 +177,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************************************************
-     * INFO finish receiver
+    /* ************************************************************
+     * DESC finish receiver
      */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
@@ -221,8 +221,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     };
 
 
-    /* ************************************************************************************************
-     * INFO : intent method
+    /* ************************************************************
+     * DESC : intent method
      */
 
     /**
@@ -255,8 +255,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************************************************
-     * INFO activity life cycle
+    /* ************************************************************
+     * DESC activity life cycle
      */
 
     /**
@@ -394,8 +394,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************************************************
-     * INFO db control
+    /* ************************************************************
+     * DESC db control
      */
 //    /**
 //     * SQLite3 instance 

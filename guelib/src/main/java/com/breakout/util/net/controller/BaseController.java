@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.View;
 
 import com.breakout.util.Log;
+import com.breakout.util.net.HttpMethod;
 import com.breakout.util.string.StringUtil;
 import com.breakout.util.widget.ViewUtil;
 
@@ -35,7 +36,7 @@ import java.util.HashMap;
  * </dd>
  * <dt>사용</dt>
  * <dd>
- * <li>see : {@link com.breakout.util.ex.BaseControllerEx}</li>
+ * <li>see : {@link com.breakout.util.sample.BaseControllerEx}</li>
  * </dd>
  * </dl>
  * {@link #_requestMap}을 저장하여 통신 실패시 재전송이 가능하게 구성되어 있으므로
@@ -96,11 +97,7 @@ public abstract class BaseController<T extends Object> {
      */
     protected Context _context;
 
-    public enum Method {
-        GET,
-        POST;
-    }
-    private Method _method = Method.POST;
+    private HttpMethod _method = HttpMethod.POST;
 
     /**
      * network 처리 후 data를 담아 controller를 호출한 곳으로 돌려주기 위한 callback handler<br>
@@ -219,10 +216,10 @@ public abstract class BaseController<T extends Object> {
         _useCustomDialog = useCustom;
     }
 
-    
-/* ************************************************************************************************
- * INFO parameter check & clear
- */
+
+    /* ************************************************************************************************
+     * INFO parameter check & clear
+     */
 
     /**
      * 파라미터로 넘어온 value가 null이거나 ""인경우에는 {@link #_requestHeaderMap}에 입력하지 않는다.
@@ -274,10 +271,10 @@ public abstract class BaseController<T extends Object> {
      */
     protected abstract void setRequiredParam(String... values);
 
-    
-/* ************************************************************************************************
- * INFO 통신 오류처리와 재시도 처리
- */
+
+    /* ************************************************************************************************
+     * INFO 통신 오류처리와 재시도 처리
+     */
     /**
      * true이면 network error시에 생성되는 알림창을 표시하지 않는다.
      */
@@ -639,7 +636,7 @@ public abstract class BaseController<T extends Object> {
             _currentEnctype = currentEnctype;
         }
 
-        public BaseControllerThread(Method method) {
+        public BaseControllerThread(HttpMethod method) {
             this();
             _method = method;
         }
