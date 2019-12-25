@@ -3,7 +3,9 @@ package com.breakout.util.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -11,6 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ScrollView;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
 
 import com.breakout.util.Log;
 import com.breakout.util.Util;
@@ -38,9 +43,9 @@ public class ViewUtil {
     private ViewUtil() {
     }
 
-/* ************************************************************************************************
- * INFO view size
- */
+    /* ************************************************************************************************
+     * INFO view size
+     */
 
     /**
      * px -> dp
@@ -112,10 +117,10 @@ public class ViewUtil {
         public void onComplete(int statusBarHeight, int titleBarHeight);
     }
 
-    
-/* ************************************************************************************************
- * INFO view
- */
+
+    /* ************************************************************************************************
+     * INFO view
+     */
 
     /**
      * 키보드를 지정된 시간후에 올리고, 해당 view에 focus를 준다.
@@ -172,11 +177,11 @@ public class ViewUtil {
             }
         });
     }
-    
-    
-/* ************************************************************************************************
- * INFO android theme effect
- */
+
+
+    /* ************************************************************************************************
+     * INFO android theme effect
+     */
 
     /**
      * background window blur effect <br>
@@ -190,11 +195,29 @@ public class ViewUtil {
         if (android.os.Build.VERSION.SDK_INT != 16)
             act.getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND, WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
     }
-    
-    
-/* ************************************************************************************************
- * INFO dialog util
- */
+
+
+    public static String getThemeColorInHex(@NonNull Context context, @NonNull String colorName, @AttrRes int attribute) {
+        int color = getThemeColor(context, colorName, attribute);
+        return String.format("#%06X", (0xFFFFFF & color));
+    }
+
+    public static int getThemeColor(@NonNull Context context, @NonNull String colorName, @AttrRes int attribute) {
+        TypedValue outValue = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            context.getTheme().resolveAttribute(attribute, outValue, true);
+        } else {
+            // get color defined for AppCompat
+            int appCompatAttribute = context.getResources().getIdentifier(colorName, "attr", context.getPackageName());
+            context.getTheme().resolveAttribute(appCompatAttribute, outValue, true);
+        }
+        return outValue.data;
+    }
+
+
+    /* ************************************************************************************************
+     * INFO dialog util
+     */
 
     /**
      * AlertDialog에 사용되는 문구가 가운데로 정렬되어 있는 view를 반환하여 준다.<br>
@@ -223,10 +246,10 @@ public class ViewUtil {
         if (title > 0) view.setTitle(title);
         return view;
     }
-    
-/* ************************************************************************************************
- * INFO view animation
- */
+
+    /* ************************************************************************************************
+     * INFO view animation
+     */
     /**
      * ui 이동시에 animation을 정의하여 form번호 입력으로 통일 시켜 사용함으로써
      * 추후에 eclipse에서 이동효과에 대한 구조를 볼때 어디서 어떠한 animation을 사용하는지 관리할 수 있다.

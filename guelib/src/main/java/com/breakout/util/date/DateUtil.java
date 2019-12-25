@@ -52,6 +52,8 @@ public final class DateUtil {
      * <li>yyyy.MM > 2012.08</li>
      * <li>HH:mm:ss > 02:20:15</li>
      * <li>yyyy-MM-dd HH:mm:ss > 2012-08-13 02:20:15</li>
+     * <li>yy.MM.dd > 12.08.13</li>
+     * <li>HH:mm > 02:20</li>
      * </ol>
      *
      * @author gue
@@ -79,6 +81,8 @@ public final class DateUtil {
             new SimpleDateFormat("yyyy.MM", DEFAULT_LOCALE),
             new SimpleDateFormat("HH:mm:ss", DEFAULT_LOCALE),
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", DEFAULT_LOCALE),
+            new SimpleDateFormat("yy.MM.dd", DEFAULT_LOCALE),
+            new SimpleDateFormat("HH:mm", DEFAULT_LOCALE),
     };
 
     public static Date getDate(String format, String dateStr) throws Exception {
