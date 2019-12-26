@@ -168,15 +168,15 @@ public final class DateUtil {
                 result = String.format(suffixes[1], minute);
             }
             // "시간전"
-            else if (hour < 24 && hour <= limitHour) {
+            else if (hour < 24 && hour < limitHour) {
                 result = String.format(suffixes[2], hour);
             }
             // "일전"
-            else if (day < 30 && day <= (limitHour / 24)) {
+            else if (day < 30 && day < (limitHour / 24)) {
                 result = String.format(suffixes[3], day);
             }
             // "달전"
-            else if (month < 4 && month <= (limitHour / 24 / 30)) {
+            else if (month < 4 && month < (limitHour / 24 / 30)) {
                 result = String.format(suffixes[4], month);
             } else {
                 result = dateFormat(inputDate, form);
