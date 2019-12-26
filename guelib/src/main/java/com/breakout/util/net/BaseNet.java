@@ -88,7 +88,7 @@ public class BaseNet {
      * @author gue
      * @since 2015. 3. 31.
      */
-    public synchronized String sendGet(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
+    public String sendGet(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
         if (_client == null) _client = createHttpClient();
 
         StringBuilder logBuilder = new StringBuilder(String.format("start http %s ... \n-- set params", method));
@@ -136,7 +136,7 @@ public class BaseNet {
      * @author gue
      * @since 2012.05.30
      */
-    public synchronized String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
+    public String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
         if (_client == null) _client = createHttpClient();
 
         StringBuilder logBuilder = new StringBuilder(String.format("start http %s request start ... \n-- set params", method));
@@ -423,7 +423,7 @@ public class BaseNet {
      * <li>-2 : NetWork 상태 체크 실패</li>
      * </dd>
      */
-    public synchronized int getNetState(Context context) {
+    public int getNetState(Context context) {
         int state = NET_UNCHECKED;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
