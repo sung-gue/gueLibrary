@@ -128,7 +128,7 @@ public final class DateUtil {
         try {
             date = getDate(format, dateStr);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.w(TAG, e.getMessage(), e);
         }
         return dateFormat(date, form);
     }
