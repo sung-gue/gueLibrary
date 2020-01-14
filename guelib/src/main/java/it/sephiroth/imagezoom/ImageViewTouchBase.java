@@ -1,10 +1,5 @@
 package it.sephiroth.imagezoom;
 
-import it.sephiroth.imagezoom.easing.Cubic;
-import it.sephiroth.imagezoom.easing.Easing;
-import it.sephiroth.imagezoom.graphics.FastBitmapDrawable;
-import it.sephiroth.imagezoom.utils.IDisposable;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -15,6 +10,11 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.breakout.util.Log;
+
+import it.sephiroth.imagezoom.easing.Cubic;
+import it.sephiroth.imagezoom.easing.Easing;
+import it.sephiroth.imagezoom.graphics.FastBitmapDrawable;
+import it.sephiroth.imagezoom.utils.IDisposable;
 
 /**
  * Base View to manage image zoom/scrool/pinch operations
@@ -340,8 +340,8 @@ public class ImageViewTouchBase extends ImageView implements IDisposable {
         matrix.reset();
         float widthScale = Math.min(viewWidth / w, MAX_ZOOM);
         float heightScale = Math.min(viewHeight / h, MAX_ZOOM);
-//		float scale = Math.min( widthScale, heightScale );
-        float scale = Math.max(widthScale, heightScale);        // TODO gue Math.max로 변경
+        float scale = Math.min(widthScale, heightScale);
+//        float scale = Math.max(widthScale, heightScale);        // TODO gue Math.max로 변경
         matrix.postScale(scale, scale);
         matrix.postTranslate((viewWidth - w * scale) / MAX_ZOOM, (viewHeight - h * scale) / MAX_ZOOM);
     }
