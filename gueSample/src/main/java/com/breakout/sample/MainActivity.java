@@ -47,7 +47,12 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         /*dalvik.system.VMRuntime.getRuntime().setTargetHeapUtilization(0.8f);*/
         super.onCreate(savedInstanceState);
-        setContentView("Android Sample Project of gue", true);
+        boolean real = !BuildConfig.DEBUG;
+        if (real) {
+            setContentView("Sample Project of gue", true);
+        } else {
+            setContentView("Sample Project of gue dev", true);
+        }
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -122,26 +127,26 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void refreshUI() {
     }
-    
-	
-/* ************************************************************************************************
- * INFO listener setting
- */
-
-	
-/* ************************************************************************************************
- * INFO callBack method
- */ 
-
-	
-/* ************************************************************************************************
- * INFO option & context menu
- */
 
 
-/* ************************************************************************************************
- * INFO life cycle
- */
+    /* ************************************************************************************************
+     * INFO listener setting
+     */
+
+
+    /* ************************************************************************************************
+     * INFO callBack method
+     */
+
+
+    /* ************************************************************************************************
+     * INFO option & context menu
+     */
+
+
+    /* ************************************************************************************************
+     * INFO life cycle
+     */
 
     private boolean _finish;
 
@@ -175,9 +180,9 @@ public class MainActivity extends BaseActivity {
     }
 
 
-/* ************************************************************************************************
- * INFO test source
- */
+    /* ************************************************************************************************
+     * INFO test source
+     */
 
     /**
      * // Serializable class : write & read test

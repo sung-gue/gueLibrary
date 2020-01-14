@@ -14,18 +14,22 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     signingConfigs {
-        /*
-            def keyProps = new Properties()
-            def keyPropsFile = rootProject.file("../keys/keystore.properties")
-            def keyPropsFile = new File("keys/keystore.properties")
-            keyProps.load(new FileInputStream(keyPropsFile))
-            release {
-                storeFile file(keyProps['release_storeFile'])
-                storePassword keyProps['release_storePassword']
-                keyAlias keyProps['release_keyAlias']
-                keyPassword keyProps['release_keyPassword']
-            }
-         */
+        /*def keyProps = new Properties()
+        def keyPropsFile = rootProject.file("keys/keystore.properties")
+        //def keyPropsFile = new File("keys/keystore.properties")
+        keyProps.load(new FileInputStream(keyPropsFile))
+        release {
+            storeFile file(keyProps['release_storeFile'])
+            storePassword keyProps['release_storePassword']
+            keyAlias keyProps['release_keyAlias']
+            keyPassword keyProps['release_keyPassword']
+        }
+        debug {
+            storeFile file(keyProps['debug_storeFile'])
+            storePassword keyProps['debug_storePassword']
+            keyAlias keyProps['debug_keyAlias']
+            keyPassword keyProps['debug_keyPassword']
+        }*/
 
         release {
             storeFile file(release_storeFile)
@@ -66,9 +70,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [appName: "@string/app_name", "pacakgeName": "com.breakout.sample"]
         }
         debug {
             signingConfig signingConfigs.debug
+            manifestPlaceholders = [appName: "@string/app_name_dev", "pacakgeName": "com.breakout.sample.dev"]
+            applicationIdSuffix ".dev"
         }
     }
 
@@ -108,7 +115,8 @@ dependencies {
 
     implementation project(':guelib')
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.android.gms:play-services-base:17.1.0'   // Google Actions, Base Client Library
+    implementation 'com.google.android.gms:play-services-base:17.1.0'
+    // Google Actions, Base Client Library
 
 
     // FCM
