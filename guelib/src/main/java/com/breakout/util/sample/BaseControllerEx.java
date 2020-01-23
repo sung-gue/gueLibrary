@@ -31,7 +31,7 @@ import com.google.gson.Gson;
  * </ol>
  * @since 2014. 8. 17.
  */
-abstract class BaseControllerEx extends BaseController {
+public abstract class BaseControllerEx extends BaseController {
     private static final boolean DEBUG = true;
     protected String _serverMsg;
     protected Object _baseObject;

@@ -8,7 +8,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.breakout.util.Log;
+import com.breakout.util.net.BaseNet;
 import com.breakout.util.net.HttpMethod;
 import com.breakout.util.string.StringUtil;
 import com.breakout.util.widget.ViewUtil;
@@ -26,13 +29,13 @@ import java.util.HashMap;
 
 /**
  * <b>Network Controller</b><p>
- * {@link BaseController}를 상속받은 자식 클래스에게 필요한 기능을 정의 하고 있는 추상클래스 이다.<br/>
+ * 통신을 사용하기 위해상속받은 클래스에게 필요한 기능을 정의 하고 있는 추상클래스<br/>
  * <dl>
  * <dt>기능</dt>
  * <dd>
  * <li>통신 가능상황 체크 후 통신 불능 상황일 경우 알림창 팝업 제공</li>
  * <li>통신 실패 시 재시도 처리</li>
- * <li>통신시 필요한 parsing이나 공통파라미터 입력 작업</li>
+ * <li>통신시 필요한 parsing이나 공통 파라미터 입력 작업</li>
  * </dd>
  * <dt>사용</dt>
  * <dd>
@@ -50,7 +53,7 @@ import java.util.HashMap;
  * </ol>
  * @since 2012. 12. 18.
  */
-public abstract class BaseController<T extends Object> {
+public abstract class BaseController<T extends Object> implements Runnable {
     protected final String TAG = getClass().getSimpleName();
     /**
      * network 성공
@@ -111,13 +114,13 @@ public abstract class BaseController<T extends Object> {
     /**
      * parameter map : stringBody for text/plain enctype
      *
-     * @see ControllerThread#_currentEnctype
+     * @see BaseControllerThread#_currentEnctype
      */
     protected final HashMap<String, String> _requestMap;
     /**
      * parameter map : fileBody for multipart/form-data enctype
      *
-     * @see ControllerThread#_currentEnctype
+     * @see BaseControllerThread#_currentEnctype
      */
     protected final HashMap<String, String> _requestImageMap;
     /**
@@ -174,7 +177,6 @@ public abstract class BaseController<T extends Object> {
         _requestHeaderMap = new HashMap<>();
         _requestMap = new HashMap<>();
         _requestImageMap = new HashMap<>();
-        _controllerThreadHandler = new ControllerHandler(this);
     }
 
     /**
@@ -339,7 +341,70 @@ public abstract class BaseController<T extends Object> {
     /**
      * {@link BaseControllerThread}에서 작업을 마친후 오류 처리와 재시도를 위한 handler
      */
-    private final Handler _controllerThreadHandler;
+    private final Handler _controllerThreadHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            if (_isDialogSkip) {
+                handlerProcess2(msg);
+            } else {
+                if (ALERT_DEBUG) {
+                    switch (_currentNetState) {
+                        case NOT_INIT_CONTROLLER:
+                            createDialog("controller not init", null);
+                            break;
+                        case EXCEPTION_NET_NOT_WAKE:
+                            createDialog(_netNotWake, null);
+                            break;
+                        case EXCEPTION_PARSE:
+                            createDialog("ParseException", null);
+                            break;
+                        case EXCEPTION_CLIENT_PROTOCOL:
+                            createDialog("ClientProtocolException", null);
+                            break;
+                        case EXCEPTION_SOCKET:
+                            createDialog("SocketException", null);
+                            break;
+                        case EXCEPTION_IO:
+                            createDialog("IOException", null);
+                            break;
+                        case EXCEPTION:
+                            createDialog("Net Exception", null);
+                            break;
+                        case EXCEPTION_PARSER:
+                            createDialog("Parser Error", null);
+                            break;
+                        case EXCEPTION_NULL_RESPONSE:
+                            createDialog("Response is null", null);
+                            break;
+                        // TODO 확인하지 않은 에러일때 코드와 메세지를 그대로 보여준다.
+                        default:
+                            handlerProcess2(msg);
+                            break;
+                    }
+                } else {
+                    switch (_currentNetState) {
+                        case EXCEPTION_NET_NOT_WAKE:
+                            createDialog(_netNotWake, null);
+                            break;
+                        case NOT_INIT_CONTROLLER:
+                        case EXCEPTION_PARSE:
+                        case EXCEPTION_CLIENT_PROTOCOL:
+                        case EXCEPTION_SOCKET:
+                        case EXCEPTION_IO:
+                        case EXCEPTION:
+                        case EXCEPTION_PARSER:
+                        case EXCEPTION_NULL_RESPONSE:
+                            createDialog(_conFail, null);
+                            break;
+                        default:
+                            handlerProcess2(msg);
+                            break;
+                    }
+                }
+            }
+            return true;
+        }
+    });
 
     /**
      * {@link #_controllerThreadHandler}에 의하여 호출되며 network에대한 오류 처리를 한 후 abstract method인 {@link #handlerProcess2(Message)}에서
@@ -444,6 +509,7 @@ public abstract class BaseController<T extends Object> {
      */
     protected final void retryClick() {
         initButtonFlag();
+//        netCheckBeforStart();
         new BaseControllerThread(_requestImageMap.size() != 0).netCheckBeforStart();
     }
 
@@ -474,9 +540,6 @@ public abstract class BaseController<T extends Object> {
      * @since 2012. 12. 21.
      */
     protected abstract void okListenerWork();
-    /*protected void createAlert(int msg, int title) {
-        createAlert( msg > 0 ? _context.getString(msg) : null, title > 0 ? _context.getString(title) : null);
-    }*/
 
     /**
      * 기본 알림창을 사용하지 않고 custom dialog를 사용하려면 이부분에 dialog를 대신할 작업을 작성<br/>
@@ -597,7 +660,7 @@ public abstract class BaseController<T extends Object> {
     /* ************************************************************************************************
      * INFO handler
      */
-    private static class ControllerHandler extends Handler {
+    /*private static class ControllerHandler extends Handler {
         // private WeakReference<BaseController> _controller;
         private BaseController<?> _controller;
 
@@ -610,29 +673,174 @@ public abstract class BaseController<T extends Object> {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            /*BaseController controller = _controller.get();
+            *//*BaseController controller = _controller.get();
             if (controller != null) {
                 controller.handlerProcess1(msg);
-            }*/
+            }*//*
             _controller.handlerProcess1(msg);
+        }
+    }*/
+
+    private boolean _currentEnctype;
+
+    /**
+     * current thread start()<br>
+     * enctype : text/plain<br>
+     *
+     * @author gue
+     * @since 2012. 12. 21.
+     */
+    public void begin(HttpMethod method) {
+        _method = method;
+        netCheckBeforStart();
+    }
+
+    /**
+     * current thread start()<br>
+     * enctype fix : multipart/form-data<br>
+     *
+     * @author gue
+     * @since 2012. 12. 21.
+     */
+    public void beginMultpart(HttpMethod method) {
+        _currentEnctype = true;
+        begin(method);
+    }
+
+    /**
+     * network thred를 시작하기 전에 통신 가능 여부를 확인한다.<br/>
+     * network을 사용할 수 없는 상태일때에는 {@link #connectFail(int)}를 호출하여 오류 및 재시도 처리
+     *
+     * @author gue
+     * @since 2012. 12. 21.
+     */
+    private void netCheckBeforStart() {
+        _currentNetState = BaseController.NOT_INIT_CONTROLLER;
+        if (BaseNet.getInstance().getNetState(_context) < 0) {
+            connectFail(BaseController.EXCEPTION_NET_NOT_WAKE);
+        } else {
+            new Thread(this).start();
         }
     }
 
+    /**
+     * network을 사용할 수 없는 상태일때 실행될 작업 작성
+     *
+     * @author gue
+     * @see {@link BaseController#_currentNetState}
+     * @since 2012. 12. 26.
+     */
+//        @Override
+    private void connectFail(int currentNetState) {
+        _currentNetState = currentNetState;
+        _controllerThreadHandler.sendEmptyMessage(currentNetState);
+    }
+
+    @Override
+    public void run() {
+        // 1. request
+        String responseStr = null;
+        try {
+            responseStr = sendRequest(_method, _sendUrl, _requestHeaderMap, _requestMap, _requestImageMap);
+        } catch (ParseException e) {
+            Log.e(TAG, "ParseException : " + e.getMessage(), e);
+            _currentNetState = BaseController.EXCEPTION_PARSE;
+        } catch (ClientProtocolException e) {
+            Log.e(TAG, "ClientProtocolException : " + e.getMessage(), e);
+            _currentNetState = BaseController.EXCEPTION_CLIENT_PROTOCOL;
+        } catch (SocketException e) {
+            Log.e(TAG, "SocketException : " + e.getMessage(), e);
+            _currentNetState = BaseController.EXCEPTION_SOCKET;
+        } catch (IOException e) {
+            Log.e(TAG, "IOException : " + e.getMessage(), e);
+            _currentNetState = BaseController.EXCEPTION_IO;
+        } catch (Exception e) {
+            Log.e(TAG, "Exception : " + e.getMessage(), e);
+            _currentNetState = BaseController.EXCEPTION;
+        }
+
+        // 2. parsing
+        T responseObject = null;
+        if (responseStr != null) {
+            try {
+                responseObject = parsing(responseStr);
+                _currentNetState = NET_SUCCESS;
+            } catch (Exception e) {
+                Log.e(TAG, "Exception : " + e.getMessage(), e);
+                _currentNetState = BaseController.EXCEPTION_PARSER;
+            }
+        } else _currentNetState = BaseController.EXCEPTION_NULL_RESPONSE;
+
+        if (responseObject == null) _currentNetState = BaseController.EXCEPTION_NULL_RESPONSE;
+
+        // 3. network error & parser error check
+        if (_currentNetState <= BaseController.NOT_INIT_CONTROLLER) {
+            _controllerThreadHandler.sendEmptyMessage(_currentNetState);
+        } else if (responseObject != null) {
+            urlDecode(responseObject);
+            initButtonFlag();
+            controllerThreadWork(responseObject);
+        }
+
+    }
+
+    /**
+     * send request
+     *
+     * @param method           get, post, delete, put
+     * @param sendUrl          target url
+     * @param requestHeaderMap header map
+     * @param requestMap       parameter map : stringBody for text/plain enctype
+     * @param requestImageMap  parameter map : fileBody for multipart/form-data enctype
+     * @return response string
+     * @author gue
+     * @since 2012. 12. 21.
+     */
+    private String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+        String response = null;
+        if (_currentEnctype) {
+            switch (method) {
+                case POST:
+                case PUT:
+                    response = BaseNet.getInstance().sendMultiPartRequest(method, sendUrl, requestHeaderMap, requestMap, requestImageMap);
+                    break;
+                case GET:
+                case DELETE:
+                default:
+                    throw new Exception("multipart not support GET, DELETE ...");
+            }
+        } else {
+            switch (method) {
+                case GET:
+                case POST:
+                case PUT:
+                case DELETE:
+                    response = BaseNet.getInstance().sendRequest(method, sendUrl, requestHeaderMap, requestMap);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return response;
+    }
 
     /* ************************************************************************************************
      * INFO BaseControllerThread
      */
-    protected class BaseControllerThread extends ControllerThread {
-//        private Method _method = Method.POST;
-
+    @Deprecated
+    protected class BaseControllerThread extends Thread {
+        /**
+         * enctype mode 에 따른 구분
+         * <li>true : multipart/form-data</li>
+         * <li>false : text/plain</li>
+         */
+//        private boolean _currentEnctype;
         public BaseControllerThread() {
-            super(_context);
-            _currentNetState = NOT_INIT_CONTROLLER;
+            _currentNetState = BaseController.NOT_INIT_CONTROLLER;
         }
 
-        public BaseControllerThread(boolean currentEnctype) {
-            super(_context);
-            _currentNetState = NOT_INIT_CONTROLLER;
+        private BaseControllerThread(boolean currentEnctype) {
+            _currentNetState = BaseController.NOT_INIT_CONTROLLER;
             _currentEnctype = currentEnctype;
         }
 
@@ -641,10 +849,103 @@ public abstract class BaseController<T extends Object> {
             _method = method;
         }
 
-        @Override
-        protected void connectFail(int currentNetState) {
+        /**
+         * current thread start()<br>
+         * enctype : text/plain<br>
+         *
+         * @author gue
+         * @since 2012. 12. 21.
+         */
+        public void begin() {
+            netCheckBeforStart();
+        }
+
+        /**
+         * current thread start()<br>
+         * enctype fix : multipart/form-data<br>
+         *
+         * @author gue
+         * @since 2012. 12. 21.
+         */
+        public void beginMultpart() {
+            _currentEnctype = true;
+            netCheckBeforStart();
+        }
+
+        /**
+         * network thred를 시작하기 전에 통신 가능 여부를 확인한다.<br/>
+         * network을 사용할 수 없는 상태일때에는 {@link #connectFail(int)}를 호출하여 오류 및 재시도 처리
+         *
+         * @author gue
+         * @since 2012. 12. 21.
+         */
+        private void netCheckBeforStart() {
+            if (BaseNet.getInstance().getNetState(_context) < 0) {
+                connectFail(BaseController.EXCEPTION_NET_NOT_WAKE);
+            } else {
+                start();
+            }
+        }
+
+        /**
+         * network을 사용할 수 없는 상태일때 실행될 작업 작성
+         *
+         * @author gue
+         * @see {@link BaseController#_currentNetState}
+         * @since 2012. 12. 26.
+         */
+//        @Override
+        private void connectFail(int currentNetState) {
             _currentNetState = currentNetState;
             _controllerThreadHandler.sendEmptyMessage(currentNetState);
+        }
+
+        /**
+         * send request
+         *
+         * @param method           get, post, delete, put
+         * @param sendUrl          target url
+         * @param requestHeaderMap header map
+         * @param requestMap       parameter map : stringBody for text/plain enctype
+         * @param requestImageMap  parameter map : fileBody for multipart/form-data enctype
+         * @return response string
+         * @author gue
+         * @since 2012. 12. 21.
+         */
+        private String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+            String response = null;
+            if (_currentEnctype) {
+                switch (method) {
+                    case POST:
+                    case PUT:
+                        response = BaseNet.getInstance().sendMultiPartRequest(method, sendUrl, requestHeaderMap, requestMap, requestImageMap);
+                        break;
+                    case GET:
+                    case DELETE:
+                    default:
+                        throw new Exception("multipart not support GET, DELETE ...");
+                }
+            } else {
+                switch (method) {
+                    case GET:
+                    case POST:
+                    case PUT:
+                    case DELETE:
+                        response = BaseNet.getInstance().sendRequest(method, sendUrl, requestHeaderMap, requestMap);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return response;
+        }
+
+        /**
+         * @see #sendRequest(HttpMethod, String, HashMap, HashMap, HashMap)
+         */
+        @Deprecated
+        private String sendRequest(HttpMethod method, String sendurl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
+            return sendRequest(method, sendurl, null, requestMap, requestImageMap);
         }
 
         @Override
@@ -656,19 +957,19 @@ public abstract class BaseController<T extends Object> {
                 responseStr = sendRequest(_method, _sendUrl, _requestHeaderMap, _requestMap, _requestImageMap);
             } catch (ParseException e) {
                 Log.e(TAG, "ParseException : " + e.getMessage(), e);
-                _currentNetState = EXCEPTION_PARSE;
+                _currentNetState = BaseController.EXCEPTION_PARSE;
             } catch (ClientProtocolException e) {
                 Log.e(TAG, "ClientProtocolException : " + e.getMessage(), e);
-                _currentNetState = EXCEPTION_CLIENT_PROTOCOL;
+                _currentNetState = BaseController.EXCEPTION_CLIENT_PROTOCOL;
             } catch (SocketException e) {
                 Log.e(TAG, "SocketException : " + e.getMessage(), e);
-                _currentNetState = EXCEPTION_SOCKET;
+                _currentNetState = BaseController.EXCEPTION_SOCKET;
             } catch (IOException e) {
                 Log.e(TAG, "IOException : " + e.getMessage(), e);
-                _currentNetState = EXCEPTION_IO;
+                _currentNetState = BaseController.EXCEPTION_IO;
             } catch (Exception e) {
                 Log.e(TAG, "Exception : " + e.getMessage(), e);
-                _currentNetState = EXCEPTION;
+                _currentNetState = BaseController.EXCEPTION;
             }
 
             // 2. parsing
@@ -679,14 +980,14 @@ public abstract class BaseController<T extends Object> {
                     _currentNetState = NET_SUCCESS;
                 } catch (Exception e) {
                     Log.e(TAG, "Exception : " + e.getMessage(), e);
-                    _currentNetState = EXCEPTION_PARSER;
+                    _currentNetState = BaseController.EXCEPTION_PARSER;
                 }
-            } else _currentNetState = EXCEPTION_NULL_RESPONSE;
+            } else _currentNetState = BaseController.EXCEPTION_NULL_RESPONSE;
 
-            if (responseObject == null) _currentNetState = EXCEPTION_NULL_RESPONSE;
+            if (responseObject == null) _currentNetState = BaseController.EXCEPTION_NULL_RESPONSE;
 
             // 3. network error & parser error check
-            if (_currentNetState <= NOT_INIT_CONTROLLER) {
+            if (_currentNetState <= BaseController.NOT_INIT_CONTROLLER) {
                 _controllerThreadHandler.sendEmptyMessage(_currentNetState);
             } else if (responseObject != null) {
                 urlDecode(responseObject);

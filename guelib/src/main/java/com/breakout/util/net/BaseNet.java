@@ -88,6 +88,7 @@ public class BaseNet {
      * @author gue
      * @since 2015. 3. 31.
      */
+    @Deprecated
     public String sendGet(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
         if (_client == null) _client = createHttpClient();
 
@@ -225,6 +226,7 @@ public class BaseNet {
      * @author gue
      * @since 2012.05.30
      */
+    @Deprecated
     public String sendMultiPartRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, String imageParam, String imagePath) throws Exception {
         HashMap<String, String> requestImageMap = new HashMap<>();
         requestImageMap.put(imageParam, imagePath);

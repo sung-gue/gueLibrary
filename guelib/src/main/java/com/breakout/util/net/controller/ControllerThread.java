@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 
 /**
- * {@link BaseController}에서 사용될 Thread를 상속받은 abstract class
+ * {@link BaseController}에서 사용하는 Thread
  *
  * @author gue
  * @version 1.0
@@ -23,7 +23,9 @@ import java.util.HashMap;
  * </ol>
  * @since 2012. 12. 21.
  */
-abstract class ControllerThread extends Thread {
+@Deprecated
+abstract class ControllerThread<T> extends Thread {
+
     private Context _context;
     /**
      * enctype mode 에 따른 구분
@@ -126,6 +128,7 @@ abstract class ControllerThread extends Thread {
     /**
      * @see #sendRequest(HttpMethod, String, HashMap, HashMap, HashMap)
      */
+    @Deprecated
     String sendRequest(HttpMethod method, String sendurl, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
         return sendRequest(method, sendurl, null, requestMap, requestImageMap);
     }
