@@ -53,6 +53,7 @@ import java.util.HashMap;
  * </ol>
  * @since 2012. 12. 18.
  */
+@Deprecated
 public abstract class BaseController<T extends Object> implements Runnable {
     protected final String TAG = getClass().getSimpleName();
     /**
