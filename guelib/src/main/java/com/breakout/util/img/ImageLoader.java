@@ -100,10 +100,10 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      */
     private int[] displaySize;
     /**
-     * {@link #asyncTable}
+     * {@link #asyncTaskTable}
      * RejectedExecutionException : pool=128/128, queue=10/10
      */
-    private static final int ASYNCTASK_CAPACITY = 30;
+    private static final int ASYNCTASK_CAPACITY = 150;
     /**
      * thread가 지정 갯수를 초과하지 않게 방지. 가장 먼저 삽입된 값의 task를 cancel하고 값을 삭제.
      */
@@ -788,7 +788,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         _sdErrStr = msg;
     }
 
-    private Handler _sdcardErrHandler = new Handler(new Handler.Callback() {
+    private final Handler _sdcardErrHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             Toast.makeText(_context, _sdErrStr, Toast.LENGTH_LONG).show();

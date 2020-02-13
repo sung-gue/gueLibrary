@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -230,7 +231,15 @@ public abstract class BaseController<T extends Object> implements Runnable {
      * @author gue
      */
     protected final void setHeaderAfterNullCheck(String key, String value) {
-        if (StringUtil.nullCheckB(value)) _requestHeaderMap.put(key, value);
+        if (!TextUtils.isEmpty(value)) _requestHeaderMap.put(key, value);
+    }
+    /**
+     * 파라미터로 넘어온 value가 null이거나 ""인경우에는 {@link #_requestHeaderMap}에 입력하지 않는다.
+     *
+     * @author gue
+     */
+    protected final void removeHeaderAfterNullCheck(String key) {
+        if (!TextUtils.isEmpty(key)) _requestHeaderMap.remove(key);
     }
 
     /**
@@ -239,7 +248,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
      * @author gue
      */
     protected final void setParamAfterNullCheck(String param, String value) {
-        if (StringUtil.nullCheckB(value)) _requestMap.put(param, value);
+        if (!TextUtils.isEmpty(value)) _requestMap.put(param, value);
     }
 
     /**

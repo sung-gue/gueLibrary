@@ -142,11 +142,12 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
             }
             _pDialog = dv.getDialog();
         }
-        if (_pDialog != null && !_pDialog.isShowing()) {
+        if (!isFinishing() && _pDialog != null && !_pDialog.isShowing()) {
+            Log.v(TAG, "progress show");
             try {
                 _pDialog.show();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage(), e);
             }
         }
         return _pDialog;
@@ -171,6 +172,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     public void closeProgress() {
         if (_pDialog != null && _pDialog.isShowing()) {
+            Log.v(TAG, "progress close");
             _pDialog.dismiss();
             _pDialog = null;
         }
@@ -338,10 +340,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Log.d(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
-        if (_pDialog != null && _pDialog.isShowing()) {
-            _pDialog.dismiss();
-            _pDialog = null;
-        }
+        closeProgress();
         unregisterReceiver();
         _context = null;
         /*

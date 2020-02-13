@@ -225,13 +225,13 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                             return loadImageFromLocalCache(file);
                         } else throw new Exception("file save error");
                     } catch (Exception e) {
-                        Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url));
+                        Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
 //                        throw new IOException("file save error");
                         return BitmapFactory.decodeStream(new ByteArrayInputStream(result));
                     }
                 } catch (IOException e) {
                     loader.sdcardErrToast();
-                    Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url));
+                    Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
 //                    return BitmapFactory.decodeStream(new ByteArrayInputStream(result));
                 } finally {
                     if (flush != null) {
