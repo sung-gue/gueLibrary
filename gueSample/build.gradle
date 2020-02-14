@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.google.gms.google-services'
 
 /*repositories {
     jcenter()
@@ -15,8 +14,8 @@ apply plugin: 'kotlin-android-extensions'
 android {
     signingConfigs {
         /*def keyProps = new Properties()
-        def keyPropsFile = rootProject.file("keys/keystore.properties")
-        //def keyPropsFile = new File("keys/keystore.properties")
+        //def keyPropsFile = rootProject.file("keys/keystore.properties")
+        def keyPropsFile = new File("keys/keystore.properties")
         keyProps.load(new FileInputStream(keyPropsFile))
         release {
             storeFile file(keyProps['release_storeFile'])
@@ -46,6 +45,10 @@ android {
         }
     }
 
+    // TODO: 2020-02-14 project.ext.set 어떤설정인지 확인 필요
+    project.ext.set("ouputDir", "~/Downloads/")
+    project.ext.set("ouputDirMac", "~/Downloads/")
+
     compileSdkVersion 29
     buildToolsVersion '29.0.2'
 
@@ -56,15 +59,15 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
 //        vectorDrawables.useSupportLibrary = true
     }
 
-    /*dexOptions {
+    dexOptions {
         maxProcessCount 4 // this is the default value
-        javaMaxHeapSize "2g"
+        javaMaxHeapSize "4g"
         jumboMode true
-    }*/
+    }
 
     buildTypes {
         release {
@@ -75,17 +78,17 @@ android {
         debug {
             signingConfig signingConfigs.debug
             manifestPlaceholders = [appName: "@string/app_name_dev", "pacakgeName": "com.breakout.sample.dev"]
-            applicationIdSuffix ".dev"
+            //applicationIdSuffix ".dev"
         }
     }
 
     // off lint options
-    lintOptions {
+    /*lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
-    }
+    }*/
 
     /*packagingOptions {
         exclude 'META-INF/DEPENDENCIES'

@@ -1,7 +1,9 @@
 package com.breakout.sample;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 
 
 public class BaseApplication extends Application {
@@ -34,6 +36,18 @@ public class BaseApplication extends Application {
         Log.i(TAG + " | onLowMemory");
         super.onLowMemory();
         System.gc();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        /*
+            INFO: 2020-02-14 sdk version 20 이하는 build.gradle 에서
+             android:defaultConfig:multiDexEnabled = true 일 경우 아래 값을 추가해 줘야 한다.
+         */
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            MultiDex.install(this);
+        }
     }
 
 
