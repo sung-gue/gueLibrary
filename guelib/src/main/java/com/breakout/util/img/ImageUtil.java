@@ -18,14 +18,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
 import com.breakout.util.Log;
 import com.breakout.util.dto.media.ImageDTO;
-import com.breakout.util.string.StringUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -52,56 +51,58 @@ public final class ImageUtil {
      * 변환작업이나 activity의 이동등으로 다음 activity로 전달하고 싶은 Bitmap이 있을때 사용<br>
      * 1회성이므로 사용후 항상 null 처리를 하여준다.
      */
+    @Deprecated
     private static Bitmap _staticBitmap;
 
-    public final static void setStaticBitmap(Bitmap bitmap) {
+    @Deprecated
+    public static void setStaticBitmap(Bitmap bitmap) {
         _staticBitmap = bitmap;
     }
 
-    public final static Bitmap getStaticBitmap() {
+    @Deprecated
+    public static Bitmap getStaticBitmap() {
         Bitmap output = _staticBitmap.copy(_staticBitmap.getConfig(), true);
-        recycleBitmap(_staticBitmap);
+        if (_staticBitmap != null && !_staticBitmap.isRecycled()) {
+            _staticBitmap.recycle();
+        }
+
         _staticBitmap = null;
         return output;
     }
 
     /**
-     * 해당 object가 특정 class의 instance인지 check
      * @author gue
      */
-    /*public final static boolean classCheck(Object obj, Class<?> instance) {
-		return instance.isInstance(obj);
-	}*/
-
-    /**
-     * @author gue
-     */
+    @Deprecated
     private final static boolean isGoodFilePath(String filePath) {
         return filePath != null && new File(filePath).exists();
     }
 
 
-/* ************************************************************************************************
- * INFO image & gallery
- */
+    /* ************************************************************************************************
+     * INFO image & gallery
+     */
     /**
      * 화면회전등의 이유로 카메라의 EXTRA_OUTPUT값인 uri가 activity안에서 null 처리 되었을 경우를 대비하여 uri 저장.<br>
      * static이지만 값의 유효에 대해 보장을 하지 못하므로 1회성이라 생각하고 한번 사용한후 꼭 null 처리를 해준다.
      *
      * @see #callCamera(Activity, int, Uri)
      */
+    @Deprecated
     public static Uri _ouputUri;
 
+    @Deprecated
     private final static void startIntent(Activity activity, Intent intent, int requestCode, String chooser) {
-        if (StringUtil.nullCheckB(chooser)) {
+        if (!TextUtils.isEmpty(chooser)) {
             activity.startActivityForResult(Intent.createChooser(intent, chooser), requestCode);
         } else {
             activity.startActivityForResult(intent, requestCode);
         }
     }
 
+    @Deprecated
     private final static void startIntent(Fragment fragment, Intent intent, int requestCode, String chooser) {
-        if (StringUtil.nullCheckB(chooser)) {
+        if (!TextUtils.isEmpty(chooser)) {
             fragment.startActivityForResult(Intent.createChooser(intent, chooser), requestCode);
         } else {
             fragment.startActivityForResult(intent, requestCode);
@@ -116,6 +117,7 @@ public final class ImageUtil {
      * @param chooser null이 아닐경우 Intent.createChooser를 생성한다.
      * @author gue
      */
+    @Deprecated
     public final static void callGallery(Activity activity, int requestCode, String chooser) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -129,11 +131,12 @@ public final class ImageUtil {
      *
      * @author gue
      */
+    @Deprecated
     public final static void callGallery(Activity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-//		intent.setType( "image/*" );
-//		intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        intent.setType( "image/*" );
+//        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startIntent(activity, intent, requestCode, null);
     }
 
@@ -144,11 +147,12 @@ public final class ImageUtil {
      *
      * @author gue
      */
+    @Deprecated
     public final static void callGallery(Fragment fragment, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-//		intent.setType( "image/*" );
-//		intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        intent.setType( "image/*" );
+//        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startIntent(fragment, intent, requestCode, null);
     }
 
@@ -172,7 +176,7 @@ public final class ImageUtil {
         intent.setType("image/*");
         intent.putExtra("crop", "true");
         intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);
-//		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+//        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("scale", scale);
         intent.putExtra("return-data", returnData);
         if (form != null) {
@@ -324,6 +328,10 @@ public final class ImageUtil {
         fragment.startActivityForResult(intent, requestCode);
     }
 
+    /*
+        TODO: 2020-03-14 이후 확인 필요
+     */
+
     /**
      * 이미지의 file path로부터 이미지의 uri return, 내부 media db에 없는 경로라면 null return
      *
@@ -356,7 +364,8 @@ public final class ImageUtil {
      *
      * @author gue
      */
-    public final static String getImagePath(Context context, Uri uri) {
+    @Deprecated
+    public static String getImagePath(Context context, Uri uri) {
         String imageFilePath = null;
         if (uri != null) {
             if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
@@ -499,16 +508,16 @@ public final class ImageUtil {
                     }
                     temp.close();
                 }
-				
-				/*temp = context.getContentResolver().query(	Images.Media.EXTERNAL_CONTENT_URI, 
-															new String[]{ImageColumns._ID},
-															ImageColumns.BUCKET_ID + "=?", 
-															new String[]{dto.bucket_id}, 
-															null);
-				if (temp != null) {
-					dto.bucket_count = temp.getCount();
-					temp.close();
-				}*/
+                
+                /*temp = context.getContentResolver().query(    Images.Media.EXTERNAL_CONTENT_URI, 
+                                                            new String[]{ImageColumns._ID},
+                                                            ImageColumns.BUCKET_ID + "=?", 
+                                                            new String[]{dto.bucket_id}, 
+                                                            null);
+                if (temp != null) {
+                    dto.bucket_count = temp.getCount();
+                    temp.close();
+                }*/
             }
             cursor.close();
         }
@@ -526,8 +535,8 @@ public final class ImageUtil {
      * }
      *
      * class Ex implements ReturnImageDTO {
-     * 	public ImageDTO getExtendsInstance() {
-     * 		return new MediaItemDTO();
+     *     public ImageDTO getExtendsInstance() {
+     *         return new MediaItemDTO();
      *    }
      * }
      * </pre>
@@ -613,11 +622,11 @@ public final class ImageUtil {
         }
         return dto;
     }
-	
-	
-/* ************************************************************************************************
- * INFO get bitmap size
- */
+
+
+    /* ************************************************************************************************
+     * INFO get bitmap size
+     */
 
     /**
      * get bitmap's size
@@ -657,44 +666,11 @@ public final class ImageUtil {
     public final static int getBitmapOfWidth(String imageFilePath) throws Exception {
         return getBitmapOfSize(imageFilePath)[1];
     }
-	
 
-/* ************************************************************************************************
- * INFO bitmap recycle
- */
 
-    /**
-     * bitmap이 존재한다면 해당 bitmap을 recycle 하고 값으로 null을 대입한다.
-     *
-     * @author gue
+    /* ************************************************************************************************
+     * INFO make BitmapFactory.Options
      */
-    public final static void recycleBitmap(Bitmap bitmap) {
-        if (bitmap != null && !bitmap.isRecycled()) {
-            bitmap.recycle();
-            Log.d(TAG, "recycleBitmap [" + bitmap + "]- " + bitmap.isRecycled());
-        }
-        bitmap = null;
-    }
-
-    /**
-     * imageView 안의 bitmap을 해제한다.
-     *
-     * @author gue
-     */
-    public final static void recycleBitmapInImageView(ImageView imageView) {
-        Drawable drawable = imageView.getDrawable();
-        if (drawable != null && drawable instanceof BitmapDrawable) {
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            recycleBitmap(bitmap);
-            bitmap = null;
-        }
-        imageView.setImageBitmap(null);
-    }
-
-	
-/* ************************************************************************************************
- * INFO make BitmapFactory.Options
- */
 
     /**
      * make BitmapFactory.Options
@@ -707,15 +683,15 @@ public final class ImageUtil {
         options.inJustDecodeBounds = inJustDecodeBounds;
         if (!inJustDecodeBounds) {
             // 참고 : 이미지의 경우 투명 이미지는 ARGB_8888, 불투명 이미지는 RGB_565로 충분하다.
-//			options.inPreferredConfig = Config.ARGB_4444;	// 알파값이 있고 표현색 가장 적음
-//			options.inPreferredConfig = Config.ALPHA_8;
-//			options.inPreferredConfig = Config.ARGB_8888; 	// 32bit
-//			options.inPreferredConfig = Config.RGB_565; 	// 16bit, 알파값 없음
+//            options.inPreferredConfig = Config.ARGB_4444;    // 알파값이 있고 표현색 가장 적음
+//            options.inPreferredConfig = Config.ALPHA_8;
+//            options.inPreferredConfig = Config.ARGB_8888;     // 32bit
+//            options.inPreferredConfig = Config.RGB_565;     // 16bit, 알파값 없음
             options.inPreferredConfig = config;
             options.inSampleSize = inSampleSize;
             options.inPurgeable = true;        // system이 원할때 memory 반환, 하지만 checking이 되지 않는다면 추후 제거
             options.inDither = false;            // image에 적용되는 dithering을 사용하지 않음으로 image 변환의 성능에 도움을 준다.
-//			options.inScaled = true; 			// image를 device의 dpi에 구애받지 않고 원본 size로 load한다.
+//            options.inScaled = true;             // image를 device의 dpi에 구애받지 않고 원본 size로 load한다.
         }
         return options;
     }
@@ -728,11 +704,11 @@ public final class ImageUtil {
     public final static BitmapFactory.Options makeBitmapOptionsUndecode() {
         return makeBitmapOptions(null, true, 0);
     }
-	
-	
-/* ************************************************************************************************
- * INFO get bitmap of image file
- */
+
+
+    /* ************************************************************************************************
+     * INFO get bitmap of image file
+     */
 
     /**
      * uri로 cursor를 통하여 이미지의 id값을 알아낸 후 bitmap의 thumbnail을 얻어낸다.<br>
@@ -1075,11 +1051,11 @@ public final class ImageUtil {
     public final static Bitmap getBitmapResize(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
         return getBitmapResize(imageFilePath, wantWidth, wantHeight, Config.RGB_565);
     }
-	
-	
-/* ************************************************************************************************
- * INFO drawable convert Bitmap
- */
+
+
+    /* ************************************************************************************************
+     * INFO drawable convert Bitmap
+     */
 
     /**
      * drawable -> bitmap
@@ -1103,15 +1079,15 @@ public final class ImageUtil {
 
         return output;
     }
-	
-	
-/* ************************************************************************************************
- * INFO size convert
- */
+
+
+    /* ************************************************************************************************
+     * INFO size convert
+     */
 
     /**
      * image size converter<br>
-     * see {@link #sizeConverter(Bitmap, int, int, boolean)}
+     * see {@link #sizeConvert(Bitmap, int, int, boolean)}
      *
      * @author gue
      */
@@ -1216,11 +1192,11 @@ public final class ImageUtil {
         if (recycle && output != bitmap) bitmap.recycle();
         return output;
     }
-	
 
-/* ************************************************************************************************
- * INFO image info
- */
+
+    /* ************************************************************************************************
+     * INFO image info
+     */
 
     /**
      * 이미지의 orientation값을 구하여 각도로 변환
@@ -1236,9 +1212,9 @@ public final class ImageUtil {
                     orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
                 }
                 switch (orientation) {
-					/*case ExifInterface.ORIENTATION_NORMAL:
-					degree = 0;
-					break;*/
+                    /*case ExifInterface.ORIENTATION_NORMAL:
+                    degree = 0;
+                    break;*/
                     case ExifInterface.ORIENTATION_ROTATE_90:
                         degree = 90;
                         break;
@@ -1285,58 +1261,58 @@ public final class ImageUtil {
         }
         view.setDrawingCacheEnabled(false);
     }
-	
-/* ************************************************************************************************
- * INFO not arrangement
- */
+
+    /* ************************************************************************************************
+     * INFO not arrangement
+     */
     /**
      * 이미지 타켓 사이즈에 맞는 샘플 이미지 출력
      */
-	/*public static Bitmap readImageFitWidth(String imagePath, int targetWidth, Bitmap.Config bmConfig) throws OutOfMemoryError, Exception {
-		// Get the dimensions of the bitmap
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, options);
-		int photoWidth = options.outWidth;
-		int photoHeight = options.outHeight;
+    /*public static Bitmap readImageFitWidth(String imagePath, int targetWidth, Bitmap.Config bmConfig) throws OutOfMemoryError, Exception {
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, options);
+        int photoWidth = options.outWidth;
+        int photoHeight = options.outHeight;
 
-		int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / 1);
+        int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / 1);
 
-		float hScaleTemp = ((targetWidth * 1.0f) * (photoHeight * 1.0f)) / (photoWidth * 1.0f);
+        float hScaleTemp = ((targetWidth * 1.0f) * (photoHeight * 1.0f)) / (photoWidth * 1.0f);
 
-		int hScale = (int) hScaleTemp;
-		int wScale = (int) targetWidth;
+        int hScale = (int) hScaleTemp;
+        int wScale = (int) targetWidth;
 
-		options.inSampleSize = scaleFactor;
-		options.inJustDecodeBounds = false;
-		options.inPurgeable = true;
-		Bitmap src = BitmapFactory.decodeFile(imagePath, options);
-		Bitmap resized = Bitmap.createScaledBitmap(src, wScale, hScale, true);
+        options.inSampleSize = scaleFactor;
+        options.inJustDecodeBounds = false;
+        options.inPurgeable = true;
+        Bitmap src = BitmapFactory.decodeFile(imagePath, options);
+        Bitmap resized = Bitmap.createScaledBitmap(src, wScale, hScale, true);
 
-		return resized;
-	}*/
+        return resized;
+    }*/
 
 
     /** 이미지 타켓 사이즈에 맞는 샘플 이미지 출력 */
-	/*public static Bitmap readImageWithSampling(String imagePath, int targetWidth, int targetHeight, Bitmap.Config bmConfig) {
-		// Get the dimensions of the bitmap
-		BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-		bmOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, bmOptions);
+    /*public static Bitmap readImageWithSampling(String imagePath, int targetWidth, int targetHeight, Bitmap.Config bmConfig) {
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
 
-		int photoWidth = bmOptions.outWidth;
-		int photoHeight = bmOptions.outHeight;
+        int photoWidth = bmOptions.outWidth;
+        int photoHeight = bmOptions.outHeight;
 
-		// Determine how much to scale down the image
-		int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / targetHeight);
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / targetHeight);
 
-		// Decode the image file into a Bitmap sized to fill the View
-		bmOptions.inPreferredConfig = bmConfig;
-		bmOptions.inJustDecodeBounds = false;
-		bmOptions.inSampleSize = scaleFactor;
-		bmOptions.inPurgeable = true;
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inPreferredConfig = bmConfig;
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
 
-		Bitmap orgImage = BitmapFactory.decodeFile(imagePath, bmOptions);
-		return orgImage;
-	}*/
+        Bitmap orgImage = BitmapFactory.decodeFile(imagePath, bmOptions);
+        return orgImage;
+    }*/
 }

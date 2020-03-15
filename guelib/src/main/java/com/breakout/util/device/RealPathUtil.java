@@ -17,6 +17,8 @@ import androidx.loader.content.CursorLoader;
  * Uri 경로에서 해당 파일의 실제 경로
  * http://gogorchg.tistory.com/entry/Android-Get-RealPath-from-Uri
  * http://stackoverflow.com/questions/28229518/getting-image-from-gallery-in-android/28229595#28229595
+ *
+ * dete
  */
 public class RealPathUtil {
 
