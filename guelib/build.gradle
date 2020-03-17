@@ -111,6 +111,19 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-core:17.2.1'
 //    implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
+    /**
+     * https://jsoup.org/
+     * html parser
+     */
+    implementation 'org.jsoup:jsoup:1.13.1'
+
+
+    /**
+     * https://github.com/karussell/snacktory
+     *
+     */
+    implementation 'com.github.karussell:snacktory:c05c5ec338'
+
 
     /**
      * todo 하단 패키지 확인 필요

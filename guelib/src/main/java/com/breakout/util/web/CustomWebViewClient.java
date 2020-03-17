@@ -1,4 +1,4 @@
-package com.breakout.util.widget;
+package com.breakout.util.web;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -36,7 +36,6 @@ import java.net.URLEncoder;
  * </ol>
  * @since 2013. 3. 21.
  */
-@Deprecated
 public class CustomWebViewClient extends WebViewClient {
     private final String TAG;
     private final ActivityEx _baseAct;
@@ -152,7 +151,7 @@ public class CustomWebViewClient extends WebViewClient {
         });*/
 
         // sdk 2.3 이하버전에서 키보드 올라오지 않음
-        if (android.os.Build.VERSION.SDK_INT < 11) {
+        if (Build.VERSION.SDK_INT < 11) {
             wv.requestFocusFromTouch();
              /*wv.setFocusable(true);
              wv.setFocusableInTouchMode(true);
