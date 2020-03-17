@@ -51,6 +51,9 @@ public class AnalyzeWebPage extends Thread {
         public String description;
         public String imageUrl;
         public String contents;
+
+        public Document document;
+        public String html;
     }
 
     private Context _context;
@@ -61,6 +64,12 @@ public class AnalyzeWebPage extends Thread {
     private final long _startTime;
 
     private int _tryCount = 0;
+
+    private final String USER_AGENT_ANDROID = "Mozilla/5.0 (Linux; Android 5.1.1; SM-N916K Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.91 Mobile Safari/537.36";
+    private final String USER_AGENT_WINDOW10 = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36";
+    private final String USER_AGENT_WINDOW7 = "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36";
+    private final String USER_AGENT_MAC = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36";
+    private final String USER_AGENT = USER_AGENT_WINDOW10;
 
 
     public AnalyzeWebPage(Context context, Handler handler, String url) {
@@ -122,10 +131,21 @@ public class AnalyzeWebPage extends Thread {
                 }
                 // jsoup parsing
                 document = Jsoup.connect(url)
-                        .userAgent("Mozilla/5.0 (Linux; Android 5.1.1; SM-N916K Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.91 Mobile Safari/537.36")
-                        .cookies(cookieMap)
-                        .get();
-                //jResult = fetcher.fetchAndExtract(url, 1000 * 60, true);
+                        .userAgent(USER_AGENT)
+                        .timeout(4 * 1000)
+//                        .referrer("https://www.google.com")
+//                        .header("Referer", "https://www.google.com/")
+//                        .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+//                        .header("Content-Type", "application/x-www-form-urlencoded")
+//                        .header("Accept-Encoding", "gzip, deflate, br")
+//                        .header("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4")
+//                        .header("Set-Cookie", "foo=bar; SameSite=None; Secure")
+//                        .cookies(cookieMap)
+                        .get()
+//                        .method(Connection.Method.GET)
+//                        .execute().parse()
+                ;
+//                jResult = fetcher.fetchAndExtract(url, 1000 * 5, true);
             }
             // analyze html
             else {
@@ -152,22 +172,33 @@ public class AnalyzeWebPage extends Thread {
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
+//            completeAnalyze();
+//            return;
         }
 
-        String title = extractTitle(document);
-        if (!TextUtils.isEmpty(title)) {
-            jResult.setTitle(title);
+        if (document == null) {
+            try {
+                String responseHtml = fetcher.fetchAsString(url, 1000 * 4, false);
+                document = Jsoup.parse(responseHtml);
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
         }
-        String imageUrl = extractImageUrl(document);
-        if (!TextUtils.isEmpty(imageUrl)) {
-            jResult.setImageUrl(imageUrl);
-        }
-        String description = extractDescription(document);
-        if (!TextUtils.isEmpty(description)) {
-            jResult.setDescription(description);
-        }
+
         String contents = jResult.getText();
-        if (true || !TextUtils.isEmpty(html) || (!TextUtils.isEmpty(contents) && !Pattern.compile(".*(?i)(오류|권한|error|auth)+.*").matcher(contents).matches())) {
+        if (!TextUtils.isEmpty(html) || (!TextUtils.isEmpty(contents) && !Pattern.compile(".*(?i)(오류|권한|error|auth)+.*").matcher(contents).matches())) {
+            String title = extractTitle(document);
+            if (!TextUtils.isEmpty(title)) {
+                jResult.setTitle(title);
+            }
+            String imageUrl = extractImageUrl(document);
+            if (!TextUtils.isEmpty(imageUrl)) {
+                jResult.setImageUrl(imageUrl);
+            }
+            String description = extractDescription(document);
+            if (!TextUtils.isEmpty(description)) {
+                jResult.setDescription(description);
+            }
             setTitle(jResult.getTitle());
             setDescription(jResult.getDescription());
             setImage(jResult.getImageUrl());
@@ -175,10 +206,11 @@ public class AnalyzeWebPage extends Thread {
             completeAnalyze();
         } else {
             if (_tryCount++ == 0) {
-                analyzeWebPageByWebView();
+//                analyzeWebPageByWebView();
             } else {
                 completeAnalyze();
             }
+            completeAnalyze();
         }
     }
 
@@ -194,9 +226,15 @@ public class AnalyzeWebPage extends Thread {
         }
     }
 
-    public void setImage(String image) {
-        if (!TextUtils.isEmpty(image)) {
-            _analyzeWebPageData.imageUrl = image;
+    public void setImage(String imageUrl) {
+        if (!TextUtils.isEmpty(imageUrl)) {
+            if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+                _analyzeWebPageData.imageUrl = imageUrl;
+            } else if (_analyzeWebPageData.url.startsWith("https://")) {
+                _analyzeWebPageData.imageUrl = "https:" + imageUrl;
+            } else {
+                _analyzeWebPageData.imageUrl = "http:" + imageUrl;
+            }
         }
     }
 
@@ -206,16 +244,26 @@ public class AnalyzeWebPage extends Thread {
         }
     }
 
+    public void setDocument(Document document) {
+        if (document != null) {
+            _analyzeWebPageData.document = document;
+            _analyzeWebPageData.html = document.outerHtml();
+        }
+    }
+
     private String extractImageUrl(Document doc) {
         // use open graph tag to get image
         String imageUrl = SHelper.replaceSpaces(doc.select("head meta[property=og:image]").attr("content"));
         if (imageUrl.isEmpty()) {
-            imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=twitter:image]").attr("content"));
+            imageUrl = SHelper.replaceSpaces(doc.select("meta[property=og:image]").attr("content"));
             if (imageUrl.isEmpty()) {
-                // prefer link over thumbnail-meta if empty
-                imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+                imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=twitter:image]").attr("content"));
                 if (imageUrl.isEmpty()) {
-                    imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+                    // prefer link over thumbnail-meta if empty
+                    imageUrl = SHelper.replaceSpaces(doc.select("link[rel=image_src]").attr("href"));
+                    if (imageUrl.isEmpty()) {
+                        imageUrl = SHelper.replaceSpaces(doc.select("head meta[name=thumbnail]").attr("content"));
+                    }
                 }
             }
         }
@@ -225,13 +273,16 @@ public class AnalyzeWebPage extends Thread {
     private String extractTitle(Document doc) {
         String title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
         if (title.isEmpty()) {
-            title = SHelper.innerTrim(doc.select("head title").text());
+            title = SHelper.innerTrim(doc.select("meta[property=og:title]").attr("content"));
             if (title.isEmpty()) {
-                title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
+                title = SHelper.innerTrim(doc.select("head title").text());
                 if (title.isEmpty()) {
-                    title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                    title = SHelper.innerTrim(doc.select("head meta[name=title]").attr("content"));
                     if (title.isEmpty()) {
-                        title = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+                        title = SHelper.innerTrim(doc.select("head meta[property=og:title]").attr("content"));
+                        if (title.isEmpty()) {
+                            title = SHelper.innerTrim(doc.select("head meta[name=twitter:title]").attr("content"));
+                        }
                     }
                 }
             }
@@ -242,9 +293,12 @@ public class AnalyzeWebPage extends Thread {
     private String extractDescription(Document doc) {
         String description = SHelper.innerTrim(doc.select("head meta[property=og:description]").attr("content"));
         if (description.isEmpty()) {
-            description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+            description = SHelper.innerTrim(doc.select("meta[property=og:description]").attr("content"));
             if (description.isEmpty()) {
-                description = SHelper.innerTrim(doc.select("head meta[name=twitter:description]").attr("content"));
+                description = SHelper.innerTrim(doc.select("head meta[name=description]").attr("content"));
+                if (description.isEmpty()) {
+                    description = SHelper.innerTrim(doc.select("head meta[name=twitter:description]").attr("content"));
+                }
             }
         }
         return description;
@@ -283,6 +337,7 @@ public class AnalyzeWebPage extends Thread {
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                 }
+                settings.setUserAgentString(USER_AGENT);
                 wv.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -338,7 +393,11 @@ public class AnalyzeWebPage extends Thread {
                         analyzeWebPage.start();
                     }
                 }, "BreakOutJs");
-                wv.loadUrl(_analyzeWebPageData.url);
+
+                Map<String, String> headers = new HashMap<>();
+//                headers.put("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+                headers.put("Set-Cookie", "SameSite=None; Secure");
+                wv.loadUrl(_analyzeWebPageData.url, headers);
             }
         });
     }

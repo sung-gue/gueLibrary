@@ -139,7 +139,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
      */
     protected final boolean _isUseDebugAlert;
     private String _netNotWake = "인터넷에 연결되어 있지 않습니다. wi-fi또는 3g의 연결상태를 확인해 주세요.";
-    private String _conFail = "인터넷 연결이 원할 하지 않습니다. 잠시후에 다시 시도하여 주세요.";
+    private String _conFail = "접속이 원할 하지 않습니다. 잠시후에 다시 시도하여 주세요.";
     private String _ok = "확인";
     private String _retry = "재시도";
     /**
