@@ -12,7 +12,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.breakout.util.Log;
 import com.breakout.util.device.DeviceUtil;
 import com.breakout.util.res.AnimationSuite;
 
@@ -202,7 +200,6 @@ public class DialogView extends LinearLayout {
     }
 
     private void init(View view) {
-        Log.v(TAG, "init");
         _density = getResources().getDisplayMetrics().density;
         _deviceSize = DeviceUtil.getDisplaySize(getContext());
 
@@ -352,9 +349,9 @@ public class DialogView extends LinearLayout {
         return getDialog(false, false);
     }
 
-/* ************************************************************************************************
- * INFO Override
- */
+    /* ************************************************************************************************
+     * INFO Override
+     */
     /**
      * {@link #getImageView(Drawable)}에서 Drawable가 {@link AnimationDrawable}일 경우 해당 frame을 start하기 위한 member value
      */

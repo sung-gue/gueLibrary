@@ -34,13 +34,13 @@ import de.jetwick.snacktory.JResult;
 import de.jetwick.snacktory.OutputFormatter;
 import de.jetwick.snacktory.SHelper;
 
+
 /**
  * The type Analyze web page.
  *
  * @author sung-gue
- * @version 1.0
  * @copyright Copyright 2016. sung-gue All rights reserved.
- * @since 2016.04.19
+ * @since 1.0 (2016-04-19)
  */
 public class AnalyzeWebPage extends Thread {
     private final String TAG = getClass().getSimpleName();

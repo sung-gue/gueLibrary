@@ -1,78 +1,109 @@
 package com.breakout.util.widget;
 
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.View;
-import android.view.Window;
+import android.content.DialogInterface;
 import android.view.WindowManager;
 
-import com.breakout.util.widget.DialogView.Size;
+import androidx.appcompat.app.AlertDialog;
+
 
 /**
- * 작업중 : 작업 완료 되면 지시자 public 적용예정<br>
- * Dialog의 안의 View를 사용자가 원하는 View로 설정하여 Activity위에 보여지게 한다.
- * @author gue
- * @since 2012. 12. 31.
- * @copyright Copyright.2011.gue.All rights reserved.
+ * Custom Alert Dialog
+ *
+ * @author sung-gue
  * @version 1.0
- * @history <ol>
- * 		<li>변경자/날짜 : 변경사항</li>
- * </ol>
+ * @copyright Copyright 2012. sung-gue All rights reserved.
+ * @since 2012. 12. 31.
  */
-class CustomDialog extends Dialog {
-//	private final String TAG = "CustomDialog | ";
+public class CustomDialog extends AlertDialog {
+    private Context _context;
 
-	/*public ProgressImage(Context context, boolean cancelable, OnCancelListener cancelListener) {
-		super(context, cancelable, cancelListener);
-		init();
-	}
-	public ProgressImage(Context context, int theme) {
-		super(context, theme);
-		init();
-	}*/
-	
-	/**
-	 * {@link DialogView}를 삽입한다.
-	 */
-	public CustomDialog(Context context) {
-		super(context);
-		init(null);
-	}
 
-	/**
-	 * 원하는 View를 삽입한다.
-	 */
-	public CustomDialog(Context context, View view) {
-		super(context);
-		init(view);
-	}
-	
-	private void init(View view) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-		getWindow().getAttributes().windowAnimations = android.R.style.Animation_InputMethod;
-//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-		
-		setContentView(view);
-		setCancelable(false);
-	}
-	
-	@Override
-	public void setContentView(View view) {
-		if (view == null) {
-			view = new DialogView(getContext(), Size.small);
-		} 
-		super.setContentView(view);
-	}
-	
-	@Override
-	public void setCancelable(boolean flag) {
-		super.setCancelable(flag);
-		super.setCanceledOnTouchOutside(flag);
-	}
-	
+    private CustomDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
+
+    private CustomDialog(Context context, int theme) {
+        super(context, theme);
+    }
+
+    public CustomDialog(Context context) {
+        super(context);
+        _context = context;
+        init();
+    }
+
+    private void init() {
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//        getWindow().getAttributes().windowAnimations = android.R.style.Animation_InputMethod;
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+    }
+
+    public CustomDialog setContents(String title, String message) {
+        super.setTitle(title);
+        super.setMessage(message);
+        return this;
+    }
+
+    public CustomDialog setContents(int titleId, int messageId) {
+        String title = null;
+        String message = null;
+        try {
+            title = getContext().getString(titleId);
+        } catch (Exception e) {
+        }
+        try {
+            message = getContext().getString(messageId);
+        } catch (Exception e) {
+        }
+        return this.setContents(title, message);
+    }
+
+    public CustomDialog setOkBt(String btStr, OnClickListener listener) {
+        setButton(DialogInterface.BUTTON_POSITIVE, btStr, listener);
+        return this;
+    }
+
+    public CustomDialog setOkBt(int btStrId, OnClickListener listener) {
+        String btStr = null;
+        try {
+            btStr = getContext().getString(btStrId);
+        } catch (Exception e) {
+        }
+        return this.setOkBt(btStr, listener);
+    }
+
+    public CustomDialog setCancelBt(String btStr, OnClickListener listener) {
+        setButton(DialogInterface.BUTTON_NEGATIVE, btStr, listener);
+        return this;
+    }
+
+    public CustomDialog setCancelBt(int btStrId, OnClickListener listener) {
+        String btStr = null;
+        try {
+            btStr = getContext().getString(btStrId);
+        } catch (Exception e) {
+        }
+        return this.setCancelBt(btStr, listener);
+    }
+
+    @Override
+    public void setCancelable(boolean flag) {
+        super.setCancelable(flag);
+        super.setCanceledOnTouchOutside(flag);
+    }
+
+    public CustomDialog setCancel(boolean flag) {
+        this.setCancelable(flag);
+        return this;
+    }
+
+    public CustomDialog clearDimBehind() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        return this;
+    }
+
 }
