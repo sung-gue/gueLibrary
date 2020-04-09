@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Browser;
 import android.text.TextUtils;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JavascriptInterface;
@@ -74,6 +75,8 @@ public class CustomWebViewClient extends WebViewClient {
         void onWebViewProgressUpdate(WebView wv, int newProgress);
 
         void onWebViewLoadFinish(WebView wv);
+
+        void onWebViewLoadError(WebView wv);
     }
 
     protected final String HTTP = "http";
@@ -89,18 +92,16 @@ public class CustomWebViewClient extends WebViewClient {
     protected CustomWebViewClientListener _listener;
 
 
-    public CustomWebViewClient(Activity activity) {
+    public CustomWebViewClient(Activity activity, WebView wv) {
         this._activity = activity;
-        if (activity instanceof CustomWebViewClientListener) {
-            _listener = (CustomWebViewClientListener) activity;
-        }
+        this._wv = wv;
         //_customScript = new CustomScript();
         //_wv.addJavascriptInterface(_customScript, "CustomJs");
     }
 
-    public CustomWebViewClient(Activity activity, WebView wv) {
-        this(activity);
-        this._wv = wv;
+    public CustomWebViewClient(Activity activity, WebView wv, CustomWebViewClientListener listener) {
+        this(activity, wv);
+        this._listener = listener;
     }
 
     public CustomWebViewClient(Activity activity, WebView wv, int mode) {
@@ -136,7 +137,6 @@ public class CustomWebViewClient extends WebViewClient {
 
         WebSettings settings = wv.getSettings();
         settings.setCacheMode(mode);
-        settings.setAppCacheEnabled(true);
 
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
@@ -163,6 +163,7 @@ public class CustomWebViewClient extends WebViewClient {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
+
         /*
             INFO: 2014/01/28 4.4 에서 userAgent의 chrome 문자열 제거
          */
@@ -171,24 +172,49 @@ public class CustomWebViewClient extends WebViewClient {
             userAgentCustom = userAgentCustom.replaceAll("(?i)chrome", "");
             settings.setUserAgentString(userAgentCustom);
         }*/
+
         /*
             멀티뷰 사용
          */
         settings.setSupportMultipleWindows(true);
 //        wv.setWebChromeClient(new CustomWebChromeClient() {});
+
+        /*
+            성능 향상
+         */
+        // android:hardwareAccelerated="true"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            wv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        } else {
+            wv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            //기기에 따라서 동작할수도있는걸 확인
+            settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+
+            //최신 SDK 에서는 Deprecated 이나 아직 성능상에서는 유용하다
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+            //부드러운 전환 또한 아직 동작
+            settings.setEnableSmoothTransition(true);
+        }
+        //settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setAppCacheEnabled(true);
+
         return settings;
     }
 
     protected void showProgress() {
-        if (_listener != null && _wv != null) {
+        /*if (_listener != null && _wv != null) {
             _listener.onWebViewLoadStart(_wv);
-        }
+        }*/
     }
 
     protected void closeProgress() {
-        if (_listener != null && _wv != null) {
+        /*if (_listener != null && _wv != null) {
             _listener.onWebViewLoadFinish(_wv);
-        }
+        }*/
     }
 
     protected void logWebResourceRequest(String functionName, WebResourceRequest request) {
@@ -272,6 +298,9 @@ public class CustomWebViewClient extends WebViewClient {
         Log.i(TAG, "onPageStarted | url : " + url);
         super.onPageStarted(view, url, favicon);
         showProgress();
+        if (_listener != null && view != null) {
+            _listener.onWebViewLoadStart(view);
+        }
     }
 
     @Override
@@ -285,6 +314,9 @@ public class CustomWebViewClient extends WebViewClient {
         Log.i(TAG, "onPageFinished | url : " + url);
         super.onPageFinished(view, url);
         closeProgress();
+        if (_listener != null && view != null) {
+            _listener.onWebViewLoadFinish(view);
+        }
     }
 
     @Override
@@ -297,6 +329,9 @@ public class CustomWebViewClient extends WebViewClient {
         );
         super.onReceivedError(view, errorCode, description, failingUrl);
         closeProgress();
+        if (_listener != null && view != null) {
+            _listener.onWebViewLoadError(view);
+        }
         //Toast.makeText(_activity, "네트워크 장애", Toast.LENGTH_SHORT).show();
     }
 
@@ -308,6 +343,9 @@ public class CustomWebViewClient extends WebViewClient {
         );
         super.onReceivedError(view, request, error);
         closeProgress();
+        if (_listener != null && view != null) {
+            _listener.onWebViewLoadError(view);
+        }
     }
 
     @Override
@@ -410,22 +448,24 @@ public class CustomWebViewClient extends WebViewClient {
         }
     }
 
-    public Map<String, String> printCookie(String url) {
+    public Map<String, String> printCookie(String msg, String url) {
         Map<String, String> cookieMap = new HashMap<>();
         try {
             CookieManager cookieManager = CookieManager.getInstance();
             String cookies = cookieManager.getCookie(url);
-            Log.i(TAG, "cookies | " + cookies);
+            StringBuilder log = new StringBuilder();
+            log.append(String.format("print cookie - %s\n  url : %s", msg, url));
             if (cookies != null) {
                 String[] cookie = Pattern.compile(";\\s+").split(cookies);
                 for (String temp : cookie) {
                     String[] temps = Pattern.compile("=").split(temp);
                     if (temps.length > 1) {
-                        Log.i(TAG, "  cookie | " + temps[0] + "=" + temps[1]);
+                        log.append(String.format("\n  %s = %s", temps[0], temps[1]));
                         cookieMap.put(temps[0], temps[1]);
                     }
                 }
             }
+            Log.i(TAG, log.toString());
         } catch (Exception e) {
             Log.e(TAG, e.getMessage(), e);
         }
@@ -561,7 +601,7 @@ public class CustomWebViewClient extends WebViewClient {
                 //chrome 버젼 방식 : 2014.01 추가
                 if (url.startsWith("intent")) { // chrome 버젼 방식
                     // 앱설치 체크를 합니다.
-                    if (_activity.getPackageManager().resolveActivity(intent, 0) == null) {
+                    if (intent.resolveActivity(_activity.getPackageManager()) == null) {
                         String packagename = intent.getPackage();
                         if (packagename != null) {
                             Uri uri = Uri.parse("market://search?q=pname:" + packagename);

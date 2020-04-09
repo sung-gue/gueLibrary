@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.breakout.util.ActivityEx;
@@ -33,10 +34,12 @@ public class CustomWebViewClientEx extends CustomWebViewClient {
     private boolean _isProgressCancel = true;
 
 
-    public CustomWebViewClientEx(Activity activity) {
-        super(activity);
+    public CustomWebViewClientEx(Activity activity, WebView wv) {
+        super(activity, wv);
         this.TAG = activity.getClass().getSimpleName();
         this._baseAct = (ActivityEx) activity;
+        this._wv = wv;
+        initWebView(wv, WebSettings.LOAD_DEFAULT);
     }
 
     public CustomWebViewClientEx(Activity activity, WebView wv, int mode) {

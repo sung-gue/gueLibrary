@@ -117,15 +117,16 @@ public class AnalyzeWebPage extends Thread {
                 try {
                     CookieManager cookieManager = CookieManager.getInstance();
                     String cookies = cookieManager.getCookie(url);
-                    Log.i(TAG, "cookie | " + cookies);
+                    StringBuilder log = new StringBuilder("print cookie\n  url : " + url);
                     String[] cookie = Pattern.compile(";\\s+").split(cookies);
                     for (String temp : cookie) {
                         String[] temps = Pattern.compile("=").split(temp);
                         if (temps.length > 1) {
-                            Log.i(TAG, "cookie | " + temps[0] + "=" + temps[1]);
+                            log.append(String.format("\n  %s = %s", temps[0], temps[1]));
                             cookieMap.put(temps[0], temps[1]);
                         }
                     }
+                    Log.i(TAG, log.toString());
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage(), e);
                 }
@@ -184,6 +185,7 @@ public class AnalyzeWebPage extends Thread {
                 Log.e(TAG, e.getMessage(), e);
             }
         }
+        setDocument(document);
 
         String contents = jResult.getText();
         if (!TextUtils.isEmpty(html) || (!TextUtils.isEmpty(contents) && !Pattern.compile(".*(?i)(오류|권한|error|auth)+.*").matcher(contents).matches())) {
