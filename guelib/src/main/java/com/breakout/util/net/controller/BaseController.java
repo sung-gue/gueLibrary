@@ -608,7 +608,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
      * @since 2012. 12. 21.
      */
     protected final String urlDecoder(String str) {
-        String decodeStr = null;
+        String decodeStr = str;
         try {
             if (str != null) decodeStr = URLDecoder.decode(str, "UTF-8");
         } catch (UnsupportedEncodingException e) {
