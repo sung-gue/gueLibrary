@@ -62,149 +62,22 @@ public abstract class FragmentEx extends Fragment {
      */
     public final String TAG = getClass().getSimpleName();
     /**
-     * The App context.
+     * Application Context, init {@link #onAttach(Context)}
      */
     protected Context _appContext;
     /**
-     * Activity Context
+     * Activity Context, init {@link #onAttach(Context)}
      */
     protected Context _context;
 
     public FragmentEx() {
-        Log.d(TAG, "FragmentEx Constructor");
+        super();
+        Log.d(TAG, "new fragment");
     }
 
 
-    /* ************************************************************
-     * DESC: UI 구현
-     */
-
-    /**
-     * UI 구현
-     */
-    protected abstract void initUI();
-
-    /**
-     * UI 새로고침 구현
-     */
-    protected abstract void refreshUI();
-
-
-    /* ************************************************************
-     * DESC dialog
-     */
-    // TODO: 2016-02-17 Fragment 에서 사용될 수 있는 dialog 변경작업 필요
-    /**
-     * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
-     */
-    private Dialog _pDialog;
-
-    /**
-     * create & show {@link #_pDialog}, used {@link DialogView}
-     *
-     * @param view       dialog안에 들어갈 view 정의
-     * @param backGround dialog의 배경 drawable
-     * @return {@link #_pDialog}
-     */
-    public Dialog showProgress(View view, Drawable backGround) {
-        if (_pDialog == null) {
-            DialogView dv;
-            if (view != null) {
-                dv = new DialogView(_context, view, backGround);
-            } else {
-                dv = new DialogView(_context, Size.small);
-            }
-            _pDialog = dv.getDialog();
-        }
-        if (_pDialog != null && !_pDialog.isShowing()) {
-            Log.v(TAG, "progress show");
-            try {
-                _pDialog.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return _pDialog;
-    }
-
-    /**
-     * see {@link #showProgress(View, Drawable)}
-     */
-    public Dialog showProgress(View view) {
-        return showProgress(view, null);
-    }
-
-    /**
-     * see {@link #showProgress(View, Drawable)}
-     */
-    public Dialog showProgress() {
-        return showProgress(null, null);
-    }
-
-    /**
-     * close {@link #_pDialog}
-     */
-    public void closeProgress() {
-        if (_pDialog != null && _pDialog.isShowing()) {
-            Log.v(TAG, "progress close");
-            _pDialog.dismiss();
-            _pDialog = null;
-        }
-    }
-
-
-    /* ************************************************************
-     * DESC Fragment management
-     */
-    // TODO: 2016-02-17 Fragment stack 등 관리 목적 코드 필요
-
-
-    /* ************************************************************
-     * DESC : intent method
-     */
-
-    /**
-     * startActivity check
-     */
-    /*@Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        if (CValue.DEBUG) {
-            StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
-            logBuilder.append(String.format("| %s | startActivity\n", TAG));
-            logBuilder.append(String.format("|  %s\n", intent));
-            logBuilder.append(String.format("|  requestCode : %d\n", requestCode));
-            logBuilder.append(String.format("|  component : %s\n", intent != null ? intent.getComponent() : ""));
-            logBuilder.append(String.format("|  uri : %s\n", intent != null ? intent.getData() : ""));
-            try {
-                if (intent != null && intent.getExtras() != null) {
-                    logBuilder.append("|  extra bundle\n");
-                    Bundle bundle = intent.getExtras();
-                    for (String key : bundle.keySet()) {
-                        logBuilder.append(String.format("       %s : %s\n", key, bundle.get(key)));
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-            logBuilder.append("-------------------------------------------------");
-            Log.i(TAG, logBuilder.toString());
-        }
-        super.startActivityForResult(intent, requestCode);
-    }*/
-
-    /*public void fragmentTransactionCommit(int containerViewId, Fragment fragment, String tag, boolean useBackStack, String backStackName) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment, tag);
-        if (useBackStack) {
-            fragmentTransaction.addToBackStack(backStackName);
-        }
-        fragmentTransaction.commit();
-    }*/
-
-
-    /* ************************************************************
-     * DESC fragment life cycle
+    /* ------------------------------------------------------------
+        fragment life cycle
      */
 
     /**
@@ -380,8 +253,135 @@ public abstract class FragmentEx extends Fragment {
 //    }
 
 
-    /* ************************************************************
-     * DESC option
+    /* ------------------------------------------------------------
+        UI 구현
+     */
+
+    /**
+     * UI 구현
+     */
+    protected abstract void initUI();
+
+    /**
+     * UI 새로고침 구현
+     */
+    protected abstract void refreshUI();
+
+
+    /* ------------------------------------------------------------
+        progress dialog
+     */
+    // TODO: 2016-02-17 Fragment 에서 사용될 수 있는 dialog 변경작업 필요
+    /**
+     * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
+     */
+    private Dialog _pDialog;
+
+    /**
+     * create & show {@link #_pDialog}, used {@link DialogView}
+     *
+     * @param view       dialog안에 들어갈 view 정의
+     * @param backGround dialog의 배경 drawable
+     * @return {@link #_pDialog}
+     */
+    public Dialog showProgress(View view, Drawable backGround) {
+        if (_pDialog == null) {
+            DialogView dv;
+            if (view != null) {
+                dv = new DialogView(_context, view, backGround);
+            } else {
+                dv = new DialogView(_context, Size.small);
+            }
+            _pDialog = dv.getDialog();
+        }
+        if (_pDialog != null && !_pDialog.isShowing()) {
+            Log.v(TAG, "progress show");
+            try {
+                _pDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return _pDialog;
+    }
+
+    /**
+     * see {@link #showProgress(View, Drawable)}
+     */
+    public Dialog showProgress(View view) {
+        return showProgress(view, null);
+    }
+
+    /**
+     * see {@link #showProgress(View, Drawable)}
+     */
+    public Dialog showProgress() {
+        return showProgress(null, null);
+    }
+
+    /**
+     * close {@link #_pDialog}
+     */
+    public void closeProgress() {
+        if (_pDialog != null && _pDialog.isShowing()) {
+            Log.v(TAG, "progress close");
+            _pDialog.dismiss();
+            _pDialog = null;
+        }
+    }
+
+
+    /* ------------------------------------------------------------
+        Fragment management
+        TODO: 2016-02-17 Fragment stack 등 관리 목적 코드 필요
+     */
+
+
+    /* ------------------------------------------------------------
+        intent
+     */
+    /**
+     * startActivity check
+     */
+    /*@Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        if (CValue.DEBUG) {
+            StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
+            logBuilder.append(String.format("| %s | startActivity\n", TAG));
+            logBuilder.append(String.format("|  %s\n", intent));
+            logBuilder.append(String.format("|  requestCode : %d\n", requestCode));
+            logBuilder.append(String.format("|  component : %s\n", intent != null ? intent.getComponent() : ""));
+            logBuilder.append(String.format("|  uri : %s\n", intent != null ? intent.getData() : ""));
+            try {
+                if (intent != null && intent.getExtras() != null) {
+                    logBuilder.append("|  extra bundle\n");
+                    Bundle bundle = intent.getExtras();
+                    for (String key : bundle.keySet()) {
+                        logBuilder.append(String.format("       %s : %s\n", key, bundle.get(key)));
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage(), e);
+            }
+            logBuilder.append("-------------------------------------------------");
+            Log.i(TAG, logBuilder.toString());
+        }
+        super.startActivityForResult(intent, requestCode);
+    }*/
+
+    /*public void fragmentTransactionCommit(int containerViewId, Fragment fragment, String tag, boolean useBackStack, String backStackName) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment, tag);
+        if (useBackStack) {
+            fragmentTransaction.addToBackStack(backStackName);
+        }
+        fragmentTransaction.commit();
+    }*/
+
+
+    /* ------------------------------------------------------------
+        option menu
      */
 
     /**
@@ -413,8 +413,9 @@ public abstract class FragmentEx extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /* ************************************************************
-     * DESC db control
+
+    /* ------------------------------------------------------------
+        db control
      */
 //    /**
 //     * SQLite3 instance 

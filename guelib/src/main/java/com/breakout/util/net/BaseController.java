@@ -55,7 +55,7 @@ import java.util.HashMap;
 public abstract class BaseController<T extends Object> implements Runnable {
     protected final String TAG = getClass().getSimpleName();
 
-    private enum NetState {
+    public enum NetState {
         NET_SUCCESS(-1000),
         /**
          * {@link #_currentNetState}의 초기값 설정
@@ -227,6 +227,15 @@ public abstract class BaseController<T extends Object> implements Runnable {
      */
     protected final void setHeaderAfterNullCheck(String key, String value) {
         if (!TextUtils.isEmpty(value)) _requestHeaderMap.put(key, value);
+    }
+
+    /**
+     * 파라미터로 넘어온 value가 null이거나 ""인경우에는 {@link #_requestHeaderMap}에 입력하지 않는다.
+     *
+     * @author gue
+     */
+    protected final void removeHeaderAfterNullCheck(String key) {
+        if (!TextUtils.isEmpty(key)) _requestHeaderMap.remove(key);
     }
 
     /**
@@ -630,6 +639,10 @@ public abstract class BaseController<T extends Object> implements Runnable {
         _handler.sendMessage(msg);
     }
 
+    /**
+     * true : multipart/form-data<br/>
+     * flase : text/plain
+     */
     private boolean _currentEnctype;
 
     /**
@@ -639,7 +652,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
      * @author gue
      * @since 2012. 12. 21.
      */
-    public void begin(HttpMethod method) {
+    public void startRequest(HttpMethod method) {
         _method = method;
         netCheckBeforStart();
     }
@@ -651,9 +664,9 @@ public abstract class BaseController<T extends Object> implements Runnable {
      * @author gue
      * @since 2012. 12. 21.
      */
-    public void beginMultpart(HttpMethod method) {
+    public void startMultpartRequest(HttpMethod method) {
         _currentEnctype = true;
-        begin(method);
+        startRequest(method);
     }
 
     /**

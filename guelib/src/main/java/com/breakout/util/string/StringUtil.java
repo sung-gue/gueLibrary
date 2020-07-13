@@ -173,6 +173,28 @@ public final class StringUtil {
         return result;
     }
 
+    /**
+     * 금액 표현
+     *
+     * @param price             금액
+     * @param moneyUnit         화폐 단위
+     * @param isMoneyUnitSuffix 화폐단위가 금액 뒤에 붙는다면 true
+     * @author gue
+     * @since 2014. 1. 14.
+     */
+    public static String changeMoneyFormat(float price, String moneyUnit, boolean isMoneyUnitSuffix) {
+        String result = null;
+        DecimalFormat format = null;
+        try {
+            if (isMoneyUnitSuffix) format = new DecimalFormat(",###.#" + moneyUnit);
+            else format = new DecimalFormat(moneyUnit + ",###.#");
+            result = format.format(price);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        return result;
+    }
+
     /* ************************************************************************************************
      * INFO pattern
      */
