@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 
+import com.breakout.util.CValue;
+
 
 public class BaseApplication extends Application {
     private final String TAG = getClass().getSimpleName();
@@ -13,6 +15,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         Log.i(TAG + " | onCreate");
+        CValue.DEBUG = Const.DEBUG;
+        MyFirebaseMessagingService.initChannel(this);
         super.onCreate();
     }
 

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pager_title">
+        <item>"View Sample"</item>
+        <item>"Test"</item>
+        <item>"Etc"</item>
+    </string-array>
+
+    <string-array name="tab_list">
+        <item>tab1</item>
+        <item>tab2</item>
+    </string-array>
+
+    <string-array name="slide_menu_names">
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"5"</item>
+        <item>"6"</item>
+    </string-array>
+
+    <string-array name="slide_menu_click_event">
+        <item>"intent|.ui.ProfileActivity"</item>
+        <item>"intent|.ui.DestinationListActivity"</item>
+        <item>"intent|.ui.DriveListActivity"</item>
+        <item>"intent|.ui.PointListActivity"</item>
+        <item>"intent|.ui.NoticeActivity"</item>
+        <item>"intent|.ui.SettingActivity"</item>
+        <item>"action|logout"</item>
+    </string-array>
+
+    <string-array name="slide_menu_drawables">
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+        <item>@android:drawable/ic_popup_disk_full</item>
+    </string-array>
+
+</resources>

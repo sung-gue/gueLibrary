@@ -59,7 +59,7 @@ public class TestActivity extends BaseActivity {
             public Drawable getDrawable(String source) {
                 int resourceId = 0;
                 Drawable drawable = null;
-                if ("(놀람)".equals(source)) resourceId = R.drawable.e_006;
+                if ("(놀람)".equals(source)) resourceId = R.drawable.ic_emoticon;
                 else if ("(대표아이콘)".equals(source)) resourceId = R.mipmap.ic_launcher;
                 if (resourceId != 0) {
                     try {

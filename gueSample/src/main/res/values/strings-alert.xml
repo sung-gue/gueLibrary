@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- base string -->
+    <string name="al_prepare_service">현재 서비스 준비중 입니다.\n곧 좋은 기능으로 만나뵙겠습니다~ ^^</string>
+    <string name="al_modify_success">"수정되었습니다."</string>
+    <string name="al_access_err">"올바르지 않은 접근입니다."</string>
+    <string name="al_exit">"종료하시겠습니까?"</string>
+    <string name="al_logout">"로그아웃 하시겠습니까?"</string>
+    <string name="al_app_finish">"연속으로 두번 누르면 종료합니다."</string>
+    <string name="al_update_force">앱이 업데이트 되었습니다. 업데이트를 위해 마켓으로 이동합니다.</string>
+    <string name="al_update_normal">앱이 업데이트 되었습니다. 업데이트 하시겠습니까?</string>
+    <string name="al_agree_alarm">"앱에서만 제공되는 공지,이벤트 정보를 알림으로 받아보시겠습니까?"</string>
+
+
+    <!-- network, device -->
+    <string name="al_conFail">"접속이 원할 하지 않습니다. 잠시후에 다시 시도하여 주세요.\n확인을 누르면 앱을 종료합니다."</string>
+    <string name="al_net_not_wake">"인터넷에 연결되어 있지 않습니다. wi-fi또는 3g의 연결상태를 확인해 주세요.\n확인을 누르면 앱을 종료합니다."</string>
+    <string name="al_server_checkup">"긴급 서버 점검중입니다. 불편을 드려 죄송합니다."</string>
+    <string name="al_db_error">"해당 응답 지연중 입니다. 불편을 드려 죄송합니다."</string>
+    <string name="al_sdcard_write_fail">"파일쓰기에 실패하였습니다. SDcard불량이거나 남은 용량을 확인해주세요."</string>
+
+
+    <!-- data error -->
+    <string name="al_not_match_data">"유효한 데이터를 불러오는데 실패했습니다. 해당 알림이 계속 보인다면 관리자에게 문의해주세요."</string>
+    <string name="al_no_data">"등록된 정보가 없습니다."</string>
+    <string name="al_null_extra_data">"유효한 데이터가 아닙니다. 해당 알림이 계속 보인다면 종료후 다시 실행하여 주세요"</string>
+    <string name="al_not_found_app">"해당 어플리케이션이 없습니다"</string>
+
+
+    <!-- server error -->
+    <!--<string name="al_expire_auth">"로그인세션이 만료되었습니다. 다시 로그인 해주세요."</string>-->
+    <!--<string name="al_expire_login">"로그인이 만료되어 앱을 재시작합니다."</string>을-->
+    <string name="al_expire_session">"세션이 만료되어 앱을 재시작합니다."</string>을
+
+
+    <!-- camera, image, file-->
+    <string name="al_img_load_fail">"사진을 불러오는데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
+    <string name="al_img_handle_fail">"사진을 처리하데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
+    <string name="al_img_alter">"사진을 변환하는데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
+    <string name="al_sdcard_not_found">"원활한 사용을 위한 SDCard를 찾을수 없습니다. 확인하시고 다시 시도하여 주세요."</string>
+    <string name="al_sdcard_lack_capacity">"SD카드의 저장공간이 부족합니다. 어플의 원할한 사용을 위해서 저장공간을 확보해 주세요"</string>
+    <string name="al_sdcard_strange_condition">"SD카드에 이상이 있어 원활한 진행을 할 수 없습니다."</string>
+    <string name="al_sdcard_fail_write">"파일쓰기에 실패하였습니다. SDcard불량이거나 남은 용량을 확인해주세요."</string>
+
+</resources>

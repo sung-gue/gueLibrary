@@ -1,103 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!--parent="Theme.MaterialComponents.Light">-->
+        <item name="android:windowBackground">#FFFFFFFF</item>
+        <item name="android:colorBackground">#FFFFFFFF</item>
+        <!--<item name="android:textColorPrimary">@color/black</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/black</item>-->
+        <!--<item name="android:textColorSecondary">@color/black</item>-->
+        <!--<item name="android:textColorSecondaryInverse">@color/black</item>-->
+        <!--<item name="android:actionMenuTextColor">@color/black</item>-->
+        <item name="android:actionButtonStyle">@style/AppTheme.ActionButton</item>
+        <item name="actionButtonStyle">@style/AppTheme.ActionButton</item>
+
+        <item name="android:textViewStyle">@style/FontStyle.TextView</item>
+        <item name="android:buttonStyle">@style/FontStyle.Button</item>
+        <item name="android:editTextStyle">@style/FontStyle.EditText</item>
+        <item name="android:radioButtonStyle">@style/FontStyle.RadioButton</item>
+        <item name="android:checkboxStyle">@style/FontStyle.Checkbox</item>
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:windowBackground">@android:color/white</item>-->
-        <!--<item name="android:colorBackground">@android:color/white</item>-->
-        <!--<item name="android:statusBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>-->
-
-        <!--<item name="android:textColorPrimary">@color/color_b</item>-->
-        <!--<item name="android:textColorPrimaryInverse">@color/color_b</item>-->
-        <!--<item name="android:textColorSecondary">@color/color_b</item>-->
-        <!--<item name="android:textColorSecondaryInverse">@color/color_b</item>-->
-        <!--<item name="android:actionMenuTextColor">@color/color_b</item>-->
+        <!-- com.google.android.material.textfield.TextInputLayout 에 사용 돼는 color-->
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlHighlight">@color/gray</item>
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme.ActionButton" parent="Widget.AppCompat.ActionButton">
+        <item name="android:paddingStart">14dp</item>
+        <item name="paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="paddingEnd">14dp</item>
+    </style>
+
+    <style name="AppTheme.SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textColorPrimaryDisableOnly">#b71c1c</item>
+        <item name="android:colorControlActivated" tools:targetApi="21">#1b5e20</item>
+        <item name="android:colorForeground">#f57f17</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
-
-        <!--<item name="android:fitsSystemWindows">true</item>-->
-        <!--<item name="android:windowContentTransitions" tools:targetApi="21">false</item>-->
-        <!--<item name="android:windowTranslucentStatus" tools:targetApi="19">false</item>-->
-
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:windowActionBarOverlay">false</item>-->
-        <!--<item name="colorPrimary">@android:color/holo_red_light</item>-->
-
-        <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/windowStatusBar</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">
+            @color/windowNavigationBar
+        </item>
     </style>
 
-    <style name="AppTheme.NoActionBar.FullScreen" >
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
+    <style name="AppTheme.NoActionBar.Translucent">
+        <item name="android:windowBackground">@color/windowBackground_translucent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:statusBarColor" tools:targetApi="21">
+            @color/windowStatusBar_translucent
+        </item>
+        <item name="android:navigationBarColor" tools:targetApi="21">
+            @color/windowNavigationBar_translucent
+        </item>
+        <!-- Note that we use the base animation style here (that is no
+             animations) because we really have no idea how this kind of
+             activity will be used. -->
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
 
+    <style name="AppTheme.NoActionBar.Translucent.White">
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/windowStatusBar</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">
+            @color/windowNavigationBar
+        </item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.Translucent.Black">
+        <item name="android:windowBackground">@color/windowBackground_black</item>
+        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:statusBarColor" tools:targetApi="21">@color/windowStatusBar_black</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">
+            @color/windowNavigationBar_black
+        </item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.FullScreen">
         <item name="android:fitsSystemWindows">false</item>
         <item name="android:windowContentTransitions" tools:targetApi="21">true</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="19">true</item>
-
-        <!--<item name="android:windowContentOverlay">@null</item>-->
         <!--<item name="android:windowActionBarOverlay">false</item>-->
-        <!--<item name="colorPrimary">@android:color/transparent</item>-->
-
         <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
-        <!--<item name="android:statusBarColor" tools:targetApi="21">@android:color/transparent</item>-->
     </style>
 
-    <style name="AppTheme.NoActionBar.FullScreen.Translucent" parent="AppTheme.NoActionBar.FullScreen">
+    <style name="AppTheme.NoActionBar.FullScreen.Translucent">
         <item name="android:statusBarColor" tools:targetApi="21">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
-        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
         <item name="android:windowEnterAnimation">@anim/footer_show</item>
         <item name="android:windowExitAnimation">@anim/footer_hide</item>
         <item name="android:windowShowAnimation">@anim/footer_show</item>
         <item name="android:windowHideAnimation">@anim/footer_hide</item>
-
-
         <!--<item name="android:windowFrame">@null</item>-->
         <!--<item name="android:windowIsFloating">true</item>-->
         <!--<item name="android:windowTitleStyle">@null</item>-->
         <!--<item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>-->
-
-        <!--<item name="android:background">@android:color/transparent</item>-->
     </style>
 
-    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light">-->
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColorPrimary">@android:color/black</item>
-    </style>
-
-    <style name="TopToolbar" parent="AppTheme.AppBarOverlay">
-        <item name="android:background">#ffffffff</item>
-        <item name="android:textColorPrimary">#ff6f6f6f</item>
-        <item name="android:textColorPrimaryInverse">#99ffff00</item>
-        <item name="android:textColorSecondary">#ff6f6f6f</item>
-        <item name="android:textColorSecondaryInverse">#9900ffff</item>
-        <item name="android:actionMenuTextColor">#ff0000ff</item>
-    </style>
-
-    <style name="TopToolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">#ff6f6f6f</item>
-    </style>
-
-    <style name="TabBar" parent="Widget.Design.TabLayout">
+    <style name="AppBar.TabLayout" parent="Widget.Design.TabLayout">
         <!--<item name="android:background">@color/color_g</item>-->
         <item name="tabMaxWidth">@dimen/design_tab_max_width</item>
         <item name="tabIndicatorColor">#ff2abb9c</item>
@@ -107,10 +124,10 @@
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabSelectedTextColor">#ff2abb9c</item>
         <item name="tabTextColor">#ffbdbdbd</item>
-        <item name="tabTextAppearance">@style/TabBar.TitleText</item>
+        <item name="tabTextAppearance">@style/AppBar.TabLayout.Tab.TextStyle</item>
     </style>
 
-    <style name="TabBar.TitleText" parent="TextAppearance.Design.Tab">
+    <style name="AppBar.TabLayout.Tab.TextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">#ff2abb9c</item>
         <item name="textAllCaps">true</item>
@@ -132,43 +149,8 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
-    <style name="ButtonBarButton"/>
+    <style name="ButtonBarButton" />
 
-
-    <!-- base fonts -->
-    <style name="text_base_small">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:typeface">sans</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">@dimen/small_font</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">none</item>
-        <item name="android:includeFontPadding">false</item>
-        <!-- <item name="android:textScaleX">0.9</item> -->
-    </style>
-
-    <style name="text_base_small_black" parent="@style/text_base_small">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/small_font</item>
-    </style>
-
-    <style name="text_base_meduim" parent="@style/text_base_small">
-        <item name="android:textSize">@dimen/medium_font</item>
-    </style>
-
-    <style name="text_base_meduim_black" parent="@style/text_base_small">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/medium_font</item>
-    </style>
-
-    <style name="text_base_large" parent="@style/text_base_small">
-        <item name="android:textSize">@dimen/large_font</item>
-    </style>
-
-    <style name="text_base_large_black" parent="@style/text_base_small">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/large_font</item>
-    </style>
 
     <!--EditText-->
     <!--<style name="AppEditText" parent="Theme.AppCompat.Light">-->
@@ -207,19 +189,6 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="et_ib01_pt22" parent="@style/text_base_small">
-        <item name="android:textSize">@dimen/pt_22</item>
-        <item name="android:textColor">@android:color/holo_blue_dark</item>
-        <item name="android:textColorHint">@android:color/darker_gray</item>
-        <item name="android:background">@drawable/input_box01</item>
-    </style>
-
-    <!-- Button -->
-    <style name="bt_rb01_pt22" parent="@style/text_base_small">
-        <item name="android:textSize">@dimen/pt_22</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@drawable/round_box01_bt</item>
-    </style>
 
     <!-- Theme -->
     <style name="Theme.TransparentDialog" parent="@android:style/Theme.Dialog">

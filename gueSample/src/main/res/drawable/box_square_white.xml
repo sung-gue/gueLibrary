@@ -2,25 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <gradient
-                />
-
-            <solid
-                />
-
-            <stroke
-                android:width="2px"
-                android:color="#ffffffff"
-                />
-
-            <corners
-                />
-
-            <padding
-                />
-
-            <size
-                />
+            <stroke android:width="2px" android:color="@color/white" />
         </shape>
     </item>
 </selector>

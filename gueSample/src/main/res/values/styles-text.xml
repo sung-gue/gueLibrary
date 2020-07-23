@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<style name="TextStyle" parent="TextAppearance.AppCompat">-->
+    <style name="TextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextStyle.Small">
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
+    <style name="TextStyle.Medium">
+        <item name="android:textSize">@dimen/textSize_medium</item>
+    </style>
+
+    <style name="TextStyle.Large">
+        <item name="android:textSize">@dimen/textSize_large</item>
+    </style>
+
+    <style name="TextShadow">
+        <item name="android:shadowColor">@color/gray</item>
+        <item name="android:shadowRadius">20</item>
+        <item name="android:shadowDx">25</item>
+        <item name="android:shadowDy">15</item>
+    </style>
+
+</resources>

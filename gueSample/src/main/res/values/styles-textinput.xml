@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Design.TextInputLayout"
+            app:counterEnabled="true"
+            app:hintEnabled="true">
+        </com.google.android.material.textfield.TextInputLayout>
+    -->
+    <style name="Widget.Design.TextInputLayout" parent="AppTheme">
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
+        <item name="errorTextAppearance">@style/AppTheme.TextErrorAppearance</item>
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
+        <item name="counterOverflowTextAppearance">@style/TextAppearance.Design.Counter.Overflow
+        </item>
+    </style>
+
+    <!-- Floating label appearance here -->
+    <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
+    <!-- Error message appearance here -->
+    <style name="AppTheme.TextErrorAppearance" parent="TextAppearance.Design.Error">
+        <item name="android:textColor">@color/color_accent</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
+</resources>

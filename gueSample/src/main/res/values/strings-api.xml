@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="facebook_app_id">3350724144957949</string>
+    <string name="facebook_app_id_dev">3350724144957949</string>
+
+    <string name="kakaolink_host">kakaolink</string>
+    <string name="kakao_app_key">9f1f56b91d5166a951bac1369bf9ff7f</string>
+    <string name="kakao_scheme">kakao9f1f56b91d5166a951bac1369bf9ff7f</string>
+    <string name="kakao_app_key_dev">9f1f56b91d5166a951bac1369bf9ff7f</string>
+    <string name="kakao_scheme_dev">kakao9f1f56b91d5166a951bac1369bf9ff7f</string>
+
+</resources>

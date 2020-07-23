@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.AppBar">
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="scroll|snap|enterAlways"
+        app:titleEnabled="false">
+        <!--
+        app:contentScrim="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        -->
+
+        <!--
+        <ImageView
+            android:id="@+id/ivTopToolbarBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:fitsSystemWindows="true"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_collapseMode="parallax"
+            app:layout_collapseParallaxMultiplier="0.7" />
+        -->
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appbar_height"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:theme="@style/AppBar.Toolbar"
+            app:titleTextAppearance="@style/AppBar.Toolbar.Title.TextStyle">
+            <!--android:fitsSystemWindows="true"-->
+        </androidx.appcompat.widget.Toolbar>
+
+        <!--<View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/boxMain_stroke" />-->
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    <com.breakout.util.widget.TabLayoutEx
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tabLayout_height"
+        app:tabBackground="@color/black"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/tabLayout_selectedTextColor"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabPadding="10dp"
+        app:tabSelectedTextColor="@color/tabLayout_selectedTextColor"
+        app:tabTextAppearance="@style/AppBar.TabLayout.Tab.TextStyle"
+        app:tabTextColor="@color/tabLayout_textColor"
+        app:theme="@style/AppBar.TabLayout" />
+    <!--
+    app:tabBackground="?attr/selectableItemBackground"
+    app:layout_scrollFlags="scroll|enterAlways"
+    -->
+
+</merge>

@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.breakout.util.widget.DialogView;
@@ -72,7 +74,6 @@ public abstract class FragmentEx extends Fragment {
 
     public FragmentEx() {
         super();
-        Log.d(TAG, "new fragment");
     }
 
 
@@ -84,31 +85,32 @@ public abstract class FragmentEx extends Fragment {
      * Fragment가 Activity에 최초로 연결될 때 호출
      */
     @Override
-    public void onAttach(Context context) {
-        Log.v(TAG, "onAttach | " + context);
+    public void onAttach(@NonNull Context context) {
+        Log.v(TAG, String.format("onAttach %s | %s", getTag(), context));
         super.onAttach(context);
         _appContext = context.getApplicationContext();
         _context = getActivity();
     }
 
     /**
-     * Fragment 최초 생성 시점에 호출
+     * Fragment 최초 생성 시점에 호출<br/>
+     * option menu를 fragment에서 사용할 경우 선언
+     * <pre>
+     *     setHasOptionsMenu(true);
+     * </pre>
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.v(TAG, "onCreate | " + _context);
+        Log.v(TAG, String.format("onCreate %s", getTag()));
         super.onCreate(savedInstanceState);
-        /*
-        // option menu를 fragment에서 사용할 경우 선언
-        setHasOptionsMenu(true);
-         */
     }
 
+
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v(TAG, "onCreateView | " + _context);
-        super.onCreateView(inflater, container, savedInstanceState);
-        return null;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.v(TAG, String.format("onCreateView %s", getTag()));
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     /**
@@ -116,31 +118,25 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.v(TAG, "onActivityCreated | " + _context);
+        Log.v(TAG, String.format("onActivityCreated %s", getTag()));
         super.onActivityCreated(savedInstanceState);
     }
+
 
     /**
      * fragment를 복구할 필요가 있을경우 상태를 bundle로 저장
      */
+
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (CValue.DEBUG) {
-            StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
-            logBuilder.append(String.format("| %s | Fragment.onSaveInstanceState\n", TAG));
-            try {
-                if (outState != null) {
-                    logBuilder.append("|  outState \n");
-                    for (String key : outState.keySet()) {
-                        logBuilder.append(String.format("       %s : %s\n", key, outState.get(key)));
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        StringBuilder logBuilder = new StringBuilder();
+        try {
+            for (String key : outState.keySet()) {
+                logBuilder.append(String.format("%s=%s ", key, outState.get(key)));
             }
-            logBuilder.append("-------------------------------------------------");
-            Log.i(TAG, logBuilder.toString());
+        } catch (Exception ignored) {
         }
+        Log.v(TAG, String.format("onSaveInstanceState %s | bundle: %s", getTag(), logBuilder.toString()));
         super.onSaveInstanceState(outState);
     }
 
@@ -149,7 +145,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onStart() {
-        Log.v(TAG, "onStart | " + _context);
+        Log.v(TAG, String.format("onStart %s", getTag()));
         super.onStart();
     }
 
@@ -158,7 +154,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onResume() {
-        Log.v(TAG, "onResume | " + _context);
+        Log.v(TAG, String.format("onResume %s", getTag()));
         super.onResume();
     }
 
@@ -167,7 +163,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onPause() {
-        Log.v(TAG, "onPause | " + _context);
+        Log.v(TAG, String.format("onPause %s", getTag()));
         super.onPause();
     }
 
@@ -176,7 +172,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onStop() {
-        Log.v(TAG, "onStop | " + _context);
+        Log.v(TAG, String.format("onStop %s", getTag()));
         super.onStop();
     }
 
@@ -186,7 +182,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onDestroyView() {
-        Log.v(TAG, "onDestroyView | " + _context);
+        Log.v(TAG, String.format("onDestroyView %s", getTag()));
         super.onDestroyView();
     }
 
@@ -196,12 +192,13 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onDestroy() {
-        Log.v(TAG, "onDestroy | " + _context + ", isfinishing : " + getActivity().isFinishing());
+        Log.v(TAG, String.format("onDestroy %s", getTag()));
         if (_pDialog != null && _pDialog.isShowing()) {
             _pDialog.dismiss();
             _pDialog = null;
         }
         _context = null;
+        _appContext = null;
         super.onDestroy();
     }
 
@@ -211,7 +208,7 @@ public abstract class FragmentEx extends Fragment {
      */
     @Override
     public void onDetach() {
-        Log.v(TAG, "onDetach | " + _context);
+        Log.v(TAG, String.format("onDetach %s", getTag()));
         super.onDetach();
     }
 
@@ -378,70 +375,5 @@ public abstract class FragmentEx extends Fragment {
         }
         fragmentTransaction.commit();
     }*/
-
-
-    /* ------------------------------------------------------------
-        option menu
-     */
-
-    /**
-     * Activity의 option menu를 변경할 경우 작성
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-            /*
-            menu.clear();
-            inflater.inflate(R.menu.menu_main, menu);
-            */
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            /*case android.R.id.home: {
-                getFragmentManager().popBackStack();
-                break;
-            }*/
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    /* ------------------------------------------------------------
-        db control
-     */
-//    /**
-//     * SQLite3 instance 
-//     */
-//    protected LocalDB mdb;
-//    /**
-//     * write mode로 db의 connection create
-//     */
-//    protected final void mdb_write(){
-//        mdb = new LocalDB(_context);    
-//        mdb.openDB(Const.write);
-//    }
-//    /**
-//     * read mode로 db의 connection create
-//     */
-//    protected final void mdb_read(){
-//        mdb = new LocalDB(_context);    
-//        mdb.openDB(Const.read);
-//    }
-//    /**
-//     * db connection close
-//     */
-//    protected final void mdb_close(){
-//        if (mdb != null){
-//            mdb.close();
-//        } mdb = null;
-//    }
 
 }

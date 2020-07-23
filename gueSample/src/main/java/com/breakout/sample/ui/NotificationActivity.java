@@ -133,7 +133,7 @@ public class NotificationActivity extends BaseActivity {
         });
 
 
-        Button(_vParent, "icon_48_26").setOnClickListener(new OnClickListener() {
+        Button(_vParent, "ic_noti_48_26").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -152,7 +152,7 @@ public class NotificationActivity extends BaseActivity {
                     builder.setContentIntent(pIntent);
                     builder.setOngoing(true);
                     builder.setAutoCancel(true);
-                    builder.setSmallIcon(R.drawable.icon_48_26);
+                    builder.setSmallIcon(R.drawable.ic_noti_48_26);
                     builder.setTicker(tickerText);
                     builder.setContentTitle(contentTitle);
                     builder.setContentText(contentText);
@@ -163,7 +163,7 @@ public class NotificationActivity extends BaseActivity {
                         noti = builder.getNotification();
                     }
                 } else {
-                    noti = new Notification(R.drawable.icon_48_26, tickerText, System.currentTimeMillis());
+                    noti = new Notification(R.drawable.ic_noti_48_26, tickerText, System.currentTimeMillis());
                     noti.defaults |= Notification.DEFAULT_SOUND;        // add sound
                     noti.flags = Notification.FLAG_AUTO_CANCEL;            // nm.cancel(id)로 삭제 하지 않아도 click할때 삭제
 //	    			long[] vibrate = {100,100,200,300};					// 진동의 설정은 홀수 배열은 진동의 시간, 짝수 배열은 진동이 멈춰있는 시간
@@ -189,7 +189,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
-        Button(_vParent, "icon_48_30").setOnClickListener(new OnClickListener() {
+        Button(_vParent, "ic_noti_48_30").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -200,7 +200,7 @@ public class NotificationActivity extends BaseActivity {
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 Notification noti;
-                String tickerText = "가자~ icon_48_30";
+                String tickerText = "가자~ ic_noti_48_30";
                 String contentTitle = "네이버";
                 String contentText = "모바일 브라우저 이동";
                 if (Build.VERSION.SDK_INT >= 11) {
@@ -208,7 +208,7 @@ public class NotificationActivity extends BaseActivity {
                     builder.setContentIntent(pIntent);
                     builder.setOngoing(true);
                     builder.setAutoCancel(true);
-                    builder.setSmallIcon(R.drawable.icon_48_30);
+                    builder.setSmallIcon(R.drawable.ic_noti_48_30);
                     builder.setTicker(tickerText);
                     builder.setContentTitle(contentTitle);
                     builder.setContentText(contentText);
@@ -219,7 +219,7 @@ public class NotificationActivity extends BaseActivity {
                         noti = builder.getNotification();
                     }
                 } else {
-                    noti = new Notification(R.drawable.icon_48_30, tickerText, System.currentTimeMillis());
+                    noti = new Notification(R.drawable.ic_noti_48_30, tickerText, System.currentTimeMillis());
                     noti.defaults |= Notification.DEFAULT_SOUND;        // add sound
                     noti.flags = Notification.FLAG_AUTO_CANCEL;            // nm.cancel(id)로 삭제 하지 않아도 click할때 삭제
 //	    			long[] vibrate = {100,100,200,300};					// 진동의 설정은 홀수 배열은 진동의 시간, 짝수 배열은 진동이 멈춰있는 시간
@@ -246,7 +246,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
-        Button(_vParent, "icon_48_38").setOnClickListener(new OnClickListener() {
+        Button(_vParent, "ic_noti_48_38").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -257,7 +257,7 @@ public class NotificationActivity extends BaseActivity {
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 Notification noti;
-                String tickerText = "가자~ icon_48_38";
+                String tickerText = "가자~ ic_noti_48_38";
                 String contentTitle = "네이버";
                 String contentText = "모바일 브라우저 이동";
                 if (Build.VERSION.SDK_INT >= 11) {
@@ -265,7 +265,7 @@ public class NotificationActivity extends BaseActivity {
                     builder.setContentIntent(pIntent);
                     builder.setOngoing(true);
                     builder.setAutoCancel(true);
-                    builder.setSmallIcon(R.drawable.icon_48_38);
+                    builder.setSmallIcon(R.drawable.ic_noti_48_38);
                     builder.setTicker(tickerText);
                     builder.setContentTitle(contentTitle);
                     builder.setContentText(contentText);
@@ -276,7 +276,7 @@ public class NotificationActivity extends BaseActivity {
                         noti = builder.getNotification();
                     }
                 } else {
-                    noti = new Notification(R.drawable.icon_48_38, tickerText, System.currentTimeMillis());
+                    noti = new Notification(R.drawable.ic_noti_48_38, tickerText, System.currentTimeMillis());
                     noti.defaults |= Notification.DEFAULT_SOUND;        // add sound
                     noti.flags = Notification.FLAG_AUTO_CANCEL;            // nm.cancel(id)로 삭제 하지 않아도 click할때 삭제
 //	    			long[] vibrate = {100,100,200,300};					// 진동의 설정은 홀수 배열은 진동의 시간, 짝수 배열은 진동이 멈춰있는 시간

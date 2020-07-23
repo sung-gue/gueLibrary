@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
+
+    <style name="AppBar.Toolbar" parent="AppTheme.AppBarOverlay">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColorPrimary">#ff6f6f6f</item>
+        <item name="android:textColorPrimaryInverse">#99ffff00</item>
+        <item name="android:textColorSecondary">#ff6f6f6f</item>
+        <item name="android:textColorSecondaryInverse">#9900ffff</item>
+        <item name="android:titleTextStyle">@style/AppBar.Toolbar.Title.TextStyle</item>
+        <item name="titleTextStyle">@style/AppBar.Toolbar.Title.TextStyle</item>
+        <item name="android:actionOverflowButtonStyle">@style/AppBar.Toolbar.ActionButton.Overflow
+        </item>
+        <item name="actionOverflowButtonStyle">@style/AppBar.Toolbar.ActionButton.Overflow</item>
+        <item name="android:actionMenuTextColor">@color/appbar_textColor</item>
+        <item name="actionMenuTextColor">@color/appbar_textColor</item>
+        <item name="android:actionMenuTextAppearance">@style/AppBar.Toolbar.ActionMenu.TextStyle
+        </item>
+        <item name="actionMenuTextAppearance">@style/AppBar.Toolbar.ActionMenu.TextStyle</item>
+    </style>
+
+    <style name="AppBar.Toolbar.Title.TextStyle" parent="FontStyle.TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/appbar_textSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/appbar_textColor</item>
+    </style>
+
+    <style name="AppBar.Toolbar.ActionMenu.TextStyle" parent="FontStyle.TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/appbar_textSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/appbar_textColor</item>
+    </style>
+
+    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
+    <style name="AppBar.Toolbar.ActionButton.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_option_white</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+    </style>
+
+    <style name="AppBar.TabLayout" parent="FontStyle.Widget.Design.TabLayout">
+        <!--parent="Widget.MaterialComponents.TabLayout">-->
+        <!-- check !!-->
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="AppBar.TabLayout.Tab.TextStyle" parent="FontStyle.TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/tabLayout_textSize</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AppBar.Title.TextStyle" parent="FontStyle.Widget.AppCompat.TextView">
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/appbar_textSize</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/appbar_textColor</item>
+    </style>
+
+
+</resources>
