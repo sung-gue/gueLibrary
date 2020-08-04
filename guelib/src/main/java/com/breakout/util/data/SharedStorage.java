@@ -13,9 +13,6 @@ import com.breakout.util.Log;
  *
  * @author gue
  * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
  * @since 2012. 5. 30.
  */
 public class SharedStorage {

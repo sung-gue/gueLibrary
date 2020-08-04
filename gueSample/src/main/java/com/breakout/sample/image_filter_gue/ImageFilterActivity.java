@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.breakout.sample.BaseActivity;
-import com.breakout.sample.Const;
+import com.breakout.sample.constant.Const;
 import com.breakout.sample.R;
 import com.breakout.util.device.DeviceUtil;
 import com.breakout.util.img.ImageAlter;

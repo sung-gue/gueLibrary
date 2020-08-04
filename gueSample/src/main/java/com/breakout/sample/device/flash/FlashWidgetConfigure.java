@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.RemoteViews;
 
-import com.breakout.sample.Const;
+import com.breakout.sample.constant.Const;
 import com.breakout.sample.Log;
 import com.breakout.sample.R;
 import com.breakout.util.device.CameraUtil;

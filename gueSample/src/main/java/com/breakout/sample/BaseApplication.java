@@ -5,41 +5,71 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 
-import com.breakout.util.CValue;
+import androidx.annotation.NonNull;
+import androidx.multidex.MultiDex;
+
+import com.breakout.sample.constant.Const;
+import com.breakout.util.constant.CValue;
 
 
 public class BaseApplication extends Application {
     private final String TAG = getClass().getSimpleName();
+//    private static GoogleAnalytics sAnalytics;
+//    private static Tracker sTracker;
 
-    // 공유할 data나 특정 변수의 초기화를 설정한다.
+
+    /**
+     * 공유할 data나 특정 변수의 초기화를 설정한다.
+     */
     @Override
     public void onCreate() {
         Log.i(TAG + " | onCreate");
         CValue.DEBUG = Const.DEBUG;
         MyFirebaseMessagingService.initChannel(this);
         super.onCreate();
+
+//        sAnalytics = GoogleAnalytics.getInstance(this);
     }
 
-    // Application이 종료시에 호출 된다. 하지만 강제종료시에는 호출되지 않는다.
+    /*
+     * Gets the default {@link Tracker} for this {@link Application}.
+     *
+     * @return tracker
+     */
+    /*synchronized public Tracker getDefaultTracker() {
+        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+        if (sTracker == null) {
+            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+        }
+
+        return sTracker;
+    }*/
+
+    /**
+     * Application이 종료시에 호출 (강제종료시에는 미호출)
+     */
     @Override
     public void onTerminate() {
         Log.i(TAG + " | onTerminate");
         super.onTerminate();
     }
 
-    // Conponent의 변화가 발생할 때에 호출된다.(orientation의 변경)
+    /**
+     * Component의 변화가 발생할 때에 호출 (orientation의 변경)
+     */
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         Log.i(TAG + " | onConfigurationChanged");
         super.onConfigurationChanged(newConfig);
     }
 
-
-    // 시스템 메모리가 부족할 때 호출 된다.
+    /**
+     * 시스템 메모리가 부족할 때 호출
+     */
     public void onLowMemory() {
         Log.i(TAG + " | onLowMemory");
         super.onLowMemory();
-        System.gc();
+        //System.gc();
     }
 
     @Override
@@ -50,9 +80,8 @@ public class BaseApplication extends Application {
              android:defaultConfig:multiDexEnabled = true 일 경우 아래 값을 추가해 줘야 한다.
          */
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            MultiDex.install(this);
+            MultiDex.install(this);
         }
     }
-
 
 }

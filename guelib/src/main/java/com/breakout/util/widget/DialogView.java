@@ -412,7 +412,7 @@ public class DialogView extends LinearLayout {
         int childMaxHeight = _deviceSize[1] - _padding.top - _padding.bottom - _margin.top - _margin.bottom - statusBarHeight;
         LayoutParams childParams = (LayoutParams) _view.getLayoutParams();
         
-        /*if (com.com.breakout.util.CValue.DEBUG) {
+        /*if (com.com.breakout.util.constant.CValue.DEBUG) {
             String info = String.format
                     (    "--------- DialogView onLayout -------------------------------------------------------" +
                         "\n|  onLayout changed=%s, left=%d, top=%d, right=%d, bottom=%d" +

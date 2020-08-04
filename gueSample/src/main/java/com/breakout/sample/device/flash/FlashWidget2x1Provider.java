@@ -1,6 +1,6 @@
 package com.breakout.sample.device.flash;
 
-import com.breakout.sample.Const;
+import com.breakout.sample.constant.Const;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,7 +29,7 @@ public class FlashWidget2x1Provider extends FlashWidgetProvider {
 			}
 			else if (Const.FLASH_WIDGET_LINK_CLICK.equals(mode)) {
 				Intent goUrlIntent = new Intent(Intent.ACTION_VIEW);
-				goUrlIntent.setData(Uri.parse(Const.HOME_URL));
+				goUrlIntent.setData(Uri.parse(Const.URL_HOME));
 				goUrlIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 				context.startActivity(goUrlIntent);
 			}

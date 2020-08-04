@@ -3,7 +3,7 @@ package com.breakout.sample.image_filter_gue;
 import java.io.File;
 
 import com.breakout.sample.BaseActivity;
-import com.breakout.sample.Const;
+import com.breakout.sample.constant.Const;
 import com.breakout.sample.R;
 import android.app.AlertDialog;
 import android.content.ContentResolver;

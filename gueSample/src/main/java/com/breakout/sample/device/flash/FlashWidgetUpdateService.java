@@ -1,6 +1,6 @@
 package com.breakout.sample.device.flash;
 
-import com.breakout.sample.Const;
+import com.breakout.sample.constant.Const;
 import com.breakout.sample.R;
 import android.app.PendingIntent;
 import android.app.Service;

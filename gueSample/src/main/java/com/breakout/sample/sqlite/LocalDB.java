@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.breakout.util.CValue;
+import com.breakout.util.constant.CValue;
 import com.breakout.util.data.DBManager;
 
 

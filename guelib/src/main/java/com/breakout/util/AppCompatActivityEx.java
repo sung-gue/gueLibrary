@@ -14,6 +14,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.breakout.util.constant.CValue;
 import com.breakout.util.widget.DialogView;
 import com.breakout.util.widget.DialogView.Size;
 

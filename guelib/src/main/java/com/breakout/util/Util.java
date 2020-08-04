@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.breakout.util.constant.CValue;
 import com.breakout.util.data.SharedStorage;
 import com.breakout.util.img.ImageLoader;
 import com.breakout.util.net.BaseNet;
