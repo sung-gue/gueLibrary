@@ -1,9 +1,5 @@
 package com.breakout.sample.test;
 
-import com.breakout.sample.BaseActivity;
-import com.breakout.sample.Log;
-import com.breakout.sample.R;
-
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,19 +10,26 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class TestActivity extends BaseActivity {
+import com.breakout.sample.BaseActivity;
+import com.breakout.sample.Log;
+import com.breakout.sample.R;
+import com.breakout.sample.views.AppBar;
+import com.breakout.util.widget.ViewUtil;
 
+public class HtmlTestActivity extends BaseActivity {
+
+    private LinearLayout _bodyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(null, false);
+        _bodyView = setEmptyContentView();
 
         super.initUI();
     }
 
     @Override
-    protected void initTitle() {
+    protected void initTitle(AppBar appBar) {
     }
 
     @Override
@@ -35,12 +38,13 @@ public class TestActivity extends BaseActivity {
 
     @Override
     protected void initBody() {
-        _vParent.setBackgroundColor(0xffebebeb);
-        _vParent.setGravity(Gravity.TOP | Gravity.LEFT);
-        TextView tv = TextView(_vParent, "html str test");
+        _bodyView.setBackgroundColor(0xffebebeb);
+        _bodyView.setGravity(Gravity.TOP | Gravity.LEFT);
+
+        TextView tv = TextView(_bodyView, "html str test");
 //		TextView tv = new TextView(this);
         tv.setTextColor(Color.parseColor("#ff000000"));
-        tv.setLayoutParams(getMarginLayoutParams(new LinearLayout.LayoutParams(-2, -2), 10, 10, 10, 10));
+        tv.setLayoutParams(ViewUtil.getMarginLayoutParams(_context, new LinearLayout.LayoutParams(-2, -2), 10, 10, 10, 10));
         String str = "<p>hi~ !!</p>" +
                 "<p>hi~ !!</p>" +
                 "<p>last update : 2013-11-20 5:35</p>" +
@@ -53,7 +57,7 @@ public class TestActivity extends BaseActivity {
         tv.setText(Html.fromHtml(str));
 //		_vParent.addView(tv);
 
-        TextView tvHtml = TextView(_vParent, "icon text test");
+        TextView tvHtml = TextView(_bodyView, "icon text test");
         ImageGetter imageGetter = new ImageGetter() {
             @Override
             public Drawable getDrawable(String source) {

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.breakout.sample.BaseActivity;
 import com.breakout.sample.Log;
 import com.breakout.sample.R;
+import com.breakout.sample.views.AppBar;
 import com.breakout.util.string.StringUtil;
 import com.breakout.util.widget.ViewUtil;
 
@@ -48,7 +49,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         Intent intent = getIntent();
         String action = intent.getAction();
         // share text
-        if (action.equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)) {
+        if (action != null && action.equalsIgnoreCase(Intent.ACTION_SEND) && intent.hasExtra(Intent.EXTRA_TEXT)) {
             String text = intent.getStringExtra(Intent.EXTRA_TEXT);
             //String subject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
 
@@ -66,9 +67,8 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         setData();
     }
 
-
     @Override
-    protected void initTitle() {
+    protected void initTitle(AppBar appBar) {
     }
 
     @Override
@@ -189,9 +189,9 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
     }
 
 
-/* ************************************************************************************************
- * INFO listener setting
- */
+    /* ************************************************************************************************
+     * INFO listener setting
+     */
 
     @Override
     public void onClick(View v) {
@@ -211,20 +211,20 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         }
 
     }
-    
-/* ************************************************************************************************
- * INFO option & context menu
- */
-    
-    
-/* ************************************************************************************************
- * INFO callBack method
- */
+
+    /* ************************************************************************************************
+     * INFO option & context menu
+     */
 
 
-/* ************************************************************************************************
- * INFO life cycle
- */
+    /* ************************************************************************************************
+     * INFO callBack method
+     */
+
+
+    /* ************************************************************************************************
+     * INFO life cycle
+     */
 
     @Override
     protected void onResume() {

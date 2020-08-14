@@ -34,6 +34,9 @@
     <color name="line1">@color/gray</color>
 
 
+    <color name="box_black">#99000000</color>
+
+
     <color name="color_accent">#d81b60</color>
     <color name="color_first">#ffffff</color>
     <color name="color_first_press">#aaffffff</color>

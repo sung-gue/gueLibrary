@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
 import com.breakout.sample.constant.Const;
+import com.breakout.sample.fcm.MyFirebaseMessagingService;
 import com.breakout.util.constant.CValue;
 
 

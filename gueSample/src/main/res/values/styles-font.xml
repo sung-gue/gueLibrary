@@ -9,7 +9,8 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
-    <style name="FontStyle.Button" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+    <!--<style name="FontStyle.Button" parent="@android:style/Widget.DeviceDefault.Button.Borderless">-->
+    <style name="FontStyle.Button" parent="@android:style/Widget.DeviceDefault.Button">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 

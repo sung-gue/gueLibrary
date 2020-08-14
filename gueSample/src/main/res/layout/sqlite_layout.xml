@@ -1,98 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-    >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
 
     <LinearLayout
         android:id="@+id/llInput"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:visibility="visible"
         android:orientation="vertical"
         android:padding="5dp"
-        >
-        <!--         android:focusable="true" -->
-        <!--         android:focusableInTouchMode="true" -->
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/etNick"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="닉네임"
-            android:maxLength="12"
-            android:singleLine="true"
             android:inputType="textNoSuggestions"
-            />
+            android:maxLength="12"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="이메일(필수)"
-            android:singleLine="true"
             android:inputType="textEmailAddress"
-            />
+            android:singleLine="true" />
 
         <RadioGroup
             android:id="@+id/rgGender"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/rbMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="남"
                 android:layout_marginRight="20dp"
-                />
+                android:text="남" />
 
             <RadioButton
                 android:id="@+id/rbFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="여"
-                />
+                android:text="여" />
         </RadioGroup>
 
         <EditText
             android:id="@+id/etBirth"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="생일"
             android:editable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="textNoSuggestions"
-            />
+            android:hint="생일"
+            android:inputType="textNoSuggestions" />
 
         <Button
             android:id="@+id/btOk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="확  인"
-            />
+            android:text="확  인" />
 
         <Button
             android:id="@+id/btList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="테이블 리스트"
-            />
+            android:text="테이블 리스트" />
 
         <Button
             android:id="@+id/btDrop"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="테이블 초기화"
-            />
+            android:text="테이블 초기화" />
 
     </LinearLayout>
 
@@ -101,16 +88,14 @@
         android:id="@+id/llResult"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
         android:background="#a00"
-        android:visibility="gone"
-        >
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            >
+            android:padding="5dp">
 
             <EditText
                 android:id="@+id/etDel"
@@ -118,62 +103,54 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="삭제할 user_id"
-                android:inputType="textNoSuggestions"
-                />
+                android:inputType="textNoSuggestions" />
 
             <Button
                 android:id="@+id/btDel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="delete"
-                />
+                android:text="delete" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="user_id"
                 android:background="@drawable/box_square_white"
-                />
+                android:text="user_id" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="nick"
                 android:background="@drawable/box_square_white"
-                />
+                android:text="nick" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="gender"
                 android:background="@drawable/box_square_white"
-                />
+                android:text="gender" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="birth"
                 android:background="@drawable/box_square_white"
-                />
+                android:text="birth" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="email"
                 android:background="@drawable/box_square_white"
-                />
+                android:text="email" />
         </LinearLayout>
 
         <ListView
@@ -181,9 +158,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:cacheColorHint="@android:color/transparent"
-            android:dividerHeight="1dp"
             android:divider="@android:color/transparent"
-            />
+            android:dividerHeight="1dp" />
     </LinearLayout>
 
 </FrameLayout>

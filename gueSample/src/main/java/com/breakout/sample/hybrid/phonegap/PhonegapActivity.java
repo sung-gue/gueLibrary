@@ -11,19 +11,19 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 public class PhonegapActivity extends DroidGap implements CordovaInterface {
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
 //		getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-		super.onCreate(savedInstanceState);
-		
-		super.loadUrl(Config.getStartUrl());
-		
-	}
-	
-	@Override
-	public void init(CordovaWebView webView, CordovaWebViewClient webViewClient, CordovaChromeClient webChromeClient) {
-		super.init(webView, webViewClient, webChromeClient);
+        super.onCreate(savedInstanceState);
+
+        super.loadUrl(Config.getStartUrl());
+
+    }
+
+    @Override
+    public void init(CordovaWebView webView, CordovaWebViewClient webViewClient, CordovaChromeClient webChromeClient) {
+        super.init(webView, webViewClient, webChromeClient);
 		/*super.appView.setWebViewClient(new CordovaWebViewClient(this, webView) {
 			
 			@Override
@@ -51,19 +51,19 @@ public class PhonegapActivity extends DroidGap implements CordovaInterface {
 			}
 			
 		});*/
-	}
-	
-	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 		/*if (keyCode == KeyEvent.KEYCODE_BACK && !super.appView.canGoBack()) {
 			super.appView.loadUrl("javascript:[onBackKeyDown()]");
 			return true;
 		}*/
-		return super.onKeyDown(keyCode, event);
-	}
-	
-		
+        return super.onKeyDown(keyCode, event);
+    }
+
+
 //	@Override
 //	public Activity getActivity() {
 //		System.out.println("getActivity : ");
@@ -92,7 +92,5 @@ public class PhonegapActivity extends DroidGap implements CordovaInterface {
 //		System.out.println("CordovaPlugin : " + arg0 + " / " + arg1 + " / " + arg2);
 //	}
 
-		
-		
 
 }

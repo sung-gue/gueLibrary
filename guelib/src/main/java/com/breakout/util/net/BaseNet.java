@@ -47,15 +47,17 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Vector;
 
+
+/*
+    TODO: 2018-07-21 | http 라이브러리 교체 필요
+    useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
+ */
+
 /**
- * httpclient를 사용하여 서버에 parameter 전송
+ * http library class
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
+ * @author sung-gue
+ * @copyright Copyright.2011.sung-gue.All rights reserved.
  * @since 2012. 5. 30.
  */
 public class BaseNet {
@@ -85,7 +87,6 @@ public class BaseNet {
      * @param requestHeaderMap header map
      * @param requestMap       parameter map : stringBody for text/plain enctype
      * @return response string
-     * @author gue
      * @since 2015. 3. 31.
      */
     @Deprecated

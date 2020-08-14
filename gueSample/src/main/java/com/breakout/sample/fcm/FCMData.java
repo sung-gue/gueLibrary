@@ -10,8 +10,7 @@ public class FCMData implements Parcelable {
     public enum Type {
         normal(0),
         browser(1),
-        alarm(2)
-        ;
+        alarm(2);
         public int requestCode;
 
         Type(int requestCode) {

@@ -1,13 +1,5 @@
 package com.breakout.sample.sqlite;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import com.breakout.sample.BaseActivity;
-import com.breakout.sample.R;
-
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.ContentValues;
@@ -29,8 +21,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.breakout.sample.BaseActivity;
+import com.breakout.sample.R;
+import com.breakout.sample.constant.ReceiverName;
+import com.breakout.sample.views.AppBar;
 import com.breakout.util.res.AnimationSuite;
 import com.breakout.util.string.StringUtil;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class SQLiteActivity extends BaseActivity {
@@ -51,24 +52,31 @@ public class SQLiteActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView("디비 : SQLite3", false);
-        _vParent.setBackgroundColor(0x55FFFF00);
-        _vParent.addView(LayoutInflater.from(this).inflate(R.layout.sqlite_layout, _vParent, false));
+        super.registerfinishReceiver(ReceiverName.FINISH_EXCLUDE_MAIN);
+        super.setContentView(R.layout.ui_base_layout);
+        super.setBodyView(R.layout.sqlite_layout);
 
         _db = new LocalDB(getApplicationContext());
         _db.read();
         /*try {
-			db = new LocalDB(getApplicationContext(), CValue.DB_WRITE);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+            db = new LocalDB(getApplicationContext(), CValue.DB_WRITE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
 
         super.initUI();
     }
 
     @Override
-    protected void initTitle() {
+    protected void initTitle(AppBar appBar) {
+        appBar.setVisibility(View.VISIBLE);
+        appBar.fixAppBarLocation(false)
+                .setHomeIcon(true)
+//                .setCustomTitle()
+                .setTitle("SQLite3")
+//                .setIcon(android.R.drawable.ic_menu_share)
+//                .setTabLayout(false)
+        ;
     }
 
     @Override
@@ -220,33 +228,8 @@ public class SQLiteActivity extends BaseActivity {
             }
         });
     }
-	
-	
-	
-
-/* ************************************************************************************************
- * TODO adapter
- */
-	
-	
-/* ************************************************************************************************
- * TODO listener setting
- */
-	
-	
-/* ************************************************************************************************
- * TODO callBack method
- */ 
-	
-	
-/* ************************************************************************************************
- * TODO option & context menu
- */
 
 
-    /* ***********************************************************************************
-     * TODO life cycle
-     */
     private void cursorClose() {
         if (cursor != null && !cursor.isClosed()) {
             cursor.close();

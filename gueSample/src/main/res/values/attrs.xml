@@ -3,7 +3,7 @@
 
     <declare-styleable name="EmptyView">
         <attr name="image" format="reference" />
-        <attr name="imageHeight" format="integer" />
+        <attr name="imageHeight" format="dimension" />
         <attr name="description" format="string" />
         <attr name="btName" format="string" />
     </declare-styleable>

@@ -12,11 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breakout.sample.BaseActivity;
 import com.breakout.sample.R;
+import com.breakout.sample.views.AppBar;
 import com.breakout.util.Util;
 import com.breakout.util.img.ImageAlter;
 import com.breakout.util.widget.CV_Tv2;
@@ -24,21 +26,22 @@ import com.breakout.util.widget.DialogView;
 import com.breakout.util.widget.DialogView.Size;
 
 public class DialogActivity extends BaseActivity {
+
+    private LinearLayout _bodyView;
     private Dialog _dialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView("Dialog", true);
-        _vParent.setBackgroundColor(0x55FF0000);
+        _bodyView = super.setEmptyContentView();
+        _bodyView.setBackgroundColor(0x55FF0000);
 
         super.initUI();
     }
 
     @Override
-    protected void initTitle() {
+    protected void initTitle(AppBar appBar) {
     }
 
     @Override
@@ -47,19 +50,19 @@ public class DialogActivity extends BaseActivity {
 
     @Override
     protected void initBody() {
-        TextView(_vParent, "ProgressBar circle");
+        TextView(_bodyView, "ProgressBar circle");
         setBtProgressBar();
 
-        TextView(_vParent, "Drawable");
+        TextView(_bodyView, "Drawable");
         setBtDrawable();
 
-        TextView(_vParent, "Add View {Custom view or Layout inflate)");
+        TextView(_bodyView, "Add View {Custom view or Layout inflate)");
         setBtAddView();
 
-        TextView(_vParent, "Dialog Animation of android.R.style");
+        TextView(_bodyView, "Dialog Animation of android.R.style");
         setBtDialogAnimation();
 
-        TextView(_vParent, "Dialog Animation of custom style");
+        TextView(_bodyView, "Dialog Animation of custom style");
         setBtDialogCustomAnimation();
     }
 
@@ -69,7 +72,7 @@ public class DialogActivity extends BaseActivity {
 
 
     private void setBtProgressBar() {
-        Button(_vParent, "small : cancel true").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "small : cancel true").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, Size.small);
@@ -77,7 +80,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "medium, dimBehind true").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "medium, dimBehind true").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, Size.medium);
@@ -85,7 +88,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "circle large, cancel false").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "circle large, cancel false").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, Size.large);
@@ -96,7 +99,7 @@ public class DialogActivity extends BaseActivity {
     }
 
     private void setBtDrawable() {
-        Button(_vParent, "use xml : animation-list").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "use xml : animation-list").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getResources().getDrawable(android.R.drawable.ic_popup_sync));
@@ -104,7 +107,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "use xml : shape drawable").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "use xml : shape drawable").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getResources().getDrawable(R.drawable.spinner_ring));
@@ -112,7 +115,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "use xml : animated-rotate drawable").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "use xml : animated-rotate drawable").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getResources().getDrawable(R.drawable.spinner_png));
@@ -120,7 +123,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "resource drawable").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "resource drawable").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getResources().getDrawable(R.drawable.ic_heart));
@@ -128,7 +131,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "java code : AnimationDrawable 1").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "java code : AnimationDrawable 1").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -143,7 +146,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "java code : AnimationDrawable 2").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "java code : AnimationDrawable 2").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 AnimationDrawable ad = new AnimationDrawable();
@@ -158,7 +161,7 @@ public class DialogActivity extends BaseActivity {
     }
 
     private void setBtAddView() {
-        Button(_vParent, "ImageView").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "ImageView").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ImageView iv = new ImageView(_context);
@@ -170,7 +173,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Custom view").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Custom view").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 CV_Tv2 view = new CV_Tv2(_context);
@@ -181,7 +184,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Layout inflate").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Layout inflate").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -193,7 +196,7 @@ public class DialogActivity extends BaseActivity {
     }
 
     private void setBtDialogAnimation() {
-        Button(_vParent, "Animation (default)").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Animation (default)").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -202,7 +205,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Animation_Activity").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Animation_Activity").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -211,7 +214,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Animation_InputMethod").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Animation_InputMethod").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -220,7 +223,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Animation_Toast").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Animation_Toast").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -229,7 +232,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Animation_Translucent").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Animation_Translucent").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -241,7 +244,7 @@ public class DialogActivity extends BaseActivity {
     }
 
     private void setBtDialogCustomAnimation() {
-        Button(_vParent, "Custom Animation : zoom").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Custom Animation : zoom").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -250,7 +253,7 @@ public class DialogActivity extends BaseActivity {
                 if (_dialog != null && !_dialog.isShowing()) _dialog.show();
             }
         });
-        Button(_vParent, "Custom Animation : slide right in").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Custom Animation : slide right in").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogView dv = new DialogView(_context, getInflateView());
@@ -286,28 +289,28 @@ public class DialogActivity extends BaseActivity {
         return view;
     }
 
-	
 
-	
-	
-/* ************************************************************************************************
- * TODO listener setting
- */
-	
-	
-/* ************************************************************************************************
- * TODO callBack method
- */ 
-	
-	
-/* ************************************************************************************************
- * TODO option & context menu
- */ 
-	
-	
-/* ************************************************************************************************
- * TODO life cycle
- */
+
+
+
+    /* ************************************************************************************************
+     * TODO listener setting
+     */
+
+
+    /* ************************************************************************************************
+     * TODO callBack method
+     */
+
+
+    /* ************************************************************************************************
+     * TODO option & context menu
+     */
+
+
+    /* ************************************************************************************************
+     * TODO life cycle
+     */
     /**
      * 해당 frame을 start하기 위한 member value
      */

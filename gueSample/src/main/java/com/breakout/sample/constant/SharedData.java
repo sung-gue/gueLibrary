@@ -98,7 +98,7 @@ public final class SharedData extends SharedStorage {
     private final String appArarmAgreeYN = "appArarmAgreeYN";
 
     public void setAppArarmAgreeYN(String agreeYN) {
-        _editor.putString(this.appArarmAgreeYN, agreeYN);
+        _editor.putString(appArarmAgreeYN, agreeYN);
         _editor.commit();
     }
 
@@ -205,6 +205,17 @@ public final class SharedData extends SharedStorage {
         return getGoogleAccountId();
     }
 
+    private final String userId = "userId";
+
+    public void setUserId(int userId) {
+        _editor.putInt(this.userId, userId);
+        _editor.commit();
+    }
+
+    public int getUserId() {
+        return _shared.getInt(userId, 0);
+    }
+
 
     /* ------------------------------------------------------------
         기간 설정
@@ -279,19 +290,106 @@ public final class SharedData extends SharedStorage {
     /* ------------------------------------------------------------
         FLASH 영역, 앱 시동 후 종료되면 사라져야할 data set
      */
-    private void setTestFlash(String flash) {
-        _editorFlash.putString("flash-test", flash);
+    private final String androidAdid = "androidAdid";
+
+    public void setAndroidAdid(String androidAdid) {
+        _editorFlash.putString(this.androidAdid, androidAdid);
         _editorFlash.commit();
     }
 
-    private String getTestFlash() {
-        return _sharedFlash.getString("flash-test", null);
+    public String getAndroidAdid() {
+        return _sharedFlash.getString(androidAdid, null);
     }
 
 
     /* ------------------------------------------------------------
         CONST 영역 앱 설치후 삭제하지 않는 data
      */
+    private String isCheckInstallReferrer = "isCheckInstallReferrer";
+
+    public void setIsCheckInstallReferrer() {
+        _editorConst.putBoolean(isCheckInstallReferrer, true);
+        _editorConst.commit();
+    }
+
+    public boolean getIsCheckInstallReferrer() {
+        return _sharedConst.getBoolean(isCheckInstallReferrer, false);
+    }
+
+    private String facebookDeferredAppLinkData = "facebookDeferredAppLinkData";
+
+    public void setFacebookDeferredAppLinkData(String facebookDeferredAppLinkData) {
+        _editorConst.putString(this.facebookDeferredAppLinkData, facebookDeferredAppLinkData);
+        _editorConst.commit();
+    }
+
+    public String getFacebookDeferredAppLinkData() {
+        return _sharedConst.getString(facebookDeferredAppLinkData, null);
+    }
+
+    private String googleInstallReferrer = "googleInstallReferrer";
+
+    public void setGoogleInstallReferrer(String googleInstallReferrer) {
+        _editorConst.putString(this.googleInstallReferrer, googleInstallReferrer);
+        _editorConst.commit();
+    }
+
+    public String getGoogleInstallReferrer() {
+        return _sharedConst.getString(googleInstallReferrer, null);
+    }
+
+    private final String termsOfUseUrl = "termsOfUseUrl";
+
+    public String getTermsOfUseUrl() {
+        return _sharedConst.getString(termsOfUseUrl, Const.TERMS_OF_USE_URL);
+    }
+
+    public void setTermsOfUseUrl(String termsOfUseUrl) {
+        if (!TextUtils.isEmpty(termsOfUseUrl)) {
+            _editorConst.putString(this.termsOfUseUrl, termsOfUseUrl);
+            _editorConst.commit();
+        }
+    }
+
+    private final String privacyUrl = "privacyUrl";
+
+    public String getPrivacyUrl() {
+        return _sharedConst.getString(privacyUrl, Const.PRIVACY_URL);
+    }
+
+    public void setPrivacyUrl(String privacyUrl) {
+        if (!TextUtils.isEmpty(privacyUrl)) {
+            _editorConst.putString(this.privacyUrl, privacyUrl);
+            _editorConst.commit();
+        }
+    }
+
+    private final String lastLoginDialogViewTime = "userLoginNoMoreCheckTime";
+
+    /**
+     * 로그인창 다시보지 않기
+     *
+     * @param isInit true 이면 값 초기화
+     */
+    public void setLastLoginDialogViewTime(boolean isInit) {
+        if (isInit) {
+            _editorConst.putString(lastLoginDialogViewTime, null);
+        } else {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+            _editorConst.putString(lastLoginDialogViewTime, formatter.format(new Date()));
+        }
+        _editorConst.commit();
+    }
+
+    /**
+     * @return 오늘 다시보지 않기를 했다면 true
+     */
+    public boolean isLoginDialogShownToday() {
+        String date = _sharedConst.getString(lastLoginDialogViewTime, "20191111");
+        String now = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
+        return now.equals(date);
+    }
+
     private final String lastTestViewTime = "lastTestViewTime";
 
     /**

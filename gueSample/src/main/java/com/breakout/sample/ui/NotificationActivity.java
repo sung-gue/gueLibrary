@@ -1,8 +1,5 @@
 package com.breakout.sample.ui;
 
-import com.breakout.sample.BaseActivity;
-import com.breakout.sample.R;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,27 +10,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
+
+import com.breakout.sample.BaseActivity;
+import com.breakout.sample.R;
+import com.breakout.sample.views.AppBar;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class NotificationActivity extends BaseActivity {
 
+    private LinearLayout _bodyView;
     private int notificationId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView("Notification", true);
-        _vParent.setBackgroundColor(0x5500FFFF);
+        _bodyView = super.setEmptyContentView();
+        _bodyView.setBackgroundColor(0x5500FFFF);
 
         super.initUI();
     }
 
     @Override
-    protected void initTitle() {
+    protected void initTitle(AppBar appBar) {
     }
 
     @Override
@@ -42,7 +44,7 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     protected void initBody() {
-        Button(_vParent, "Add Notification").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Add Notification").setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -99,7 +101,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
-        Button(_vParent, "Add Custom Notification").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "Add Custom Notification").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -133,7 +135,7 @@ public class NotificationActivity extends BaseActivity {
         });
 
 
-        Button(_vParent, "ic_noti_48_26").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "ic_noti_48_26").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -189,7 +191,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
-        Button(_vParent, "ic_noti_48_30").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "ic_noti_48_30").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {
@@ -246,7 +248,7 @@ public class NotificationActivity extends BaseActivity {
             }
         });
 
-        Button(_vParent, "ic_noti_48_38").setOnClickListener(new OnClickListener() {
+        Button(_bodyView, "ic_noti_48_38").setOnClickListener(new OnClickListener() {
             @SuppressWarnings("deprecation")
             @Override
             public void onClick(View v) {

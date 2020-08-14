@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="ContentDescription">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/headerLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_square_gradient1"
+        android:clickable="true"
+        android:minHeight="100dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="18dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:id="@+id/tvMenu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_underline_white"
+            android:includeFontPadding="false"
+            android:text="menu1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_large"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvMenu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMenu1"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/box_underline_white"
+            android:includeFontPadding="false"
+            android:text="menu2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_large"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/ivBt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_like_sel" />
+
+    </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="29470-heart-animated.json"
+        app:lottie_loop="false" />
+
+</FrameLayout>

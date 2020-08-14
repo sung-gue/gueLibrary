@@ -46,15 +46,23 @@
         <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
-    <style name="AppBar.TabLayout" parent="FontStyle.Widget.Design.TabLayout">
-        <!--parent="Widget.MaterialComponents.TabLayout">-->
-        <!-- check !!-->
+    <style name="AppBar.TabLayout" parent="Widget.Design.TabLayout">
+        <!--<item name="android:background">@color/color_g</item>-->
+        <item name="tabMaxWidth">@dimen/design_tab_max_width</item>
+        <item name="tabIndicatorColor">#ff2abb9c</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
         <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabSelectedTextColor">#ff2abb9c</item>
+        <item name="tabTextColor">#ffbdbdbd</item>
+        <item name="tabTextAppearance">@style/AppBar.TabLayout.Tab.TextStyle</item>
     </style>
 
-    <style name="AppBar.TabLayout.Tab.TextStyle" parent="FontStyle.TextAppearance.Design.Tab">
+    <style name="AppBar.TabLayout.Tab.TextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/tabLayout_textSize</item>
         <item name="android:textStyle">normal</item>
+        <!--<item name="textAllCaps">true</item>-->
     </style>
 
     <style name="AppBar.Title.TextStyle" parent="FontStyle.Widget.AppCompat.TextView">

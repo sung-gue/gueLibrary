@@ -30,7 +30,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.breakout.sample.Log;
 import com.breakout.sample.R;
+import com.breakout.sample.constant.Extra;
+import com.breakout.sample.constant.Params;
+import com.breakout.sample.constant.SharedData;
 import com.breakout.util.string.StringUtil;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -222,7 +226,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 return;
             }
         } else {
-            intent.setClass(this, IntroActivity.class);
+            /*
+                TODO: 2020-08-10/gue FCM 구현
+             */
+            //intent.setClass(this, IntroActivity.class);
             intent.putExtra(Extra.FCM_DATA, data);
         }
 

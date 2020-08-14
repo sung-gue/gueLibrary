@@ -55,8 +55,6 @@ public class Const {
     public static final String ACTIVITY_ID = "activity_id";
     public static final String ERROR_CODE = "error_code";
 
-    public static final String DEFAULT_LIST_CNT = Const.NUM_20;
-    public static final int DEFAULT_LIST_CNT_INTEGER = 20;
 
     public static final String NUM_1 = "1";
     public static final String NUM_2 = "2";
@@ -73,7 +71,11 @@ public class Const {
     public static final String NUM_01 = "01";
     public static final String NUM_0 = "0";
 
+    public static final int CNT_10 = 10;
     public static final int CNT_20 = 20;
+    public static final int DEFAULT_LIST_CNT = CNT_20;
+    public static final int DEFAULT_PAGER_LIST_CNT = CNT_10;
+    public static final int DEFAULT_GRID_LIST_CNT = CNT_20;
 
     /**
      * 몇분전, 몇시간전, 몇일전으로 표시할 제한 시간
