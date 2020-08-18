@@ -1,7 +1,7 @@
 package com.breakout.sample.ui.viewpager;
 
 
-interface OnRequestListener {
+public interface OnRequestListener {
     enum Type {
         SORT_SIM,
         SORT_DATE,

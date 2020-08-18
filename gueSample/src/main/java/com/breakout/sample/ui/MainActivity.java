@@ -89,6 +89,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initBody() {
         makeIntentView(Button(_bodyView, "ViewPager2"), MultipleViewPagerActivity.class);
+        makeIntentView(Button(_bodyView, "ViewPager2-1"), com.breakout.sample.ui.viewpager.viewpager2.MultipleViewPagerActivity.class);
+        makeIntentView(Button(_bodyView, "ViewPager"), com.breakout.sample.ui.viewpager.viewpager3.MultipleViewPagerActivity.class);
         makeIntentView(Button(_bodyView, "RecyclerView"), ListActivity.class);
 
         Button(_bodyView, "Device Info").setOnClickListener(new OnClickListener() {

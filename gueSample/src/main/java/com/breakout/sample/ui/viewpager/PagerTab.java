@@ -2,7 +2,7 @@ package com.breakout.sample.ui.viewpager;
 
 import com.breakout.sample.R;
 
-enum PagerTab {
+public enum PagerTab {
     MENU1(R.id.tvMenu1, OnRequestListener.Type.SORT_SIM),
     MENU2(R.id.tvMenu2, OnRequestListener.Type.SORT_DATE);
 

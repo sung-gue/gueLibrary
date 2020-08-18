@@ -1,5 +1,5 @@
 package com.breakout.sample.ui.viewpager;
 
-class PageViewStatus {
+public class PageViewStatus {
     public boolean isShowUI = true;
 }

@@ -181,6 +181,38 @@
         </activity>
 
         <activity
+            android:name=".ui.viewpager.viewpager2.MultipleViewPagerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="viewpager2-multiple"
+                    android:scheme="@string/app_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.viewpager.viewpager3.MultipleViewPagerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="viewpager3-multiple"
+                    android:scheme="@string/app_scheme" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".ui.recyclerview.ListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">

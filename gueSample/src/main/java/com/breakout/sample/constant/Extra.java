@@ -5,6 +5,7 @@ public final class Extra {
     public static final String TITLE = "title";
     public static final String URL = "url";
     public static final String TAB_POSITION = "tab_position";
+    public static final String ITEM = "item";
 
     public static final String FCM_DATA = "fcm_data";
 
