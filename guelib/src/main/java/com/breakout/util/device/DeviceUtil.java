@@ -203,10 +203,21 @@ public final class DeviceUtil {
     public final static String getDeviceInfo(Context context) {
         String androidId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        String simNumber = tm.getSimSerialNumber();
+        String deviceId = null;
+        String simNumber = null;
+        try {
+            deviceId = tm.getDeviceId();
+            simNumber = tm.getSimSerialNumber();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
         WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        String macAddr = wm.getConnectionInfo().getMacAddress();
+        String macAddr = null;
+        try {
+            macAddr = wm.getConnectionInfo().getMacAddress();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
 
         final DisplayMetrics m = context.getResources().getDisplayMetrics();
         int displayWidth = m.widthPixels;
@@ -324,11 +335,11 @@ public final class DeviceUtil {
             Log.e(TAG, e.getMessage(), e);
         }
     }
-	
-	
-/* ************************************************************************************************
- * INFO media 
- */
+
+
+    /* ************************************************************************************************
+     * INFO media
+     */
 
     /**
      * sdcard전체를 미디어 스캔
@@ -366,11 +377,11 @@ public final class DeviceUtil {
             runMediaScan(context);
         }
     }
-	
 
-/* ************************************************************************************************
- * INFO window size
- */
+
+    /* ************************************************************************************************
+     * INFO window size
+     */
 
     /**
      * display size
@@ -407,9 +418,9 @@ public final class DeviceUtil {
     }
 
 
-/* ************************************************************************************************
- * INFO google play service
- */
+    /* ************************************************************************************************
+     * INFO google play service
+     */
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
