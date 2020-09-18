@@ -18,9 +18,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.ImageColumns;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
+
+import androidx.fragment.app.Fragment;
 
 import com.breakout.util.Log;
 import com.breakout.util.dto.media.ImageDTO;
