@@ -1,6 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 
 /*repositories {
     jcenter()
@@ -49,18 +50,19 @@ android {
     project.ext.set("ouputDir", "~/Downloads/")
     project.ext.set("ouputDirMac", "~/Downloads/")
 
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.breakout.sample"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         multiDexEnabled true
         //vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     dexOptions {
@@ -80,7 +82,7 @@ android {
                     facebook_app_id: "@string/facebook_app_id",
                     kakao_app_key  : "@string/kakao_app_key",
                     kakao_scheme   : "@string/kakao_scheme",
-                    pacakge_name   : "com.breakout.sample"
+                    package_name   : "com.breakout.sample"
             ]
         }
         debug {
@@ -92,10 +94,16 @@ android {
                     facebook_app_id: "@string/facebook_app_id_dev",
                     kakao_app_key  : "@string/kakao_app_key_dev",
                     kakao_scheme   : "@string/kakao_scheme_dev",
-                    pacakge_name   : "com.breakout.sample.dev"
+                    package_name   : "com.breakout.sample.dev"
             ]
         }
     }
+
+    // TODO: 2020-11-25 | 어떤설정인지 확인 필요
+    /*compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }*/
 
     // off lint options
     /*lintOptions {
@@ -119,9 +127,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(':guelib')
 
 
@@ -140,11 +148,11 @@ dependencies {
     //Play 서비스 유무에 관계없이 광고 ID를 가져옵니다.
     implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'
     //이전 API 버전의 플랫폼에서 새 API에 액세스할 수 있습니다(대부분 머티리얼 디자인 사용).
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
     //상대 위치에 따라 유연한 방식으로 위젯의 위치와 크기를 지정합니다.
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     //최신 플랫폼 기능과 API를 타겟팅하는 동시에 이전 기기도 지원합니다.
-    implementation "androidx.core:core-ktx:1.3.1"
+    implementation "androidx.core:core-ktx:1.3.2"
     //활동이나 프래그먼트의 현재 수명 주기 상태를 기반으로 동작을 조정할 수 있는 수명 주기 인식 구성요소를 빌드합니다.
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     //Android 5 이전 기기에 여러 dex 파일이 있는 애플리케이션을 배포합니다.
@@ -166,18 +174,18 @@ dependencies {
         https://firebase.google.com/docs/android/setup
         https://firebase.google.com/docs/android/setup#available-libraries
      */
-    implementation 'com.google.firebase:firebase-core:17.4.4'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'
-    implementation 'com.google.firebase:firebase-auth:19.3.2'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+    implementation 'com.google.firebase:firebase-analytics:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:20.0.1'
 
 
     /* ------------------------------------------------------------
         Google
         https://developers.google.com/android/guides/setup
      */
-    implementation 'com.google.android.gms:play-services-base:17.3.0'
-    implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.android.gms:play-services-base:17.5.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-analytics:17.0.0'
 
 
