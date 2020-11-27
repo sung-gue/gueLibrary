@@ -35,6 +35,8 @@ import com.breakout.sample.constant.Const;
 import com.breakout.sample.dto.NaverImageDto;
 import com.breakout.util.widget.ViewUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,7 +75,7 @@ public class PagerFragment extends BaseFragment<PagerFragment.OnActionListener> 
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
         _gestureDetector = new GestureDetectorCompat(context, _simpleOnGestureListener);
         _onActionListener = initActionListener();
@@ -106,7 +108,7 @@ public class PagerFragment extends BaseFragment<PagerFragment.OnActionListener> 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.v_multiple_pager, container, false);
 

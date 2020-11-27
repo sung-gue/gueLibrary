@@ -6,9 +6,8 @@ import com.breakout.util.constant.CValue;
 /**
  * log switch according to {@link Log#DEBUG }
  *
- * @author gue
- * @copyright Copyright.2011.gue.All rights reserved.
- * @since 2011. 10. 4.
+ * @author sung-gue
+ * @version 1.0 (2011-10-04)
  */
 public final class Log {
     private final static String TAG = "com.breakout.util";

@@ -18,9 +18,7 @@ import com.breakout.util.Log;
  * Android Media Util
  *
  * @author sung-gue
- * @version 1.0
- * @copyright Copyright 2012. sung-gue All rights reserved.
- * @since 2012. 10. 15.
+ * @version 1.0 (2012. 10. 15.)
  */
 @SuppressWarnings("unused")
 public final class MediaUtil {
@@ -38,8 +36,8 @@ public final class MediaUtil {
     }
 
     /**
-     * action : Intent.ACTION_GET_CONTENT
-     * type : "image/*"
+     * action : Intent.ACTION_GET_CONTENT<br/>
+     * type : "image/*"<br/>
      */
     public static void callGetImageContent(@NonNull Activity activity, int requestCode, String chooser) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -52,8 +50,8 @@ public final class MediaUtil {
     }
 
     /**
-     * action : Intent.ACTION_PICK
-     * type : MediaStore.Images.Media.CONTENT_TYPE
+     * action : Intent.ACTION_PICK<br/>
+     * type : MediaStore.Images.Media.CONTENT_TYPE<br/>
      */
     public static void callGallery(@NonNull Activity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -65,9 +63,9 @@ public final class MediaUtil {
 
     /**
      * Uri로부터 file 경로 구하기
+     * TODO Intent.ACTION_GET_CONTENT 를 사용하여 가져온 이미지는 안됌
      *
      * @param uri scheme가 file, content 인경우의 파일 uri
-     * @todo Intent.ACTION_GET_CONTENT 를 사용하여 가져온 이미지는 안됌
      */
     public static String getMediaPath(Context context, @NonNull Uri uri) throws Exception {
         String mediaPath = null;
@@ -95,6 +93,5 @@ public final class MediaUtil {
         }
         return mediaPath;
     }
-
 
 }

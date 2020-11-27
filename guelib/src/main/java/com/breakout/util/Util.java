@@ -39,10 +39,8 @@ import java.util.Locale;
  * Util class
  *
  * @author sung-gue
- * @copyright Copyright.2011.sung-gue.All rights reserved.
- * @since 2012. 6. 28.
+ * @version 1.0 (2012. 6. 28.)
  */
-@SuppressWarnings("unused")
 public final class Util {
     private final static String TAG = "Util";
 
@@ -56,8 +54,6 @@ public final class Util {
 
     /**
      * log : view size
-     *
-     * @since 2014. 1. 26.
      */
     public static void logViewSize(final View view) {
         if (view == null) return;
@@ -101,8 +97,6 @@ public final class Util {
 
     /**
      * log : view 계층구조
-     *
-     * @since 2012. 12. 28.
      */
     public static void logViewHierachy(View view, int step) {
         StringBuilder margin = new StringBuilder("| ");
@@ -132,8 +126,6 @@ public final class Util {
 
     /**
      * 다른 app으로의 intent를 사용할때 해당 intent가 가능한지에 대한 check
-     *
-     * @since 2012. 8. 26.
      */
     public static boolean isAvailableIntent(Context context, Intent intent) {
         return intent.resolveActivity(context.getPackageManager()) == null;
@@ -155,8 +147,6 @@ public final class Util {
      * 외부에서의 유입등으로 인하여 baseActivity가 현재 application의 package가 아닐경우 제대로 된 처리가 될 수 없다.
      * 해당 상황을 막기 위해 Manifest에 android:launchMode="singleTask" 을 통하여 공유나 scheme를 통한 유입을 허용하여
      * baseActivity에 다른 application의 package가 오지 않도록 주위하여 작업해야 한다.
-     *
-     * @since 2011. 6. 15.
      */
     @Deprecated
     public static void appExit(Context context) {
@@ -229,8 +219,6 @@ public final class Util {
 
     /**
      * process 강제 종료
-     *
-     * @since 2011. 6. 15.
      */
     @Deprecated
     protected final void appExitTest(Context context) {
@@ -276,8 +264,6 @@ public final class Util {
      * 외부에서의 유입등으로 인하여 baseActivity가 현재 application의 package가 아닐경우 제대로 된 처리가 될 수 없다.
      * 해당 상황을 막기 위해 Manifest에 android:launchMode="singleTask" 을 통하여 공유나 scheme를 통한 유입을 허용하여
      * baseActivity에 다른 application의 package가 오지 않도록 주위하여 작업해야 한다.
-     *
-     * @since 2011. 6. 15.
      */
     public static void forceMove(Context context) {
         final ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -307,8 +293,6 @@ public final class Util {
      * for check heap size & system gc
      *
      * @param gcFlag true 일때 gc 수행
-     * @author gue
-     * @since 2011 9. 19.
      */
     public static void showHeap(boolean gcFlag) {
         double mbSize = 1024 * 1024;
@@ -372,8 +356,6 @@ public final class Util {
 
     /**
      * SDCard mount ckeck
-     *
-     * @since 2012. 7. 2.
      */
     public static boolean isExternalStorageAvailable() {
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
@@ -381,8 +363,6 @@ public final class Util {
 
     /**
      * show memory size
-     *
-     * @since 2012. 7. 2.
      */
     public static void logMemorySize() {
         Log.i(TAG, String.format("\n---------------" +
@@ -439,8 +419,6 @@ public final class Util {
 
     /**
      * 파일을 쓰고 읽고 다시 쓴후 삭제하는 행동을 하여 sdcard의 읽고 쓰는부분에 문제가 있는지 check한다. 문제가 있다면 Exception 발생
-     *
-     * @since 2013. 1. 22.
      */
     public static void writeTest() throws Exception {
         final File f = new File(Environment.getExternalStorageDirectory(), "/garbege.txt");
@@ -465,8 +443,6 @@ public final class Util {
     /**
      * 작업중..<p>
      * app의 남은 용량을 log를 사용하여 보여주며 특정 DTO class로 리턴한다.
-     *
-     * @since 2013. 1. 23.
      */
     public static void checkSdCardCapacity(final Context context) {
         new Thread(new Runnable() {
@@ -514,8 +490,6 @@ public final class Util {
 
     /**
      * create short-cut
-     *
-     * @since 2012. 9. 4.
      */
     public final static void addShortcut(Context context, int iconId, String appName) {
         /*Intent intentUninstall = new Intent();

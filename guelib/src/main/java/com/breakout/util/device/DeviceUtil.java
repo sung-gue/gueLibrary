@@ -35,26 +35,21 @@ import java.util.Collections;
  * {@link Util}의 method를 속성에 따라 class로 분리<br/>
  * Device Util
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 10. 1.
+ * @author sung-gue
+ * @version 1.0 (2013. 10. 1.)
  */
 public final class DeviceUtil {
-    private final static String TAG = "DeviceUtil";
-//	private final static Locale DEFAULT_LOCALE = Locale.getDefault();
+    private static String TAG = "DeviceUtil";
+//    private  static Locale DEFAULT_LOCALE = Locale.getDefault();
 
 
     private DeviceUtil() {
     }
 
-    /* ************************************************************************************************
-     * INFO device
+    /* ------------------------------------------------------------
+        DESC: device
      */
-    public final static String getPhoneNum(Context context) {
+    public static String getPhoneNum(Context context) {
         String resultStr = null;
         try {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -73,10 +68,8 @@ public final class DeviceUtil {
      *
      * @param context
      * @return device unique id
-     * @author gue
-     * @since 2012. 9. 26.
      */
-    public final static String getDeviceUniqueId(Context context) {
+    public static String getDeviceUniqueId(Context context) {
         String result = null;
         String log = "get device uniqueId ";
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -97,7 +90,7 @@ public final class DeviceUtil {
         return result;
     }
 
-    public final static String getDeviceUniqueIdOfCombine(Context context) {
+    public static String getDeviceUniqueIdOfCombine(Context context) {
         String result = null;
         String log = "-------------------------------------------";
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -159,10 +152,8 @@ public final class DeviceUtil {
      * get app version.
      *
      * @return version name, exception - "1.0"
-     * @author gue
-     * @since 2012. 8. 26.
      */
-    public final static String getAppVersionName(Context context) {
+    public static String getAppVersionName(Context context) {
         String ver = null;
         try {
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -178,10 +169,8 @@ public final class DeviceUtil {
      * get app version code.
      *
      * @return version code, exception : 0
-     * @author gue
-     * @since 2012. 8. 26.
      */
-    public final static int getAppVersionCode(Context context) {
+    public static int getAppVersionCode(Context context) {
         int code = 0;
         try {
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -194,13 +183,10 @@ public final class DeviceUtil {
 
     /**
      * get device info log(debug) and return result string
-     *
-     * @author gue
-     * @since 2012. 12. 18.
      */
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
-    public final static String getDeviceInfo(Context context) {
+    public static String getDeviceInfo(Context context) {
         String androidId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = null;
@@ -219,7 +205,7 @@ public final class DeviceUtil {
             Log.e(TAG, e.getMessage(), e);
         }
 
-        final DisplayMetrics m = context.getResources().getDisplayMetrics();
+        DisplayMetrics m = context.getResources().getDisplayMetrics();
         int displayWidth = m.widthPixels;
         int displayHeight = m.heightPixels;
         int displayWidthDP = (int) (displayWidth * 1.0 / m.density);
@@ -272,26 +258,24 @@ public final class DeviceUtil {
      * @param useIPv4      true ipv4 형식반환, false ipv6 형식반환
      * @param getPrivateIP sdk 16이상일 경우 wifi 연결시에 ip가 3g상태와 wifi연결 ip 둘다 나오기 때문에 true일경우 wifi상태의 ip를 return한다
      * @return ip
-     * @author gue
-     * @since 2013. 2. 13.
      */
-    public final static String getLocalIpAddress(boolean useIPv4, boolean getPrivateIP) {
-        final String WIFI_DEVICE_PREFIX = "eth";
+    public static String getLocalIpAddress(boolean useIPv4, boolean getPrivateIP) {
+        String WIFI_DEVICE_PREFIX = "eth";
         String LocalIP = null;
         try {
             // 1. use Socket
             /*java.net.Socket socket = new java.net.Socket("www.google.com", 80);
             LocalIP = socket.getLocalAddress().toString();
-			android.util.Log.i("socket addr", "local ip of socket : " + LocalIP);
-			*/
+            android.util.Log.i("socket addr", "local ip of socket : " + LocalIP);
+            */
 
             // 2. use InetAddress
             /*for (Enumeration<NetworkInterface> enumNetwork = NetworkInterface.getNetworkInterfaces(); enumNetwork.hasMoreElements();) {
-				NetworkInterface networkInterface = enumNetwork.nextElement();
-				for (Enumeration<InetAddress> enumAddr = networkInterface.getInetAddresses(); enumAddr.hasMoreElements();) {
-					InetAddress inetAddress = enumAddr.nextElement();
-				}
-			}*/
+                NetworkInterface networkInterface = enumNetwork.nextElement();
+                for (Enumeration<InetAddress> enumAddr = networkInterface.getInetAddresses(); enumAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumAddr.nextElement();
+                }
+            }*/
             for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
                 for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
                     if (!inetAddress.isLoopbackAddress()) {
@@ -323,7 +307,7 @@ public final class DeviceUtil {
     }
 
 
-    public final static void printLogAppKeyHash(Context context) {
+    public static void printLogAppKeyHash(Context context) {
         try {
             PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
@@ -337,21 +321,18 @@ public final class DeviceUtil {
     }
 
 
-    /* ************************************************************************************************
-     * INFO media
+    /* ------------------------------------------------------------
+        DESC: media
      */
 
     /**
      * sdcard전체를 미디어 스캔
-     *
-     * @author gue
-     * @since 2012. 12. 16.
      */
-    public final static void runMediaScan(Context context) {
+    public static void runMediaScan(Context context) {
         try {
-//			context.sendBroadcast(new Intent(	Intent.ACTION_MEDIA_MOUNTED, 
-//												Uri.parse("file://" + Environment.getExternalStorageDirectory())
-//												));
+//            context.sendBroadcast(new Intent(    Intent.ACTION_MEDIA_MOUNTED,
+//                                                Uri.parse("file://" + Environment.getExternalStorageDirectory())
+//                                                ));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -361,10 +342,8 @@ public final class DeviceUtil {
      * 파일을 기준으로 하는 미디어 스캔
      *
      * @param filePath 스캔할 폴더의 이름, null일경우 sdcard의 전체 스캔을 한다. {@link #runMediaScan(Context)}
-     * @author gue
-     * @since 2012. 12. 16.
      */
-    public final static void updateMediaScan(Context context, String filePath) {
+    public static void updateMediaScan(Context context, String filePath) {
         if (StringUtil.nullCheckB(filePath)) {
             try {
                 MediaScannerConnection.scanFile(context, new String[]{filePath}, null, null);
@@ -379,8 +358,8 @@ public final class DeviceUtil {
     }
 
 
-    /* ************************************************************************************************
-     * INFO window size
+    /* ------------------------------------------------------------
+        DESC: window size
      */
 
     /**
@@ -388,38 +367,32 @@ public final class DeviceUtil {
      *
      * @return <li>int[0] : width</li>
      * <li>int[1] : height</li>
-     * @author gue
-     * @since 2012. 12. 28.
      */
-    public final static int[] getDisplaySize(Context context) {
+    public static int[] getDisplaySize(Context context) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return new int[]{metrics.widthPixels, metrics.heightPixels};
-		/*WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = manager.getDefaultDisplay();
-		return new int[]{display.getWidth(), display.getHeight()};*/
+        /*WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        return new int[]{display.getWidth(), display.getHeight()};*/
     }
 
     /**
      * @return display width
-     * @author gue
-     * @since 2014. 1. 8.
      */
-    public final static int getDisplayWidth(Context context) {
+    public static int getDisplayWidth(Context context) {
         return getDisplaySize(context)[0];
     }
 
     /**
      * @return display height
-     * @author gue
-     * @since 2014. 1. 8.
      */
-    public final static int getDisplayHeight(Context context) {
+    public static int getDisplayHeight(Context context) {
         return getDisplaySize(context)[1];
     }
 
 
-    /* ************************************************************************************************
-     * INFO google play service
+    /* ------------------------------------------------------------
+        DESC: google play service
      */
 
     /**

@@ -3,10 +3,8 @@ package com.breakout.util.constant;
 /**
  * constant values
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @since 2012. 10. 4.
+ * @author sung-gue
+ * @version 1.0 (2012. 10. 4.)
  */
 public class CValue {
     /**

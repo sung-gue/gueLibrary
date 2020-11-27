@@ -18,9 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * https://felhr85.net/2014/05/04/catch-soft-keyboard-showhidden-events-in-android/
  *
  * @author sung-gue
- * @version 1.0
- * @copyright Copyright 2020. sung-gue All rights reserved.
- * @since 2020. 3. 14.
+ * @version 1.0 (2020-03-14)
  */
 public class SoftKeyboard implements View.OnFocusChangeListener {
 

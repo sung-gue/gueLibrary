@@ -2,110 +2,147 @@ package com.breakout.util.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.breakout.util.Log;
 
 
 /**
- * Custom SharedPreferences <br>
- * {@link #_sharedFlash} : 중간에 삭제의 필요성이 있는 데이터
- * {@link #_shared} : 앱의 삭제전까지 가지고 가야할 데이터
+ * Custom SharedPreferences<br/>
  *
- * @author gue
- * @copyright Copyright.2011.gue.All rights reserved.
- * @since 2012. 5. 30.
+ * @author sung-gue
+ * @version 1.0 (2012. 5. 30.)
  */
-public class SharedStorage {
+public abstract class SharedStorage {
+    /**
+     * @see #clear(ClearMode)
+     */
+    public enum ClearMode {
+        FLASH_CLEAR,
+        USER_CLEAR,
+        ALL_CLEAR,
+        ;
+    }
+
     protected final String TAG = getClass().getSimpleName();
 
-    protected static SharedStorage _instance;
-
     /**
-     * app 삭제나 데이터영역 삭제 전까지 내용 유지
+     * constant data
      */
     protected SharedPreferences _sharedConst;
     /**
-     * app 삭제나 데이터영역 삭제 전까지 내용 유지
+     * @see #_sharedConst
      */
     protected SharedPreferences.Editor _editorConst;
     /**
-     * 내용 유지, {@link #clear(ClearMode)} 로 삭제 가능 영역
+     * default data
+     *
+     * @see #clear(ClearMode)
      */
     protected SharedPreferences _shared;
     /**
-     * 내용 유지, {@link #clear(ClearMode)} 로 삭제 가능 영역
+     * @see #_shared
      */
     protected SharedPreferences.Editor _editor;
     /**
-     * flash 내용, {@link #destroyInstance()} 를 통하여 app 종료시 삭제
+     * user data
+     *
+     * @see #clear(ClearMode)
+     */
+    protected SharedPreferences _sharedUser;
+    /**
+     * @see #_sharedUser
+     */
+    protected SharedPreferences.Editor _editorUser;
+    /**
+     * flash data
+     * <p>
+     * //@see #destroyInstance()
      */
     protected SharedPreferences _sharedFlash;
     /**
-     * flash 내용, {@link #destroyInstance()} 를 통하여 app 종료시 삭제
+     * @see #_sharedFlash
      */
     protected SharedPreferences.Editor _editorFlash;
     /**
      * application context
      */
-    protected Context _context;
+    protected Context _appContext;
 
-    /**
-     * {@link #clear(ClearMode)}의 인자값
-     *
-     * @author gue
-     * @since 2013. 9. 23.
-     */
-    public enum ClearMode {
-        /**
-         * flash 영역만 삭제
-         */
-        FLASH_CLEAR,
-        /**
-         * 전체 영역 삭제
-         */
-        ALL_CLEAR,;
+
+    private SharedStorage() {
     }
 
-
-    protected SharedStorage() {
-    }
-
-    /**
-     * @param constantName {@link #_sharedConst} name
-     * @param normalName   {@link #_shared} name
-     * @param flashName    {@link #_sharedFlash} name
-     */
-    protected SharedStorage(Context context, String constantName, String normalName, String flashName) {
-        this._context = context;
-        _sharedConst = _context.getSharedPreferences(constantName, Context.MODE_PRIVATE);
+    @Deprecated
+    protected SharedStorage(Context appContext, String constantName, String normalName, String flashName) {
+        this._appContext = appContext;
+        _sharedConst = appContext.getSharedPreferences(constantName, Context.MODE_PRIVATE);
         _editorConst = _sharedConst.edit();
-        _shared = _context.getSharedPreferences(normalName, Context.MODE_PRIVATE);
+        _editorConst.apply();
+        _shared = appContext.getSharedPreferences(normalName, Context.MODE_PRIVATE);
         _editor = _shared.edit();
-        _sharedFlash = _context.getSharedPreferences(flashName, Context.MODE_PRIVATE);
+        _editor.apply();
+        _sharedFlash = appContext.getSharedPreferences(flashName, Context.MODE_PRIVATE);
         _editorFlash = _sharedFlash.edit();
-        Log.i(TAG, TAG + " instance create");
-        _instance = this;
+        _editorFlash.apply();
+        Log.w(TAG, TAG + " create instance (Deprecated Constructor)");
     }
 
-    /*public static synchronized SharedStorage getInstance(Context context) {
-        if(_this == null) _this = new SharedStorage(context);
-        return _this;
-    }*/
-
-    protected static SharedStorage getInstance() {
-        return _instance;
-    }
-
-    public static void destroyInstance() {
-        if (_instance != null) _instance.destroy();
+    protected SharedStorage(Context appContext) {
+        this(appContext, null, null, null, null);
     }
 
     /**
-     * SharedPreferences 내용 삭제
+     * @param appContext     application context
+     * @param constantSuffix {@link #_sharedConst} name
+     * @param defaultSuffix  {@link #_shared} name
+     * @param flashSuffix    {@link #_sharedFlash} name
+     * @param userSuffix     {@link #_sharedUser} name
+     */
+    protected SharedStorage(Context appContext, String constantSuffix, String defaultSuffix, String flashSuffix, String userSuffix) {
+        this._appContext = appContext;
+        _sharedConst = getSharedPreferences(appContext, constantSuffix, "constant");
+        _editorConst = getEditor(_sharedConst);
+        _shared = getSharedPreferences(appContext, defaultSuffix, "default");
+        _editor = getEditor(_shared);
+        _sharedFlash = getSharedPreferences(appContext, flashSuffix, "flash");
+        _editorFlash = _sharedFlash.edit();
+        _editorFlash.apply();
+        _sharedUser = getSharedPreferences(appContext, flashSuffix, "user");
+        Log.i(TAG, TAG + " instance create");
+        Log.i(TAG, TAG + " create instance (Deprecated Constructor)");
+//        _instance = this;
+    }
+
+    private SharedPreferences getSharedPreferences(Context applicationContext, String name, String defaultName) {
+        String key = applicationContext.getPackageName() + "_" + (TextUtils.isEmpty(name) ? defaultName : name);
+        return applicationContext.getSharedPreferences(key, Context.MODE_PRIVATE);
+    }
+
+    private SharedPreferences.Editor getEditor(SharedPreferences sharedPreferences) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.apply();
+        return editor;
+    }
+
+//    public static synchronized SharedStorage getInstance(Context context) {
+//        if (_instance == null) _instance = new SharedStorage(context) {
+//        };
+//        return _instance;
+//    }
+//
+//    public static SharedStorage getInstance() throws Exception {
+//        return _instance;
+//    }
+//
+//    public static void destroyInstance() {
+//        if (_instance != null) _instance.destroy();
+//    }
+
+    /**
+     * clear data
      *
-     * @param mode FLASH_CLEAR or ALL_CLEAR
-     * @author gue
-     * @since 2012. 7. 30.
+     * @param mode FLASH_CLEAR | USER_CLEAR | ALL_CLEAR
      */
     public void clear(ClearMode mode) {
         switch (mode) {
@@ -113,33 +150,37 @@ public class SharedStorage {
                 _editorFlash.clear();
                 _editorFlash.commit();
                 break;
+            case USER_CLEAR:
+                _editorUser.clear();
+                _editorUser.commit();
+                break;
             case ALL_CLEAR:
                 _editor.clear();
                 _editor.commit();
                 _editorFlash.clear();
                 _editorFlash.commit();
+                _editorUser.clear();
+                _editorUser.commit();
                 break;
         }
     }
-
 
     protected void destroy() {
         Log.i(TAG, TAG + " destroy instance");
         clear(ClearMode.FLASH_CLEAR);
 
-        _context = null;
+        _appContext = null;
         _shared = null;
         _editor = null;
         _sharedFlash = null;
         _editorFlash = null;
-        _instance = null;
+//        _instance = null;
     }
 
-    
-    
-/* ***************************************************************************************************
- * local DB open & close
- */
+
+    /* ------------------------------------------------------------
+        DESC: local DB open & close
+     */
 /*    private LocalDB db;
     
     private void db_read(){

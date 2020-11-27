@@ -35,6 +35,8 @@ import com.breakout.sample.views.GridSpacingItemDecoration;
 import com.breakout.util.img.ImageLoader;
 import com.breakout.util.widget.ViewUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,7 +72,7 @@ public class GridFragment extends BaseFragment<GridFragment.OnActionListener> {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
         _onActionListener = initActionListener();
         if (context instanceof OnRequestListener) {
@@ -101,7 +103,7 @@ public class GridFragment extends BaseFragment<GridFragment.OnActionListener> {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.v_list, container, false);
 

@@ -23,6 +23,8 @@ import com.breakout.util.FragmentEx;
 import com.breakout.util.img.ImageLoader;
 import com.breakout.util.widget.DialogView;
 
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * {@link FragmentEx}를 상속받아 자주 사용되는 member value & method를 정의하여 사용한다.<br>
@@ -75,7 +77,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
      * Fragment가 Activity에 최초로 연결될 때 호출
      */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
         try {
             _baseActivity = (BaseActivity) _context;
@@ -108,7 +110,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         if (container != null) {
             _containerId = container.getId();

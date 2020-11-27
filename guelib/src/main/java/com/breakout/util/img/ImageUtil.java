@@ -31,16 +31,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 /**
- * Image Util<br>
+ * Image Util<br/>
  * api level 10 or 16 에서 테스트 완료
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @since 2012. 10. 15.
+ * @author sung-gue
+ * @version 1.0 (2012. 10. 15.)
  */
 public final class ImageUtil {
     private final static String TAG = "ImageUtil";
@@ -48,7 +47,7 @@ public final class ImageUtil {
     private final static String EXCEPTION_URI_NULL = "uri variable is null";
 
     /**
-     * 변환작업이나 activity의 이동등으로 다음 activity로 전달하고 싶은 Bitmap이 있을때 사용<br>
+     * 변환작업이나 activity의 이동등으로 다음 activity로 전달하고 싶은 Bitmap이 있을때 사용<br/>
      * 1회성이므로 사용후 항상 null 처리를 하여준다.
      */
     @Deprecated
@@ -70,20 +69,17 @@ public final class ImageUtil {
         return output;
     }
 
-    /**
-     * @author gue
-     */
     @Deprecated
-    private final static boolean isGoodFilePath(String filePath) {
+    private static boolean isGoodFilePath(String filePath) {
         return filePath != null && new File(filePath).exists();
     }
 
 
-    /* ************************************************************************************************
-     * INFO image & gallery
+    /* ------------------------------------------------------------
+        DESC: image & gallery
      */
     /**
-     * 화면회전등의 이유로 카메라의 EXTRA_OUTPUT값인 uri가 activity안에서 null 처리 되었을 경우를 대비하여 uri 저장.<br>
+     * 화면회전등의 이유로 카메라의 EXTRA_OUTPUT값인 uri가 activity안에서 null 처리 되었을 경우를 대비하여 uri 저장.<br/>
      * static이지만 값의 유효에 대해 보장을 하지 못하므로 1회성이라 생각하고 한번 사용한후 꼭 null 처리를 해준다.
      *
      * @see #callCamera(Activity, int, Uri)
@@ -92,7 +88,7 @@ public final class ImageUtil {
     public static Uri _ouputUri;
 
     @Deprecated
-    private final static void startIntent(Activity activity, Intent intent, int requestCode, String chooser) {
+    private static void startIntent(Activity activity, Intent intent, int requestCode, String chooser) {
         if (!TextUtils.isEmpty(chooser)) {
             activity.startActivityForResult(Intent.createChooser(intent, chooser), requestCode);
         } else {
@@ -101,7 +97,7 @@ public final class ImageUtil {
     }
 
     @Deprecated
-    private final static void startIntent(Fragment fragment, Intent intent, int requestCode, String chooser) {
+    private static void startIntent(Fragment fragment, Intent intent, int requestCode, String chooser) {
         if (!TextUtils.isEmpty(chooser)) {
             fragment.startActivityForResult(Intent.createChooser(intent, chooser), requestCode);
         } else {
@@ -110,29 +106,26 @@ public final class ImageUtil {
     }
 
     /**
-     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br>
-     * action : Intent.ACTION_GET_CONTENT<br>
+     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br/>
+     * action : Intent.ACTION_GET_CONTENT<br/>
      * type : "image/*"
      *
      * @param chooser null이 아닐경우 Intent.createChooser를 생성한다.
-     * @author gue
      */
     @Deprecated
-    public final static void callGallery(Activity activity, int requestCode, String chooser) {
+    public static void callGallery(Activity activity, int requestCode, String chooser) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startIntent(activity, intent, requestCode, chooser);
     }
 
     /**
-     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br>
-     * action : Intent.ACTION_PICK<br>
+     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br/>
+     * action : Intent.ACTION_PICK<br/>
      * type : MediaStore.Images.Media.CONTENT_TYPE
-     *
-     * @author gue
      */
     @Deprecated
-    public final static void callGallery(Activity activity, int requestCode) {
+    public static void callGallery(Activity activity, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
 //        intent.setType( "image/*" );
@@ -141,14 +134,12 @@ public final class ImageUtil {
     }
 
     /**
-     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br>
-     * action : Intent.ACTION_PICK<br>
+     * 갤러리에서 이미지를 선택한 후 onActivityResult 에서 Uri를 전달받는다.<br/>
+     * action : Intent.ACTION_PICK<br/>
      * type : MediaStore.Images.Media.CONTENT_TYPE
-     *
-     * @author gue
      */
     @Deprecated
-    public final static void callGallery(Fragment fragment, int requestCode) {
+    public static void callGallery(Fragment fragment, int requestCode) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
 //        intent.setType( "image/*" );
@@ -158,15 +149,14 @@ public final class ImageUtil {
 
     /**
      * 갤러리에서 이미지를 선택한 후 Crop을 거쳐서 onActivityResult 에서는
-     * 입력한 cropUri를 사용하여 이미지에 대한 작업을 이어나간다.<br>
+     * 입력한 cropUri를 사용하여 이미지에 대한 작업을 이어나간다.<br/>
      * {@link #_ouputUri} 에 임시로 입력받은 uri를 저장한다.
      *
      * @param form    int[] {outputX, outputY, aspectX, aspectY}, 사용하지 않으려면 짝으로 엮인값(output, aspect)에 0을 입력
      * @param cropUri crop image save uri
      * @throws Exception imageUri, cropUri, form이 null이거나 form length가 4가 아닐경우
-     * @author gue
      */
-    public final static void callGalleryCrop(Activity activity, int requestCode, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
+    public static void callGalleryCrop(Activity activity, int requestCode, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
         _ouputUri = cropUri;
         if (cropUri == null || (form != null && form.length != 4)) {
             _ouputUri = null;
@@ -189,16 +179,17 @@ public final class ImageUtil {
                 intent.putExtra("aspectY", form[3]);
             }
         }
-        Log.d(TAG, String.format("callGalleryCrop : requestCode=%d, cropUri=%s, size=%dx%d, ratio=%d:%d",
+        Log.d(TAG, String.format(Locale.getDefault(), "callGalleryCrop : requestCode=%d, cropUri=%s, size=%dx%d, ratio=%d:%d",
                 requestCode, cropUri, form[0], form[1], form[2], form[3]));
         startIntent(activity, intent, requestCode, null);
     }
 
     /**
-     * scale : true, return-data : true<br>
-     * see {@link #callGalleryCrop(Activity, int, Uri, int[], boolean, boolean)}
+     * scale : true, return-data : true<br/>
+     *
+     * @see #callGalleryCrop(Activity, int, Uri, int[], boolean, boolean)
      */
-    public final static void callGalleryCrop(Activity activity, int requestCode, Uri cropUri, int[] form) throws Exception {
+    public static void callGalleryCrop(Activity activity, int requestCode, Uri cropUri, int[] form) throws Exception {
         callGalleryCrop(activity, requestCode, cropUri, form, true, true);
     }
 
@@ -209,9 +200,8 @@ public final class ImageUtil {
      * @param form             int[] {outputX, outputY, aspectX, aspectY}, 사용하지 않으려면 짝으로 엮인값(output, aspect)에 0을 입력
      * @param cropUri          crop image save uri
      * @throws Exception imageUri, cropUri, form이 null이거나 form length가 4가 아닐경우
-     * @author gue
      */
-    public final static void callCrop(Activity activity, int requestCode, Uri originalImageUri, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
+    public static void callCrop(Activity activity, int requestCode, Uri originalImageUri, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
         _ouputUri = cropUri;
         if (originalImageUri == null || cropUri == null || (form != null && form.length != 4)) {
             _ouputUri = null;
@@ -232,7 +222,7 @@ public final class ImageUtil {
                 intent.putExtra("aspectY", form[3]);
             }
         }
-        Log.d(TAG, String.format("callCrop : requestCode=%d, originalImageUri=%s, cropUri=%s, size=%dx%d, ratio=%d:%d",
+        Log.d(TAG, String.format(Locale.getDefault(), "callCrop : requestCode=%d, originalImageUri=%s, cropUri=%s, size=%dx%d, ratio=%d:%d",
                 requestCode, originalImageUri, cropUri, form[0], form[1], form[2], form[3]));
         startIntent(activity, intent, requestCode, null);
     }
@@ -244,9 +234,8 @@ public final class ImageUtil {
      * @param form             int[] {outputX, outputY, aspectX, aspectY}, 사용하지 않으려면 짝으로 엮인값(output, aspect)에 0을 입력
      * @param cropUri          crop image save uri
      * @throws Exception imageUri, cropUri, form이 null이거나 form length가 4가 아닐경우
-     * @author gue
      */
-    public final static void callCrop(Fragment fragment, int requestCode, Uri originalImageUri, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
+    public static void callCrop(Fragment fragment, int requestCode, Uri originalImageUri, Uri cropUri, int[] form, boolean scale, boolean returnData) throws Exception {
         _ouputUri = cropUri;
         if (originalImageUri == null || cropUri == null || (form != null && form.length != 4)) {
             _ouputUri = null;
@@ -267,37 +256,36 @@ public final class ImageUtil {
                 intent.putExtra("aspectY", form[3]);
             }
         }
-        Log.d(TAG, String.format("callCrop : requestCode=%d, originalImageUri=%s, cropUri=%s, size=%dx%d, ratio=%d:%d",
+        Log.d(TAG, String.format(Locale.getDefault(), "callCrop : requestCode=%d, originalImageUri=%s, cropUri=%s, size=%dx%d, ratio=%d:%d",
                 requestCode, originalImageUri, cropUri, form[0], form[1], form[2], form[3]));
         startIntent(fragment, intent, requestCode, null);
     }
 
     /**
-     * scale : true, return-data : true<br>
+     * scale : true, return-data : true<br/>
      *
      * @see #callCrop(Activity, int, Uri, Uri, int[], boolean, boolean)
      */
-    public final static void callCrop(Activity activity, int requestCode, Uri originalImageUri, Uri cropUri, int[] form) throws Exception {
+    public static void callCrop(Activity activity, int requestCode, Uri originalImageUri, Uri cropUri, int[] form) throws Exception {
         callCrop(activity, requestCode, originalImageUri, cropUri, form, true, true);
     }
 
     /**
-     * scale : true, return-data : true<br>
+     * scale : true, return-data : true<br/>
      *
      * @see #callCrop(Activity, int, Uri, Uri, int[], boolean, boolean)
      */
-    public final static void callCrop(Fragment fragment, int requestCode, Uri originalImageUri, Uri cropUri, int[] form) throws Exception {
+    public static void callCrop(Fragment fragment, int requestCode, Uri originalImageUri, Uri cropUri, int[] form) throws Exception {
         callCrop(fragment, requestCode, originalImageUri, cropUri, form, true, true);
     }
 
     /**
-     * 카메라에서 이미지를 촬영한 후 입력받은 uri에 저장한다.<br>
+     * 카메라에서 이미지를 촬영한 후 입력받은 uri에 저장한다.<br/>
      * {@link #_ouputUri} 에 임시로 입력받은 uri를 저장한다.
      *
      * @throws Exception outputUri null일 경우
-     * @author gue
      */
-    public final static void callCamera(Activity activity, int requestCode, Uri outputUri) throws Exception {
+    public static void callCamera(Activity activity, int requestCode, Uri outputUri) throws Exception {
         _ouputUri = outputUri;
         Log.d(TAG, "callCamera : outputUri= " + outputUri);
         if (outputUri == null) {
@@ -310,13 +298,12 @@ public final class ImageUtil {
     }
 
     /**
-     * 카메라에서 이미지를 촬영한 후 입력받은 uri에 저장한다.<br>
+     * 카메라에서 이미지를 촬영한 후 입력받은 uri에 저장한다.<br/>
      * {@link #_ouputUri} 에 임시로 입력받은 uri를 저장한다.
      *
      * @throws Exception outputUri null일 경우
-     * @author gue
      */
-    public final static void callCamera(Fragment fragment, int requestCode, Uri outputUri) throws Exception {
+    public static void callCamera(Fragment fragment, int requestCode, Uri outputUri) throws Exception {
         _ouputUri = outputUri;
         Log.d(TAG, "callCamera : outputUri= " + outputUri);
         if (outputUri == null) {
@@ -329,15 +316,13 @@ public final class ImageUtil {
     }
 
     /*
-        TODO: 2020-03-14 이후 확인 필요
+        TODO: 2020-03-14 이후 소스 확인 필요
      */
 
     /**
      * 이미지의 file path로부터 이미지의 uri return, 내부 media db에 없는 경로라면 null return
-     *
-     * @author gue
      */
-    public final static Uri getImageUri(Context context, String imageFilePath) {
+    public static Uri getImageUri(Context context, String imageFilePath) {
         Uri uri = null;
         if (imageFilePath != null) {
             Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -359,10 +344,8 @@ public final class ImageUtil {
     }
 
     /**
-     * 이미지의 Uri로부터 file path return<br>
+     * 이미지의 Uri로부터 file path return<br/>
      * uri의 scheme가 file, content 인경우에 이미지 uri의
-     *
-     * @author gue
      */
     @Deprecated
     public static String getImagePath(Context context, Uri uri) {
@@ -389,17 +372,15 @@ public final class ImageUtil {
     }
 
     /**
-     * {@link ContentResolver#query(Uri, String[], String, String[], String)}<br>
+     * {@link ContentResolver#query(Uri, String[], String, String[], String)}<br/>
      * 위 함수를 그대로 실행한다.
-     *
-     * @author gue
      */
-    public final static Cursor getCursorOfUri(Context context,
-                                              Uri uri,
-                                              String[] projection,
-                                              String selection,
-                                              String[] selectionArgs,
-                                              String sortOrder) {
+    public static Cursor getCursorOfUri(Context context,
+                                        Uri uri,
+                                        String[] projection,
+                                        String selection,
+                                        String[] selectionArgs,
+                                        String sortOrder) {
         Cursor cursor = context.getContentResolver().query(uri == null ? MediaStore.Images.Media.EXTERNAL_CONTENT_URI : uri,
                 projection,
                 selection,
@@ -409,13 +390,11 @@ public final class ImageUtil {
     }
 
     /**
-     * cursor안에 있는 모든 컬럼과 값을 log로 출력한다.<br>
-     * api level 10 이하 : image columnCount=18<br>
-     * api level 14 이상 : image columnCount=20<br>
-     *
-     * @author gue
+     * cursor안에 있는 모든 컬럼과 값을 log로 출력한다.<br/>
+     * api level 10 이하 : image columnCount=18<br/>
+     * api level 14 이상 : image columnCount=20<br/>
      */
-    public final static void cursorLog(Cursor cursor) {
+    public static void cursorLog(Cursor cursor) {
         if (cursor != null) {
             String str = "";
             int columnCount = cursor.getColumnCount();
@@ -472,13 +451,10 @@ public final class ImageUtil {
     }
 
     /**
-     * 폴더이름으로 정렬하여 ImageDTO의 list를 반환<br>
+     * 폴더이름으로 정렬하여 ImageDTO의 list를 반환<br/>
      * bucket_id, bucket_display_name, bucket_delegate_image_id, bucket_delegate_image_data, bucket_count
-     *
-     * @author gue
-     * @since 2012. 11. 20.
      */
-    public final static ArrayList<ImageDTO> getImageFolderList(Context context) {
+    public static ArrayList<ImageDTO> getImageFolderList(Context context) {
         ArrayList<ImageDTO> list = new ArrayList<ImageDTO>();
         Cursor cursor = context.getContentResolver().
                 query(Images.Media.EXTERNAL_CONTENT_URI.buildUpon().appendQueryParameter("distinct", "true").build(),
@@ -527,44 +503,36 @@ public final class ImageUtil {
 
     /**
      * {@link ImageUtil#getImageList(Context, String, String[], ReturnImageDTO, boolean)} 에서
-     * return시에 ImageDTO를 상속받은 클래스를 받기 위한 interface<br>
+     * return시에 ImageDTO를 상속받은 클래스를 받기 위한 interface<br/>
      * 부모로 생성된 인스턴스는 자식에게 형변환하여 대입될수 없기때문에 해당 interface 필요함
      * <pre>
-     * ex)
-     * class MediaItemDTO extends ImageDTO {
-     * }
-     *
-     * class Ex implements ReturnImageDTO {
-     *     public ImageDTO getExtendsInstance() {
-     *         return new MediaItemDTO();
-     *    }
-     * }
+     *      ex)
+     *      class MediaItemDTO extends ImageDTO {
+     *      }
+     *      class Ex implements ReturnImageDTO {
+     *          public ImageDTO getExtendsInstance() {
+     *              return new MediaItemDTO();
+     *         }
+     *      }
      * </pre>
-     *
-     * @author gue
-     * @since 2012. 11. 20.
      */
     public interface ReturnImageDTO {
         /**
-         * {@link ImageDTO}를 상속받은 class의 new instance를 반환<br>
-         *
-         * @author gue
+         * {@link ImageDTO}를 상속받은 class의 new instance를 반환<br/>
          */
-        public ImageDTO getExtendsInstance();
+        ImageDTO getExtendsInstance();
     }
 
     /**
-     * desc 값에 따라 정렬하여 {@link ReturnImageDTO}로부터 입력받은 instance type의 array list를 반환<br>
+     * desc 값에 따라 정렬하여 {@link ReturnImageDTO}로부터 입력받은 instance type의 array list를 반환<br/>
      *
      * @param context    application context
      * @param bucket_id  null일 경우 전체 이미지에 대한 arraylist return
      * @param projection ImageDTO에 넣을 칼럼 array, null일경우 _id,_data,bucket_id 값이 들어간다.
      * @param returnDTO  ImageDTO를 상속받은 new instance를 받기위한 interface, null일경우 ImageDTO list를 반환
      * @param desc       true일 경우 날짜순 역정렬, false일 경우 날짜순 정렬
-     * @author gue
-     * @since 2012. 11. 20.
      */
-    public final static ArrayList<? extends ImageDTO> getImageList(Context context, String bucket_id, String[] projection, ReturnImageDTO returnDTO, boolean desc) {
+    public static ArrayList<? extends ImageDTO> getImageList(Context context, String bucket_id, String[] projection, ReturnImageDTO returnDTO, boolean desc) {
         ArrayList<ImageDTO> list = null;
 
         Cursor cursor = context.getContentResolver().query(Images.Media.EXTERNAL_CONTENT_URI,
@@ -588,7 +556,7 @@ public final class ImageUtil {
         return list;
     }
 
-    private final static ImageDTO getValue(ImageDTO dto, Cursor c, String columnName) {
+    private static ImageDTO getValue(ImageDTO dto, Cursor c, String columnName) {
         int index = c.getColumnIndex(columnName);
         if (index > -1) {
             if (ImageColumns._ID.equals(columnName)) dto._id = c.getString(index);
@@ -624,18 +592,16 @@ public final class ImageUtil {
     }
 
 
-    /* ************************************************************************************************
-     * INFO get bitmap size
+    /* ------------------------------------------------------------
+        DESC: get bitmap size
      */
 
     /**
      * get bitmap's size
      *
-     * @param imageFilePath
      * @return int[] {width, height}
-     * @author gue
      */
-    public final static int[] getBitmapOfSize(String imageFilePath) throws Exception {
+    public static int[] getBitmapOfSize(String imageFilePath) throws Exception {
         BitmapFactory.Options options = makeBitmapOptionsUndecode();
         BitmapFactory.decodeFile(imageFilePath, options);
         int[] rect = null;
@@ -645,40 +611,35 @@ public final class ImageUtil {
         } else {
             rect = new int[]{options.outWidth, options.outHeight};
         }
-        Log.d(TAG, String.format("getBitmapOfSize : path=%s, width=%d, height=%d", imageFilePath, rect[0], rect[1]));
+        Log.d(TAG, String.format(Locale.getDefault(), "getBitmapOfSize : path=%s, width=%d, height=%d", imageFilePath, rect[0], rect[1]));
         return rect;
     }
 
     /**
      * get bitmap's height
-     *
-     * @author gue
      */
-    public final static int getBitmapOfHeight(String imageFilePath) throws Exception {
+    public static int getBitmapOfHeight(String imageFilePath) throws Exception {
         return getBitmapOfSize(imageFilePath)[0];
     }
 
     /**
      * get bitmap's width
-     *
-     * @author gue
      */
-    public final static int getBitmapOfWidth(String imageFilePath) throws Exception {
+    public static int getBitmapOfWidth(String imageFilePath) throws Exception {
         return getBitmapOfSize(imageFilePath)[1];
     }
 
 
-    /* ************************************************************************************************
-     * INFO make BitmapFactory.Options
+    /* ------------------------------------------------------------
+        DESC: make BitmapFactory.Options
      */
 
     /**
      * make BitmapFactory.Options
      *
      * @param config Bitmap.Config
-     * @author gue
      */
-    public final static BitmapFactory.Options makeBitmapOptions(Config config, boolean inJustDecodeBounds, int inSampleSize) {
+    public static BitmapFactory.Options makeBitmapOptions(Config config, boolean inJustDecodeBounds, int inSampleSize) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = inJustDecodeBounds;
         if (!inJustDecodeBounds) {
@@ -698,26 +659,22 @@ public final class ImageUtil {
 
     /**
      * make BitmapFactory.Options use inJustDecodeBounds true
-     *
-     * @author gue
      */
-    public final static BitmapFactory.Options makeBitmapOptionsUndecode() {
+    public static BitmapFactory.Options makeBitmapOptionsUndecode() {
         return makeBitmapOptions(null, true, 0);
     }
 
 
-    /* ************************************************************************************************
-     * INFO get bitmap of image file
+    /* ------------------------------------------------------------
+        DESC: get bitmap of image file
      */
 
     /**
-     * uri로 cursor를 통하여 이미지의 id값을 알아낸 후 bitmap의 thumbnail을 얻어낸다.<br>
-     * 단, sdk v14 미만은 해당 uri로 thumbnamil bitmap이 자동으로 생성되지 않기 때문에 해당 함수로  bitmao을 반환 받을 수 없다..<br>
+     * uri로 cursor를 통하여 이미지의 id값을 알아낸 후 bitmap의 thumbnail을 얻어낸다.<br/>
+     * 단, sdk v14 미만은 해당 uri로 thumbnamil bitmap이 자동으로 생성되지 않기 때문에 해당 함수로  bitmao을 반환 받을 수 없다..<br/>
      * 하지만, sdk v14 미만의 device에서 기본 카메라로 생성한 이미지라면 해당 썸네일은 생성되어 있기 때문에 bitmap을 반환 받을수 있다.
-     *
-     * @author gue
      */
-    public final static Bitmap getBitmapThumb(Context context, Uri uri) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapThumb(Context context, Uri uri) throws OutOfMemoryError, Exception {
         Bitmap bitmap = null;
 
         if (uri != null) {
@@ -748,13 +705,13 @@ public final class ImageUtil {
                     imageId = c.getLong(c.getColumnIndex(MediaStore.Images.Media._ID));
                     orientation = c.getInt(c.getColumnIndex(MediaStore.Images.Media.ORIENTATION));
                     imageFilePath = c.getString(c.getColumnIndex(MediaStore.Images.Media.DATA));
-                    Log.d(TAG, String.format("getBitmapThumb db info : id=%d, orientation=%d, path=%s", imageId, orientation, imageFilePath));
+                    Log.d(TAG, String.format(Locale.getDefault(), "getBitmapThumb db info : id=%d, orientation=%d, path=%s", imageId, orientation, imageFilePath));
                 }
                 c.close();
             }
             if (orientation < 0) {
                 orientation = getExifOrientation(imageFilePath);
-                Log.d(TAG, String.format("getBitmapThumb exif info : id=%d, orientation=%d, path=%s", imageId, orientation, imageFilePath));
+                Log.d(TAG, String.format(Locale.getDefault(), "getBitmapThumb exif info : id=%d, orientation=%d, path=%s", imageId, orientation, imageFilePath));
             }
 
             if (imageId > -1) {
@@ -772,47 +729,42 @@ public final class ImageUtil {
     /**
      * bitmap decode from image file
      *
-     * @param imageFilePath
-     * @param inSampleSize  BitmapFactory.Options.inSampleSize
-     * @param config        Bitmap.Config
-     * @author gue
+     * @param inSampleSize BitmapFactory.Options.inSampleSize
+     * @param config       Bitmap.Config
      */
-    public final static Bitmap getBitmap(String imageFilePath, int inSampleSize, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmap(String imageFilePath, int inSampleSize, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             BitmapFactory.Options options = makeBitmapOptions(config, false, inSampleSize);
             Bitmap bitmap = ImageAlter.getRotateBitmap(BitmapFactory.decodeFile(imageFilePath, options), getExifOrientation(imageFilePath));
-            Log.d(TAG, String.format("getBitmap : path=%s, inSampleSize=%d, size=%dx%d", imageFilePath, inSampleSize, bitmap.getWidth(), bitmap.getHeight()));
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmap : path=%s, inSampleSize=%d, size=%dx%d", imageFilePath, inSampleSize, bitmap.getWidth(), bitmap.getHeight()));
             return bitmap;
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmap(String, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
      *
-     * @author gue
+     * @see #getBitmap(String, int, Config)
      */
-    public final static Bitmap getBitmap(String imageFilePath, int inSampleSize) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmap(String imageFilePath, int inSampleSize) throws OutOfMemoryError, Exception {
         return getBitmap(imageFilePath, inSampleSize, Config.RGB_565);
     }
 
     /**
-     * bitmap decode from image file : use inSampleSize = 1<br>
-     * see {@link #getBitmap(String, int, Config)}
+     * bitmap decode from image file : use inSampleSize = 1<br/>
      *
-     * @author gue
+     * @see #getBitmap(String, int, Config)
      */
-    public final static Bitmap getBitmap(String imageFilePath, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmap(String imageFilePath, Config config) throws OutOfMemoryError, Exception {
         return getBitmap(imageFilePath, 1, config);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565, inSampleSize = 1<br>
-     * see {@link #getBitmap(String, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565, inSampleSize = 1<br/>
      *
-     * @author gue
+     * @see #getBitmap(String, int, Config)
      */
-    public final static Bitmap getBitmap(String imageFilePath) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmap(String imageFilePath) throws OutOfMemoryError, Exception {
         return getBitmap(imageFilePath, 1, Config.RGB_565);
     }
 
@@ -825,9 +777,8 @@ public final class ImageUtil {
      * @param wantWidth     원하는 이미지의 가로 크기
      * @param wantHeight    원하는 이미지의 세로 크기
      * @param bigRatio      true이면 scale값이 큰값
-     * @author gue
      */
-    public final static int getInSampleSizeOfRatio(String imageFilePath, int wantWidth, int wantHeight, boolean bigRatio) throws Exception {
+    public static int getInSampleSizeOfRatio(String imageFilePath, int wantWidth, int wantHeight, boolean bigRatio) throws Exception {
         int[] rect = getBitmapOfSize(imageFilePath);
         return getInSampleSizeOfRatio(rect[0], rect[1], wantWidth, wantHeight, bigRatio);
     }
@@ -842,9 +793,8 @@ public final class ImageUtil {
      * @param wantWidth  원하는 이미지의 가로 크기
      * @param wantHeight 원하는 이미지의 세로 크기
      * @param bigRatio   true이면 scale값이 큰값
-     * @author gue
      */
-    public final static int getInSampleSizeOfRatio(int orgWidth, int orgHeight, int wantWidth, int wantHeight, boolean bigRatio) throws Exception {
+    public static int getInSampleSizeOfRatio(int orgWidth, int orgHeight, int wantWidth, int wantHeight, boolean bigRatio) throws Exception {
         double widthScale = (orgWidth * 1.0) / (wantWidth * 1.0);
         double heightScale = (orgHeight * 1.0) / (wantHeight * 1.0);
         double scale;
@@ -854,8 +804,8 @@ public final class ImageUtil {
     }
 
     /**
-     * bitmap decode from image file <br>
-     * inSampleSize를 주어진 width와 height를 사용하여 적정값을 구한다.<br>
+     * bitmap decode from image file <br/>
+     * inSampleSize를 주어진 width와 height를 사용하여 적정값을 구한다.<br/>
      * 실제 이미지의 크기와 주어진 width, height를 비교하여 scale값이 작은쪽으로 inSampleSize를 설정하여 decode한다.
      *
      * @param imageFilePath 이미지 파일의 절대경로
@@ -863,29 +813,29 @@ public final class ImageUtil {
      * @param wantHeight    원하는 이미지의 세로 크기
      * @param config        Bitmap.Config
      * @return resize bitmap
-     * @author gue
      */
-    public final static Bitmap getBitmapTinyRatio(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapTinyRatio(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             int inSampleSize = getInSampleSizeOfRatio(imageFilePath, wantWidth, wantHeight, false);
 
-            Log.d(TAG, String.format("getBitmapTinyRatio : path=%s, inSampleSize=%d, wantWidth=%d, wantHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmapTinyRatio : path=%s, inSampleSize=%d, wantWidth=%d, wantHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
             return getBitmap(imageFilePath, inSampleSize, config);
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmapTinyRatio(String, int, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
+     *
+     * @see #getBitmapTinyRatio(String, int, int, Config)
      */
-    public final static Bitmap getBitmapTinyRatio(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapTinyRatio(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
         return getBitmapTinyRatio(imageFilePath, wantWidth, wantHeight, Config.RGB_565);
     }
 
 
     /**
-     * bitmap decode from image file <br>
-     * inSampleSize를 주어진 width와 height를 사용하여 적정값을 구한다.<br>
+     * bitmap decode from image file <br/>
+     * inSampleSize를 주어진 width와 height를 사용하여 적정값을 구한다.<br/>
      * 실제 이미지의 크기와 주어진 width, height를 비교하여 scale값이 큰쪽으로 inSampleSize를 설정하여 decode한다.
      *
      * @param imageFilePath 이미지 파일의 절대경로
@@ -893,38 +843,35 @@ public final class ImageUtil {
      * @param wantHeight    원하는 이미지의 세로 크기
      * @param config        Bitmap.Config
      * @return resize bitmap
-     * @author gue
      */
-    public final static Bitmap getBitmapBigRatio(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapBigRatio(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             int inSampleSize = getInSampleSizeOfRatio(imageFilePath, wantWidth, wantHeight, true);
 
-            Log.d(TAG, String.format("getBitmapBigRatio : path=%s, inSampleSize=%d, wantWidth=%d, wantHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmapBigRatio : path=%s, inSampleSize=%d, wantWidth=%d, wantHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
             return getBitmap(imageFilePath, inSampleSize, config);
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmapBigRatio(String, int, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
      *
-     * @author gue
+     * @see #getBitmapBigRatio(String, int, int, Config)
      */
-    public final static Bitmap getBitmapBigRatio(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapBigRatio(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
         return getBitmapBigRatio(imageFilePath, wantWidth, wantHeight, Config.RGB_565);
     }
 
     /**
-     * bitmap decode from image file <br>
-     * 주어진 width에 맞추어 scale을 적용한 bitmap을 만든다. 단 확대는 하지 않는다.<br>
+     * bitmap decode from image file <br/>
+     * 주어진 width에 맞추어 scale을 적용한 bitmap을 만든다. 단 확대는 하지 않는다.<br/>
      *
      * @param imageFilePath 이미지 파일의 절대경로
      * @param wantWidth     변환을 원하는 가로크기
      * @param config        Bitmap.Config
      * @return resize bitmap
-     * @author gue
      */
-    public final static Bitmap getBitmapFixWidth(String imageFilePath, int wantWidth, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapFixWidth(String imageFilePath, int wantWidth, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             int[] rect = getBitmapOfSize(imageFilePath);
             int wantHeight = rect[1];
@@ -944,32 +891,30 @@ public final class ImageUtil {
                 output = getBitmap(imageFilePath, inSampleSize, config);
                 wantWidth = rect[0];
             }
-            Log.d(TAG, String.format("getBitmapFixWidth : path=%s, inSampleSize=%d, wantWidth=%d, calcHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmapFixWidth : path=%s, inSampleSize=%d, wantWidth=%d, calcHeight=%d", imageFilePath, inSampleSize, wantWidth, wantHeight));
             return output;
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmapFixWidth(String, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
      *
-     * @author gue
+     * @see #getBitmapFixWidth(String, int, Config)
      */
-    public final static Bitmap getBitmapFixWidth(String imageFilePath, int wantWidth) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapFixWidth(String imageFilePath, int wantWidth) throws OutOfMemoryError, Exception {
         return getBitmapFixWidth(imageFilePath, wantWidth, Config.RGB_565);
     }
 
     /**
-     * bitmap decode from image file <br>
-     * 주어진 height에 맞추어 scale을 적용한 bitmap을 만든다. 단 확대는 하지 않는다.<br>
+     * bitmap decode from image file <br/>
+     * 주어진 height에 맞추어 scale을 적용한 bitmap을 만든다. 단 확대는 하지 않는다.<br/>
      *
      * @param imageFilePath 이미지 파일의 절대경로
      * @param wantHeight    변환을 원하는 세로크기
      * @param config        Bitmap.Config
      * @return resize bitmap
-     * @author gue
      */
-    public final static Bitmap getBitmapFixHeight(String imageFilePath, int wantHeight, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapFixHeight(String imageFilePath, int wantHeight, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             int[] rect = getBitmapOfSize(imageFilePath);
             int wantWidth = rect[0];
@@ -990,34 +935,32 @@ public final class ImageUtil {
                 wantHeight = rect[1];
             }
 
-            Log.d(TAG, String.format("getBitmapFixHeight : path=%s, inSampleSize=%d, wantWidth=%d, calcHeight=%d",
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmapFixHeight : path=%s, inSampleSize=%d, wantWidth=%d, calcHeight=%d",
                     imageFilePath, inSampleSize, wantWidth, wantHeight));
             return output;
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmapFixHeight(String, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
      *
-     * @author gue
+     * @see #getBitmapFixHeight(String, int, Config)
      */
-    public final static Bitmap getBitmapFixHeight(String imageFilePath, int wantHeight) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapFixHeight(String imageFilePath, int wantHeight) throws OutOfMemoryError, Exception {
         return getBitmapFixHeight(imageFilePath, wantHeight, Config.RGB_565);
     }
 
     /**
-     * bitmap decode from image file<br>
-     * 입력받은 width, height에 맞게 이미지를 resize 한다. 단 확대는 하지 않는다. <br>
+     * bitmap decode from image file<br/>
+     * 입력받은 width, height에 맞게 이미지를 resize 한다. 단 확대는 하지 않는다. <br/>
      *
      * @param imageFilePath 이미지 파일의 절대경로
      * @param wantWidth     변환을 원하는 가로크기
      * @param wantHeight    변환을 원하는 세로크기
      * @param config        Bitmap.Config
      * @return resize bitmap
-     * @author gue
      */
-    public final static Bitmap getBitmapResize(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapResize(String imageFilePath, int wantWidth, int wantHeight, Config config) throws OutOfMemoryError, Exception {
         if (isGoodFilePath(imageFilePath)) {
             Bitmap output = null;
             Bitmap bitmap = getBitmapFixWidth(imageFilePath, wantWidth, config);
@@ -1036,34 +979,30 @@ public final class ImageUtil {
                 output = bitmap;
             }
 
-            Log.d(TAG, String.format("getBitmapResize : path=%s, wantWidth=%d, wantHeight=%d, calcWidth=%d, calcHeight=%d",
+            Log.d(TAG, String.format(Locale.getDefault(), "getBitmapResize : path=%s, wantWidth=%d, wantHeight=%d, calcWidth=%d, calcHeight=%d",
                     imageFilePath, wantWidth, wantHeight, calcWidth, calcHeight));
             return output;
         } else throw new NullPointerException(EXCEPTION_FILE_NULL);
     }
 
     /**
-     * bitmap decode from image file : use Config.RGB_565<br>
-     * see {@link #getBitmapResize(String, int, int, Config)}
+     * bitmap decode from image file : use Config.RGB_565<br/>
      *
-     * @author gue
+     * @see #getBitmapResize(String, int, int, Config)
      */
-    public final static Bitmap getBitmapResize(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
+    public static Bitmap getBitmapResize(String imageFilePath, int wantWidth, int wantHeight) throws OutOfMemoryError, Exception {
         return getBitmapResize(imageFilePath, wantWidth, wantHeight, Config.RGB_565);
     }
 
 
-    /* ************************************************************************************************
-     * INFO drawable convert Bitmap
+    /* ------------------------------------------------------------
+        DESC: drawable convert Bitmap
      */
 
     /**
      * drawable -> bitmap
-     *
-     * @param drawable
-     * @author gue
      */
-    public final static Bitmap drawableToBitmap(Drawable drawable) throws OutOfMemoryError, Exception {
+    public static Bitmap drawableToBitmap(Drawable drawable) throws OutOfMemoryError, Exception {
         Bitmap output = null;
 
         if (drawable instanceof BitmapDrawable) {
@@ -1081,17 +1020,16 @@ public final class ImageUtil {
     }
 
 
-    /* ************************************************************************************************
-     * INFO size convert
+    /* ------------------------------------------------------------
+        DESC: size convert
      */
 
     /**
-     * image size converter<br>
-     * see {@link #sizeConvert(Bitmap, int, int, boolean)}
+     * image size converter<br/>
      *
-     * @author gue
+     * @see #sizeConvert(Bitmap, int, int, boolean)
      */
-    public final static Bitmap sizeConvert(Drawable drawable, int wantWidth, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvert(Drawable drawable, int wantWidth, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
         Log.d(TAG, "drawable size : " + drawable.getIntrinsicWidth() + " / " + drawable.getMinimumHeight());
         return sizeConvert(drawableToBitmap(drawable), wantWidth, wantHeight, recycle);
     }
@@ -1102,12 +1040,11 @@ public final class ImageUtil {
      * @param wantWidth  변환을 원하는 가로 크기
      * @param wantHeight 변환을 원하는 세로 크기
      * @param recycle    true : 주어진 bitmap을 recycle 처리한다.
-     * @author gue
      */
-    public final static Bitmap sizeConvert(Bitmap bitmap, int wantWidth, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvert(Bitmap bitmap, int wantWidth, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        Log.d(TAG, String.format("1. original bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "1. original bitmap size - width=%d, height=%d ", width, height));
         Bitmap output = null;
 
         if (width != wantWidth || height != wantHeight) {
@@ -1116,7 +1053,7 @@ public final class ImageUtil {
             height = output.getHeight();
         } else output = bitmap.copy(Config.ARGB_8888, true);
 
-        Log.d(TAG, String.format("2. convert bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "2. convert bitmap size - width=%d, height=%d ", width, height));
 
         if (recycle && output != bitmap) bitmap.recycle();
 
@@ -1124,27 +1061,25 @@ public final class ImageUtil {
     }
 
     /**
-     * image size converter<br>
-     * see {@link #sizeConvertFixWidth(Bitmap, int, boolean)}
+     * image size converter<br/>
      *
-     * @author gue
+     * @see #sizeConvertFixWidth(Bitmap, int, boolean)
      */
-    public final static Bitmap sizeConvertFixWidth(Drawable drawable, int wantWidth, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvertFixWidth(Drawable drawable, int wantWidth, boolean recycle) throws OutOfMemoryError, Exception {
         Log.d(TAG, "drawable size : " + drawable.getIntrinsicWidth() + " / " + drawable.getMinimumHeight());
         return sizeConvertFixWidth(drawableToBitmap(drawable), wantWidth, recycle);
     }
 
     /**
-     * image size converter : 가로 크기를 기준으로 bitmap의 크기를 조정한다.<br>
+     * image size converter : 가로 크기를 기준으로 bitmap의 크기를 조정한다.<br/>
      *
      * @param wantWidth 변환을 원하는 가로 크기
      * @param recycle   true : 주어진 bitmap을 recycle 처리한다.
-     * @author gue
      */
-    public final static Bitmap sizeConvertFixWidth(Bitmap bitmap, int wantWidth, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvertFixWidth(Bitmap bitmap, int wantWidth, boolean recycle) throws OutOfMemoryError, Exception {
         double width = bitmap.getWidth();
         double height = bitmap.getHeight();
-        Log.d(TAG, String.format("1. original bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "1. original bitmap size - width=%d, height=%d ", width, height));
         Bitmap output = null;
 
         if (width > wantWidth) {
@@ -1153,33 +1088,31 @@ public final class ImageUtil {
             height = output.getHeight();
         } else output = bitmap.copy(Config.ARGB_8888, true);
 
-        Log.d(TAG, String.format("2. convert bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "2. convert bitmap size - width=%d, height=%d ", width, height));
         if (recycle && output != bitmap) bitmap.recycle();
         return output;
     }
 
     /**
-     * image size converter<br>
-     * see {@link #sizeConvertFixHeight(Bitmap, int, boolean)}
+     * image size converter<br/>
      *
-     * @author gue
+     * @see #sizeConvertFixHeight(Bitmap, int, boolean)
      */
-    public final static Bitmap sizeConvertFixHeight(Drawable drawable, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvertFixHeight(Drawable drawable, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
         Log.d(TAG, "drawable size : " + drawable.getIntrinsicWidth() + " / " + drawable.getMinimumHeight());
         return sizeConvertFixHeight(drawableToBitmap(drawable), wantHeight, recycle);
     }
 
     /**
-     * image size converter : 세로 크기를 기준으로 bitmap의 크기를 조정한다.<br>
+     * image size converter : 세로 크기를 기준으로 bitmap의 크기를 조정한다.<br/>
      *
      * @param wantHeight 변환을 원하는 세로 크기
      * @param recycle    true : 주어진 bitmap을 recycle 처리한다.
-     * @author gue
      */
-    public final static Bitmap sizeConvertFixHeight(Bitmap bitmap, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
+    public static Bitmap sizeConvertFixHeight(Bitmap bitmap, int wantHeight, boolean recycle) throws OutOfMemoryError, Exception {
         double width = bitmap.getWidth();
         double height = bitmap.getHeight();
-        Log.d(TAG, String.format("1. original bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "1. original bitmap size - width=%d, height=%d ", width, height));
         Bitmap output = null;
 
         if (height > wantHeight) {
@@ -1188,19 +1121,20 @@ public final class ImageUtil {
             height = bitmap.getHeight();
         } else output = bitmap.copy(Config.ARGB_8888, true);
 
-        Log.d(TAG, String.format("2. convert bitmap size - width=%d, height=%d ", width, height));
+        Log.d(TAG, String.format(Locale.getDefault(), "2. convert bitmap size - width=%d, height=%d ", width, height));
         if (recycle && output != bitmap) bitmap.recycle();
         return output;
     }
 
 
-    /* ************************************************************************************************
-     * INFO image info
+    /* ------------------------------------------------------------
+        DESC: image info
      */
 
     /**
      * 이미지의 orientation값을 구하여 각도로 변환
-     * return 회전해야할 degree값
+     *
+     * @return 회전해야할 degree값
      */
     public static int getExifOrientation(String imageFilePath) {
         int orientation = 0;
@@ -1229,13 +1163,13 @@ public final class ImageUtil {
                 e.printStackTrace();
             }
             if (degree != 0)
-                Log.d(TAG, String.format("getExifOrientation : %d / degree: %d / path: %s ", orientation, degree, imageFilePath));
+                Log.d(TAG, String.format(Locale.getDefault(), "getExifOrientation : %d / degree: %d / path: %s ", orientation, degree, imageFilePath));
         }
         return degree;
     }
 
-    /* ************************************************************************************************
-     * INFO view bitmap
+    /* ------------------------------------------------------------
+        DESC: view bitmap
      */
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -1262,10 +1196,10 @@ public final class ImageUtil {
         view.setDrawingCacheEnabled(false);
     }
 
-    /* ************************************************************************************************
-     * INFO not arrangement
+    /* ------------------------------------------------------------
+        DESC: not arrangement
      */
-    /**
+    /*
      * 이미지 타켓 사이즈에 맞는 샘플 이미지 출력
      */
     /*public static Bitmap readImageFitWidth(String imagePath, int targetWidth, Bitmap.Config bmConfig) throws OutOfMemoryError, Exception {
@@ -1292,8 +1226,9 @@ public final class ImageUtil {
         return resized;
     }*/
 
-
-    /** 이미지 타켓 사이즈에 맞는 샘플 이미지 출력 */
+    /*
+     * 이미지 타켓 사이즈에 맞는 샘플 이미지 출력
+     */
     /*public static Bitmap readImageWithSampling(String imagePath, int targetWidth, int targetHeight, Bitmap.Config bmConfig) {
         // Get the dimensions of the bitmap
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();

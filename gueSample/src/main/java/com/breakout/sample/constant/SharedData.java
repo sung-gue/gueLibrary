@@ -1,7 +1,6 @@
 package com.breakout.sample.constant;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.breakout.sample.Log;
@@ -22,36 +21,18 @@ import java.util.Locale;
 
 
 /**
- * Custom SharedPreferences <br>
- * {@link #_sharedFlash} : 중간에 삭제의 필요성이 있는 데이터
- * {@link #_shared} : 앱의 삭제전까지 가지고 가야할 데이터
+ * App SharedPreferences<br/>
  *
- * @author gue
+ * @author sung-gue
  * @version 1.0
+ * @copyright Copyright 2011. sung-gue All rights reserved.
  * @since 2012. 9. 30.
  */
 public final class SharedData extends SharedStorage {
     private static SharedData _this;
 
-    private static final String SF_NAME_PREFIX = "sf_";
-    private static final String SF_NAME_CONST = SF_NAME_PREFIX + "const_" + Const.APP_NAME;
-    private static final String SF_NAME = SF_NAME_PREFIX + Const.APP_NAME;
-    private static final String SF_NAME_FLASH = SF_NAME_PREFIX + "flash_" + Const.APP_NAME;
-    private static final String SF_NAME_USER = SF_NAME_PREFIX + "user_" + Const.APP_NAME;
-
-    /**
-     * 내용 유지, {@link #clear(ClearMode)} 로 삭제 가능 영역
-     */
-    protected SharedPreferences _sharedUser;
-    /**
-     * 내용 유지, {@link #clear(ClearMode)} 로 삭제 가능 영역
-     */
-    protected SharedPreferences.Editor _editorUser;
-
-    private SharedData(Context context) {
-        super(context, SF_NAME_CONST, SF_NAME, SF_NAME_FLASH);
-        _sharedUser = context.getSharedPreferences(SF_NAME_USER, Context.MODE_PRIVATE);
-        _editorUser = _sharedUser.edit();
+    private SharedData(Context appContext) {
+        super(appContext);
     }
 
     public static synchronized SharedData getInstance(Context context) {
@@ -59,25 +40,13 @@ public final class SharedData extends SharedStorage {
         return _this;
     }
 
-    public static synchronized SharedData getInstance() {
+    public static synchronized SharedData getInstance() throws Exception {
+        if (_this == null) throw new Exception("SharedData instance is null");
         return _this;
     }
 
     public static void destroyInstance() {
         if (_this != null) _this.destroy();
-    }
-
-    @Override
-    public void clear(ClearMode mode) {
-        super.clear(mode);
-        switch (mode) {
-            case FLASH_CLEAR:
-                break;
-            case ALL_CLEAR:
-                _editorUser.clear();
-                _editorUser.commit();
-                break;
-        }
     }
 
     @Override
@@ -87,10 +56,8 @@ public final class SharedData extends SharedStorage {
     }
 
     public void clearUserInfo() {
-        _editorUser.clear();
-        _editorUser.commit();
+        clear(ClearMode.USER_CLEAR);
     }
-
 
     /* ------------------------------------------------------------
         default

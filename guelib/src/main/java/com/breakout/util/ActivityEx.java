@@ -56,13 +56,8 @@ import java.util.List;
  * 기본 생명주기에 대한 log와 progress dialog를 사용할 수 있게 하여주고 stack의 일괄 종료에 대한 receiver을 제공한다.<br>
  * {@link #_pDialog}, {@link #_context}는 {@link #onDestroy()}에서 null 처리 된다.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 1. 7.
+ * @author sung-gue
+ * @version 1.0 (2013. 1. 7.)
  */
 public abstract class ActivityEx extends Activity {
     /**
@@ -79,8 +74,8 @@ public abstract class ActivityEx extends Activity {
     protected Context _context = this;
 
 
-    /* ************************************************************
-     * DESC UI 설정
+    /* ------------------------------------------------------------
+        DESC UI 설정
      */
 
     /**
@@ -91,8 +86,6 @@ public abstract class ActivityEx extends Activity {
      * 하지만 4가지 부분에 대해 override를 하여 내용을 작성 하였다면 child class에서는 초기화 작업을
      * 마친후에 {@link #onCreate(Bundle)}에서 필수로 호출하여 사용하여야 한다.<br>
      * 실행 순서 title > header > footer > body
-     *
-     * @author gue
      */
     protected void setUI() {
         setTitleBar();
@@ -105,7 +98,6 @@ public abstract class ActivityEx extends Activity {
     /**
      * 1. titleBar부분에 대한 작성<br/>
      *
-     * @author gue
      * @see #setUI()
      */
     protected abstract void setTitleBar();
@@ -113,7 +105,6 @@ public abstract class ActivityEx extends Activity {
     /**
      * 2. header부분에 대한 작성
      *
-     * @author gue
      * @see #setUI()
      */
     protected abstract void setHeader();
@@ -121,7 +112,6 @@ public abstract class ActivityEx extends Activity {
     /**
      * 3. footer부분에 대한 작성
      *
-     * @author gue
      * @see #setUI()
      */
     protected abstract void setFooter();
@@ -129,21 +119,18 @@ public abstract class ActivityEx extends Activity {
     /**
      * 4. boty부분에 대한 작성
      *
-     * @author gue
      * @see #setUI()
      */
     protected abstract void setBody();
 
     /**
      * 5. UI의 새로고침에 대한 작성
-     *
-     * @author gue
      */
     protected abstract void refreshUI();
 
 
-    /* ************************************************************
-     * DESC dialog
+    /* ------------------------------------------------------------
+        DESC dialog
      */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
@@ -156,11 +143,10 @@ public abstract class ActivityEx extends Activity {
      * @param view       dialog안에 들어갈 view 정의
      * @param backGround dialog의 배경 drawable
      * @return {@link #_pDialog}
-     * @author gue
      */
     public Dialog showProgress(View view, Drawable backGround) {
         if (_pDialog == null) {
-            DialogView dv = null;
+            DialogView dv;
             if (view != null) {
                 dv = new DialogView(this, view, backGround);
             } else {
@@ -181,18 +167,14 @@ public abstract class ActivityEx extends Activity {
     }
 
     /**
-     * see {@link #showProgress(View, Drawable)}
-     *
-     * @author gue
+     * @see #showProgress(View, Drawable)
      */
     public Dialog showProgress(View view) {
         return showProgress(view, null);
     }
 
     /**
-     * see {@link #showProgress(View, Drawable)}
-     *
-     * @author gue
+     * @see #showProgress(View, Drawable)
      */
     public Dialog showProgress() {
         return showProgress(null, null);
@@ -210,8 +192,8 @@ public abstract class ActivityEx extends Activity {
     }
 
 
-    /* ************************************************************
-     * DESC finish receiver
+    /* ------------------------------------------------------------
+        DESC finish receiver
      */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
@@ -224,7 +206,7 @@ public abstract class ActivityEx extends Activity {
     private void unregisterReceiver() {
         try {
             if (_finishReceiverIsRegistered) unregisterReceiver(finishReceiver);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -254,8 +236,8 @@ public abstract class ActivityEx extends Activity {
     };
 
 
-    /* ************************************************************
-     * DESC : intent method
+    /* ------------------------------------------------------------
+        DESC : intent method
      */
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
@@ -270,8 +252,8 @@ public abstract class ActivityEx extends Activity {
     }
 
 
-    /* ************************************************************
-     * DESC activity life cycle
+    /* ------------------------------------------------------------
+        DESC: activity life cycle
      */
 
     /**
@@ -371,8 +353,8 @@ public abstract class ActivityEx extends Activity {
     }
 
 
-    /* ************************************************************
-     * DESC db control
+    /* ------------------------------------------------------------
+        DESC db control
      */
 //    /**
 //     * SQLite3 instance 

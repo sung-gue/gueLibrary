@@ -59,13 +59,8 @@ import java.util.List;
  * 기본 생명주기에 대한 log와 progress dialog를 사용할 수 있게 하여주고 stack의 일괄 종료에 대한 receiver을 제공한다.<br>
  * {@link #_pDialog}, {@link #_context}는 {@link #onDestroy()}에서 null 처리 된다.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2016. 2. 3.
+ * @author sung-gue
+ * @version 1.0 (2016. 2. 3.)
  */
 public abstract class AppCompatActivityEx extends AppCompatActivity {
     /**
@@ -82,8 +77,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected Context _context = this;
 
 
-    /* ************************************************************
-     * DESC UI 구현
+    /* ------------------------------------------------------------
+        DESC UI 구현
      */
 
     /**
@@ -118,8 +113,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected abstract void refreshUI();
 
 
-    /* ************************************************************
-     * DESC dialog
+    /* ------------------------------------------------------------
+        DESC dialog
      */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
@@ -155,14 +150,14 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
     /**
-     * see {@link #showProgress(View, Drawable)}
+     * @see #showProgress(View, Drawable)
      */
     public Dialog showProgress(View view) {
         return showProgress(view, null);
     }
 
     /**
-     * see {@link #showProgress(View, Drawable)}
+     * @see #showProgress(View, Drawable)
      */
     public Dialog showProgress() {
         return showProgress(null, null);
@@ -180,8 +175,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************
-     * DESC finish receiver
+    /* ------------------------------------------------------------
+        DESC finish receiver
      */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
@@ -224,8 +219,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     };
 
 
-    /* ************************************************************
-     * DESC : intent method
+    /* ------------------------------------------------------------
+        DESC : intent method
      */
 
     /**
@@ -258,8 +253,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************
-     * DESC activity life cycle
+    /* ------------------------------------------------------------
+        DESC activity life cycle
      */
 
     /**
@@ -394,8 +389,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ************************************************************
-     * DESC db control
+    /* ------------------------------------------------------------
+        DESC db control
      */
 //    /**
 //     * SQLite3 instance 

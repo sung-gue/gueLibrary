@@ -16,27 +16,23 @@ import com.breakout.util.string.StringUtil;
 
 import java.lang.ref.SoftReference;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.RejectedExecutionException;
 
 
 /**
- * 이미지의 url을 받아 멀티 쓰레드를 적용하여 url을 md5로 바꾸어 캐시를 생성하거나 캐시가 있다면 디코딩하여 원하는 imageview에 적용한다.<br>
- * 사용방법<br>
+ * 이미지의 url을 받아 멀티 쓰레드를 적용하여 url을 md5로 바꾸어 캐시를 생성하거나 캐시가 있다면 디코딩하여 원하는 imageview에 적용한다.<br/>
+ * 사용방법<br/>
  * <ol>
- * <li>인스턴스를 생성한다. : {@link #getInstance(Context)}</li>
- * <li>다음 함수를 사용하여 이미지의 캐싱 작업을 시작한다. : {@link #download(String, ImageView, Bitmap)}</li>
- * <li></li>
+ *      <li>인스턴스를 생성한다. : {@link #getInstance(Context)}</li>
+ *      <li>다음 함수를 사용하여 이미지의 캐싱 작업을 시작한다. : {@link #download(String, ImageView, Bitmap)}</li>
+ *      <li></li>
  * </ol>
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>gue/2012.08.11 : device display size를 읽어와서 thumbnail과 일반 imageView에 decode되어 뿌려주는 속도 향상.</li>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2012. 6. 14.
+ * @author sung-gue
+ * @version 1.0 (2012. 6. 14.)
+ * @since 2012.08.11: device display size를 읽어와서 thumbnail과 일반 imageView에 decode되어 뿌려주는 속도 향상.
  */
 public final class ImageLoader implements ImageLoadCompleteListener {
     private final static String TAG = "ImageLoader";
@@ -44,6 +40,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * singleton instance
      */
     private static ImageLoader _this;
+
     private Context _context;
     /**
      * appliocation cache directory
@@ -81,11 +78,11 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      */
     private final static ConcurrentHashMap<String, SoftReference<Bitmap>> sSoftBitmapCache =
             new ConcurrentHashMap<String, SoftReference<Bitmap>>(HARD_CACHE_CAPACITY / 2);
-    /**
-     * 1~3의 방식은 같은 이미지의 url을 MD5로 변환하여 cache에 저장후 사용하기 때문에 성능상 thumbnail을 필요로 하는 View에서  
-     * 캐쉬상에 큰 이미지를 그대로 보여줄 필요가 없기 때문에 2,3의 추가 method를 사용하게 된다. 
+    /*
+     * 1~3의 방식은 같은 이미지의 url을 MD5로 변환하여 cache에 저장후 사용하기 때문에 성능상 thumbnail을 필요로 하는 View에서
+     * 캐쉬상에 큰 이미지를 그대로 보여줄 필요가 없기 때문에 2,3의 추가 method를 사용하게 된다.
      * 이때 {@link ImageLoaderTask}에서 이 값을 사용하여 분기처리를 하여 준다.
-     * <ol>    
+     * <ol>
      *         <li>{@link #download}</li>
      *         <li>{@link #downloadOptimize}</li>
      *         <li>{@link #downloadForThumb}</li>
@@ -183,11 +180,11 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         _context = null;
         _this = null;
     }
-    
 
-/* ************************************************************************************************
- * INFO public method
- */
+
+    /* ************************************************************************************************
+     * INFO public method
+     */
 
     /**
      * 1. image loading : url
@@ -245,13 +242,12 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
-     * 2. image loading : url<br>
+     * 2. image loading : url<br/>
      * imageView에 쓰이는 Image를 device의 display size를 사용하여 최적화된 size로 decode하여 system의 부하를 줄인다.
      *
      * @param url       image url, null일경우 baseImage를 셋팅해준다.
      * @param imageView set down image, null일경우 return
      * @param baseImage bitmap of base image
-     * @author gue
      */
     public final void downloadOptimize(String url, ImageView imageView, Bitmap baseImage) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -275,14 +271,13 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
-     * 2-1. image loading : url<br>
+     * 2-1. image loading : url<br/>
      * imageView에 쓰이는 Image를 device의 display size를 사용하여 최적화된 size로 decode하여 system의 부하를 줄인다.
      *
      * @param url       image url, null일경우 baseImage를 셋팅해준다.
      * @param imageView set down image, null일경우 return
      * @param baseImage bitmap of base image
      * @param scroll    리스트에서 스크롤 상태값, true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
-     * @author gue
      */
     public final void downloadOptimize(String url, ImageView imageView, Bitmap baseImage, boolean scroll) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -309,7 +304,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
 
     /**
      * INFO gue/2014. 9. 16. : [임시코드] 이미지 라운드 처리 관련
-     * 2-2. image loading : url<br>
+     * 2-2. image loading : url<br/>
      * imageView에 쓰이는 Image를 device의 display size를 사용하여 최적화된 size로 decode하여 system의 부하를 줄인다. <br/>
      * 추가로 이미지 라운드 처리를 한다.
      *
@@ -317,7 +312,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param imageView set down image, null일경우 return
      * @param baseImage bitmap of base image
      * @param scroll    리스트에서 스크롤 상태값, true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
-     * @author gue
      */
     public final void downloadOptimizeRoundImg(String url, ImageView imageView, Bitmap baseImage, boolean scroll, int radiusPxToRound) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -344,7 +338,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
 
     /**
      * INFO gue/2014. 9. 16. : [임시코드] 이미지 라운드 처리 관련
-     * 2-2. image loading : url<br>
+     * 2-2. image loading : url<br/>
      * imageView에 쓰이는 Image를 device의 display size를 사용하여 최적화된 size로 decode하여 system의 부하를 줄인다. <br/>
      * 추가로 이미지 라운드 처리를 한다.
      *
@@ -352,7 +346,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param imageView set down image, null일경우 return
      * @param baseImage bitmap of base image
      * @param scroll    리스트에서 스크롤 상태값, true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
-     * @author gue
      */
     public final void downloadOptimizeCircleImg(String url, ImageView imageView, Bitmap baseImage, boolean scroll) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -378,7 +371,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
-     * 3. image loading : url<br>
+     * 3. image loading : url<br/>
      * gridView등을 사용할 때 imageView가 thumbnail 형태의 작은 이미지일 경우
      * device의 display size를 사용하여 입력받은 thumbNumOfWidth를 사용하여
      * display size/thumbNumOfWidth 로 계산된 size로 decode하여 system의 부하를 줄인다.
@@ -387,7 +380,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param thumbNumOfWidth 화면의 가로를 기준으로 들어갈 cell의 숫자
      * @param imageView       set down image, null일경우 return
      * @param baseImage       bitmap of base image
-     * @author gue
      */
     public final void downloadForThumb(String url, int thumbNumOfWidth, ImageView imageView, Bitmap baseImage) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -411,7 +403,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
-     * 3-1. image loading : url<br>
+     * 3-1. image loading : url<br/>
      * gridView등을 사용할 때 imageView가 thumbnail 형태의 작은 이미지일 경우
      * device의 display size를 사용하여 입력받은 thumbNumOfWidth를 사용하여
      * display size/thumbNumOfWidth 로 계산된 size로 decode하여 system의 부하를 줄인다.
@@ -421,7 +413,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param imageView       set down image, null일경우 return
      * @param baseImage       bitmap of base image
      * @param scroll          리스트에서 스크롤 상태값, true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
-     * @author gue
      */
     public final void downloadForThumb(String url, int thumbNumOfWidth, ImageView imageView, Bitmap baseImage, boolean scroll) {
         if (checkBeforeStartLoader(url, imageView, baseImage)) return;
@@ -453,7 +444,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param wantImageInfo {@link ImageLoaderTask#wantImageInfo}
      * @param imageView     set down image, null일경우 return
      * @param baseImage     bitmap of base image
-     * @author gue
      */
     public final void downloadLocalPath(String imageFilePath, int[] wantImageInfo, ImageView imageView, Bitmap baseImage) {
         if (checkBeforeStartLoader(imageFilePath, imageView, baseImage)) return;
@@ -484,7 +474,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @param imageView     set down image, null일경우 return
      * @param baseImage     bitmap of base image
      * @param scroll        true : 스크롤 중인 상태일 때 캐쉬에 있다면 해당 bitmap을 설정하고 아니라면 baseImage를 설정한다.
-     * @author gue
      */
     public final void downloadLocalPath(String imageFilePath, int[] wantImageInfo, ImageView imageView, Bitmap baseImage, boolean scroll) {
         if (checkBeforeStartLoader(imageFilePath, imageView, baseImage)) return;
@@ -533,7 +522,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      *                      <li>1 : 90도</li>
      *                      <li>2 : 180도</li>
      *                      <li>3 : 270도</li>
-     * @author gue
      */
     public final void downloadLocalPathMatrix(String imageFilePath, int[] wantImageInfo, ImageView imageView, Bitmap baseImage, int rotate) {
         if (checkBeforeStartLoader(imageFilePath, imageView, baseImage)) return;
@@ -558,14 +546,14 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
 
-    /* ************************************************************************************************
-     * INFO AsyncTask manage method
+    /* ------------------------------------------------------------
+        DESC: AsyncTask manage method
      */
-    private final void startLoader(ImageLoaderTask task, String url) {
+    private void startLoader(ImageLoaderTask task, String url) {
         synchronized (asyncTaskTable) {
 //            asyncTaskTable.put(url, new WeakReference<ImageLoaderTask>(task));
             asyncTaskTable.put(url, task);
-            Log.w(TAG, String.format("startLoader | task size=%d, url= %s", asyncTaskTable.size(), url));
+            Log.w(TAG, String.format(Locale.getDefault(), "startLoader | task size=%d, url= %s", asyncTaskTable.size(), url));
             try {
                 task.execute(url);
             } catch (RejectedExecutionException e) {
@@ -584,7 +572,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         synchronized (asyncTaskTable) {
             try {
                 asyncTaskTable.remove(url);
-                Log.i(TAG, String.format("removeAsyncTask | task size=%d, url= %s", asyncTaskTable.size(), url));
+                Log.i(TAG, String.format(Locale.getDefault(), "removeAsyncTask | task size=%d, url= %s", asyncTaskTable.size(), url));
             } catch (Exception e) {
                 android.util.Log.w(TAG, String.format("[Exception:%s] removeTask - %s ", e.getMessage(), url), e);
             }
@@ -603,7 +591,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
             for (ImageLoaderTask temp : asyncTaskTable.values()) {
                 if (temp != null) {
                     boolean result = temp.cancel(true);
-                    Log.i(TAG, String.format("clearAsyncTask | task size=%d, cancel=%s, url= %s", asyncTaskTable.size(), result, temp._url));
+                    Log.i(TAG, String.format(Locale.getDefault(), "clearAsyncTask | task size=%d, cancel=%s, url= %s", asyncTaskTable.size(), result, temp._url));
                 }
             }
             asyncTaskTable.clear();
@@ -614,16 +602,13 @@ public final class ImageLoader implements ImageLoadCompleteListener {
             }
         }
     }
-    
-/* ************************************************************************************************
- * INFO private method
- */
+
+    /* ------------------------------------------------------------
+        DESC: private method
+     */
 
     /**
      * url과 imageView를 check하여 null일 경우 true를 return하여 ImageLoader의 작업을 시작하지 않는다.
-     *
-     * @author gue
-     * @since 2012. 8. 11.
      */
     private final boolean checkBeforeStartLoader(String url, ImageView imageView, Bitmap baseImage) {
         boolean result = false;
@@ -694,7 +679,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @return <li>true : 다운로드 진행, 동일 ImageView에 AsyncTask 있을시에는 선행 다운로드 취소
      * <li>false : 다운로드 취소, ImageView의 AsyncTask에서 해당 url의 다운로드가 진행중임
      */
-    private final boolean cancelPotentialDownload(String url, ImageView imageView, int loaderForm) {
+    private boolean cancelPotentialDownload(String url, ImageView imageView, int loaderForm) {
         ImageLoaderTask imageLoaderTask = getImageLoaderTask(imageView);
         if (imageLoaderTask != null) {
             String bitmapUrl = imageLoaderTask._url;
@@ -718,7 +703,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
      * @return Retrieve the currently active download task (if any) associated with this imageView.
      * null if there is no such task.
      */
-    private final static ImageLoaderTask getImageLoaderTask(ImageView imageView) {
+    private static ImageLoaderTask getImageLoaderTask(ImageView imageView) {
         if (imageView != null) {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof DrawBase) {
@@ -732,7 +717,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     /**
      * imageView에 삽입된 {@link DrawBase}의 tag를 가져온다.
      */
-    private final static String getDrawableTag(ImageView imageView) {
+    private static String getDrawableTag(ImageView imageView) {
         if (imageView != null) {
             Drawable drawable = imageView.getDrawable();
             if (drawable instanceof DrawBase) {
@@ -744,8 +729,8 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
 
-    /* ************************************************************************************************
-     * INFO clear cache & add cache
+    /* ------------------------------------------------------------
+        DESC: clear cache & add cache
      */
     private final Handler purgeHandler = new Handler();
     private final Runnable purger = new Runnable() {
@@ -756,7 +741,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         }
     };
 
-    private final void clearCache() {
+    private void clearCache() {
         sHardBitmapCache.clear();
         sSoftBitmapCache.clear();
         LoaderTaskQueue.getInstance().init();
@@ -767,14 +752,14 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     /**
      * Allow a new delay before the automatic cache clear is done.
      */
-    private final void resetPurgeTimer() {
+    private void resetPurgeTimer() {
         purgeHandler.removeCallbacks(purger);
         purgeHandler.postDelayed(purger, RESET_PURGE_TIME);
     }
 
 
-    /* ************************************************************************************************
-     * INFO user method
+    /* ------------------------------------------------------------
+        DESC: user method
      */
     public final void setCacheDir(String cacheDir) {
         _cacheDir = cacheDir;
@@ -806,12 +791,10 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
     /**
-     * url을 키값으로 가지는 bitmap을 sHardBitmapCache,sSoftBitmapCache에서 검사하여 map에서 remove한다.<br>
-     * 해당 bitmap은 recycle하지 않는다. recycle은 사용자가 알아서..
-     * 해당 bitmap이 아직 특정View에서 사용중인 경우 RuntimeError을 유발할 수 있기 때문이다. <br>
-     * url이 null일경우 map에 담긴 모든 bitmap을 삭제한다.
-     *
-     * @author gue
+     * url을 키값으로 가지는 bitmap을 sHardBitmapCache,sSoftBitmapCache에서 검사하여 map에서 remove한다.<br/>
+     * 해당 bitmap은 recycle하지 않는다. recycle은 사용자가 알아서..<br/>
+     * 해당 bitmap이 아직 특정View에서 사용중인 경우 RuntimeError을 유발할 수 있기 때문이다. <br/>
+     * url이 null일경우 map에 담긴 모든 bitmap을 삭제한다.<br/>
      */
     public final void clearCache(String url) {
         if (StringUtil.nullCheckB(url)) {
@@ -825,12 +808,10 @@ public final class ImageLoader implements ImageLoadCompleteListener {
 
     /**
      * 작업중... 완료되면 지시자 public으로 변경예정<p>
-     * Activity의 orientation에 따라 image의 size를 달리 decode하여 보여주고 싶을 경우
-     * Activity의 onConfigurationChanged()을 override한 곳에서 호출하여 현재 device의 size가 변경되었음을 알려주어 image의 재 decode를 실행하게끔 한다.
+     * Activity의 orientation에 따라 image의 size를 달리 decode하여 보여주고 싶을 경우<br/>
+     * Activity의 onConfigurationChanged()을 override한 곳에서 호출하여 현재 device의 size가 변경되었음을 알려주어 image의 재 decode를 실행하게끔 한다.<br/>
      *
      * @param newConfig onConfigurationChanged()의 Configuration 전달
-     * @author gue
-     * @since 2013. 1. 21.
      */
     protected final void onConfigurationChanged(Configuration newConfig) {
         clearCache();
@@ -841,12 +822,12 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         }
     }
 
-    /* ************************************************************************************************
-     * INFO imageLoadCompleteListener callBack
+    /* ------------------------------------------------------------
+        DESC: imageLoadCompleteListener callBack
      */
     @Override
     public final void onCompleted(String url, ImageView imageView, Bitmap bitmap, boolean downErr, int[] forms) {
-        Log.i(TAG, String.format("onCompleted | task size=%d, url= %s", asyncTaskTable.size(), url));
+        Log.i(TAG, String.format(Locale.getDefault(), "onCompleted | task size=%d, url= %s", asyncTaskTable.size(), url));
         removeAsyncTask(url);
 
         if (downErr || bitmap == null) {
@@ -899,7 +880,7 @@ public final class ImageLoader implements ImageLoadCompleteListener {
                     String drawableTag = getDrawableTag(imageView);
                     if (bitmap != null) {
                         try {
-                            Bitmap roundBitmap = ImageAlter.circleImage(bitmap, 0,0);
+                            Bitmap roundBitmap = ImageAlter.circleImage(bitmap, 0, 0);
                             bitmap.recycle();
                             bitmap = null;
                             bitmap = roundBitmap;

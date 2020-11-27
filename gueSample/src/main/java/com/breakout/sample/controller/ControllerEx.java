@@ -184,7 +184,7 @@ abstract class ControllerEx<T extends BaseDto> extends BaseController<T> {
         if (_currentNetState == 9999) {
             Util.appExit(_context);
         } else if (_currentNetState == 100) {
-            SharedData.getInstance().clearUserInfo();
+            SharedData.getInstance(_context).clearUserInfo();
             Util.forceMove(_context);
         } else if (_currentNetState <= NetState.NOT_INIT_CONTROLLER.code) {
             _context.sendBroadcast(new Intent(ReceiverName.FINISH_EXCLUDE_MAIN));

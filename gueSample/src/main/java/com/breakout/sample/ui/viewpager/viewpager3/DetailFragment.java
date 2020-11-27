@@ -18,6 +18,8 @@ import com.breakout.sample.R;
 import com.breakout.sample.dto.NaverImageDto;
 import com.breakout.sample.ui.viewpager.PageViewStatus;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DetailFragment extends BaseFragment<DetailFragment.OnActionListener> {
 
     public interface OnActionListener extends BaseFragment.OnFragmentActionListener {
@@ -45,7 +47,7 @@ public class DetailFragment extends BaseFragment<DetailFragment.OnActionListener
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NotNull Context context) {
         super.onAttach(context);
     }
 
@@ -71,7 +73,7 @@ public class DetailFragment extends BaseFragment<DetailFragment.OnActionListener
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.c_naver_image, container, false);
 

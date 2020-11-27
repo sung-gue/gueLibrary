@@ -4,12 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import androidx.annotation.Nullable;
-
 import com.breakout.util.Log;
-import com.breakout.util.string.StringUtil;
 
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -17,47 +13,39 @@ import java.util.Locale;
 /**
  * Date Util
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2012.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2015. 3. 11.
+ * @author sung-gue
+ * @version 1.0 (2015. 3. 11.)
  */
 public final class DateUtil {
-    private static String TAG = "DateUtil";
-    private static Locale DEFAULT_LOCALE = Locale.getDefault();
+    private static final String TAG = "DateUtil";
+    private static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
     /**
      * SimpleDateFormat patterns
      * <ol>
-     * <li>yy/M/d > 12/8/13</li>
-     * <li>yyyy/MM/dd > 2012/08/13</li>
-     * <li>yyyy.M.d > 2012.8.13</li>
-     * <li>yyyy.MM.dd > 2012.08.13</li>
-     * <li>yyyy-M-d > 2012-8-13</li>
-     * <li>yyyy-MM-dd > 2012-8-13</li>
-     * <li>yyyy.M.d HH:mm > 2012.8.13 02:20</li>
-     * <li>yyyy.M.d H:m > 2012.8.13 2:20</li>
-     * <li>yyyy.MM.dd HH:mm > 2012.08.13 02:20</li>
-     * <li>yyyy.MM.dd HH:mm:ss > 2012.08.13 02:20:15</li>
-     * <li>MM/dd > 08/23</li>
-     * <li>MM-dd > 08-23</li>
-     * <li>MM/dd HH:mm > 08/23 02:20</li>
-     * <li>yyyy년 MM월 dd일 E요일 > 2012년 08월 13일 수요일</li>
-     * <li>a h:mm > 오전 2:20</li>
-     * <li>a hh:mm > 오전 02:20</li>
-     * <li>yyyy > 2012</li>
-     * <li>yyyy.MM > 2012.08</li>
-     * <li>HH:mm:ss > 02:20:15</li>
-     * <li>yyyy-MM-dd HH:mm:ss > 2012-08-13 02:20:15</li>
-     * <li>yy.MM.dd > 12.08.13</li>
-     * <li>HH:mm > 02:20</li>
+     *      <li>yy/M/d > 12/8/13</li>
+     *      <li>yyyy/MM/dd > 2012/08/13</li>
+     *      <li>yyyy.M.d > 2012.8.13</li>
+     *      <li>yyyy.MM.dd > 2012.08.13</li>
+     *      <li>yyyy-M-d > 2012-8-13</li>
+     *      <li>yyyy-MM-dd > 2012-8-13</li>
+     *      <li>yyyy.M.d HH:mm > 2012.8.13 02:20</li>
+     *      <li>yyyy.M.d H:m > 2012.8.13 2:20</li>
+     *      <li>yyyy.MM.dd HH:mm > 2012.08.13 02:20</li>
+     *      <li>yyyy.MM.dd HH:mm:ss > 2012.08.13 02:20:15</li>
+     *      <li>MM/dd > 08/23</li>
+     *      <li>MM-dd > 08-23</li>
+     *      <li>MM/dd HH:mm > 08/23 02:20</li>
+     *      <li>yyyy년 MM월 dd일 E요일 > 2012년 08월 13일 수요일</li>
+     *      <li>a h:mm > 오전 2:20</li>
+     *      <li>a hh:mm > 오전 02:20</li>
+     *      <li>yyyy > 2012</li>
+     *      <li>yyyy.MM > 2012.08</li>
+     *      <li>HH:mm:ss > 02:20:15</li>
+     *      <li>yyyy-MM-dd HH:mm:ss > 2012-08-13 02:20:15</li>
+     *      <li>yy.MM.dd > 12.08.13</li>
+     *      <li>HH:mm > 02:20</li>
      * </ol>
-     *
-     * @author gue
-     * @since 2012. 8. 13.
      */
     public static SimpleDateFormat[] DateFormat = new SimpleDateFormat[]{
             new SimpleDateFormat("0000", DEFAULT_LOCALE),
@@ -102,8 +90,6 @@ public final class DateUtil {
      *
      * @param inputDate null일 경우 "0000"을 return
      * @param form      {@link #DateFormat}
-     * @author gue
-     * @since 2012. 11. 22.
      */
     public static String dateFormat(Date inputDate, int form) {
         String result = "0000";
@@ -120,8 +106,6 @@ public final class DateUtil {
      * @param dateStr format의 형식에 맞는 날짜
      * @param form    {@link #DateFormat}
      * @return dateStr이 형식에 맞지 않는경우 "0000"을 return
-     * @author gue
-     * @since 2012. 8. 13.
      */
     public static String dateFormat(String format, String dateStr, int form) {
         Date date = null;
@@ -193,9 +177,7 @@ public final class DateUtil {
      * @param dateStr   14글자의 시간 -> "yyyyMMddHHmmss", 형식에 맞지 않는경우 "0000"을 return
      * @param form      {@link #DateFormat}
      * @param limitHour 시간단위 : 지정한 시간까지만 ago 형식으로 변환한다.
-     * @author gue
      * @see #dateAgoFormat(Date, int, int, String[])
-     * @since 2012. 8. 13.
      */
     @Deprecated
     public static String dateAgoFormat(String dateStr, int form, int limitHour) {
@@ -240,8 +222,6 @@ public final class DateUtil {
      * 두 날짜 차이값 비교 : date1 - date2
      *
      * @return long type의 시간 차이, 단위 : 1/1000초
-     * @author gue
-     * @since 2012. 8. 13.
      */
     public static long getDiffDate(Date date1, Date date2) {
         return (date1.getTime() - date2.getTime());
@@ -250,12 +230,9 @@ public final class DateUtil {
     /**
      * 두 날짜 차이값 비교 : date1 - date2
      *
-     * @param format
-     * @param day1   일자1 : 8글자 -> "yyyyMMdd"
-     * @param day2   일자2 : 8글자 -> "yyyyMMdd"
+     * @param day1 일자1 : 8글자 -> "yyyyMMdd"
+     * @param day2 일자2 : 8글자 -> "yyyyMMdd"
      * @return long type : 1/1000초단위
-     * @author gue
-     * @since 2012. 8. 13.
      */
     @Deprecated
     public static long getDiffDate(String day1, String day2, String format) {
@@ -272,8 +249,6 @@ public final class DateUtil {
 
     /**
      * @return 오늘 날짜가 시작시간과 종료시간 사이에 있다면 true
-     * @author gue
-     * @since 2013. 11. 7.
      */
     public static boolean isDateEnable(Date startDate, Date endDate) {
         boolean result = false;
@@ -292,8 +267,6 @@ public final class DateUtil {
      * @param startDateStr 시작시간 -> "yyyyMMddHHmmss"
      * @param endDateStr   종료시간 -> "yyyyMMddHHmmss"
      * @return 오늘 날짜가 시작시간과 종료시간 사이에 있다면 true
-     * @author gue
-     * @since 2013. 11. 7.
      */
     @Deprecated
     public static boolean isDateEnable(String startDateStr, String endDateStr) {
@@ -311,8 +284,6 @@ public final class DateUtil {
      * 현재 날짜
      *
      * @return 월 일 오전/오후 시간:분
-     * @author gue
-     * @since 2012. 8. 13.
      */
     @Deprecated
     public static String getNowDate(Context context) {
@@ -328,8 +299,6 @@ public final class DateUtil {
      * @param dateStr format의 형식에 맞는 날짜
      * @param form    {@link #DateFormat}
      * @return dateStr이 형식에 맞지 않는경우 "0000"을 return
-     * @author gue
-     * @since 2012. 8. 13.
      */
     @Deprecated
     public static String dateFormat(String dateStr, int form) {

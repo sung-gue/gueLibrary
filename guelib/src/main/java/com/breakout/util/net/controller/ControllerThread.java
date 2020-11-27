@@ -15,13 +15,8 @@ import java.util.HashMap;
 /**
  * {@link BaseController}에서 사용하는 Thread
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2012. 12. 21.
+ * @author sung-gue
+ * @version 1.0 (2012. 12. 21.)
  */
 @Deprecated
 abstract class ControllerThread<T> extends Thread {
@@ -41,9 +36,6 @@ abstract class ControllerThread<T> extends Thread {
     /**
      * current thread start()<br>
      * enctype : text/plain<br>
-     *
-     * @author gue
-     * @since 2012. 12. 21.
      */
     public void begin() {
         netCheckBeforStart();
@@ -52,9 +44,6 @@ abstract class ControllerThread<T> extends Thread {
     /**
      * current thread start()<br>
      * enctype fix : multipart/form-data<br>
-     *
-     * @author gue
-     * @since 2012. 12. 21.
      */
     public void beginMultpart() {
         _currentEnctype = true;
@@ -64,9 +53,6 @@ abstract class ControllerThread<T> extends Thread {
     /**
      * network thred를 시작하기 전에 통신 가능 여부를 확인한다.<br/>
      * network을 사용할 수 없는 상태일때에는 {@link #connectFail(int)}를 호출하여 오류 및 재시도 처리
-     *
-     * @author gue
-     * @since 2012. 12. 21.
      */
     void netCheckBeforStart() {
         if (BaseNet.getInstance().getNetState(_context) < 0) {
@@ -79,9 +65,7 @@ abstract class ControllerThread<T> extends Thread {
     /**
      * network을 사용할 수 없는 상태일때 실행될 작업 작성
      *
-     * @author gue
-     * @see {@link BaseController#_currentNetState}
-     * @since 2012. 12. 26.
+     * @see BaseController#_currentNetState
      */
     abstract void connectFail(int currentNetState);
 
@@ -94,8 +78,6 @@ abstract class ControllerThread<T> extends Thread {
      * @param requestMap       parameter map : stringBody for text/plain enctype
      * @param requestImageMap  parameter map : fileBody for multipart/form-data enctype
      * @return response string
-     * @author gue
-     * @since 2012. 12. 21.
      */
     String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws ParseException, ClientProtocolException, IOException, Exception {
         String response = null;

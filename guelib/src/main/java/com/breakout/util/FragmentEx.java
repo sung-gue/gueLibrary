@@ -5,9 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,10 +50,8 @@ import com.breakout.util.widget.DialogView.Size;
  * 기본 생명주기에 대한 log와 progress dialog를 사용할 수 있게 하여주고 stack의 일괄 종료에 대한 receiver을 제공한다.<br>
  * {@link #_pDialog}, {@link #_context}는 {@link #onDestroy()}에서 null 처리 된다.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.gue.All rights reserved.
- * @since 2016.02.17
+ * @author sung-gue
+ * @version 1.0 (2016-02-17)
  */
 public abstract class FragmentEx extends Fragment {
     /**
@@ -337,7 +332,7 @@ public abstract class FragmentEx extends Fragment {
     /* ------------------------------------------------------------
         intent
      */
-    /**
+    /*
      * startActivity check
      */
     /*@Override

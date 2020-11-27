@@ -57,8 +57,7 @@ import java.util.Vector;
  * http library class
  *
  * @author sung-gue
- * @copyright Copyright.2011.sung-gue.All rights reserved.
- * @since 2012. 5. 30.
+ * @version 1.0 (2012. 5. 30.)
  */
 public class BaseNet {
     private final String TAG = getClass().getSimpleName();
@@ -87,7 +86,6 @@ public class BaseNet {
      * @param requestHeaderMap header map
      * @param requestMap       parameter map : stringBody for text/plain enctype
      * @return response string
-     * @since 2015. 3. 31.
      */
     @Deprecated
     public String sendGet(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
@@ -135,8 +133,6 @@ public class BaseNet {
      * @param requestHeaderMap header map
      * @param requestMap       parameter map : stringBody for text/plain enctype
      * @return response string
-     * @author gue
-     * @since 2012.05.30
      */
     public String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
         if (_client == null) _client = createHttpClient();
@@ -224,8 +220,6 @@ public class BaseNet {
      * @param imageParam       key : parameter name
      * @param imagePath        value : image absolute path
      * @return response string
-     * @author gue
-     * @since 2012.05.30
      */
     @Deprecated
     public String sendMultiPartRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, String imageParam, String imagePath) throws Exception {
@@ -243,8 +237,6 @@ public class BaseNet {
      * @param requestMap       parameter map : stringBody for text/plain enctype
      * @param requestImageMap  parameter map : fileBody for multipart/form-data enctype<br/>
      *                         key : parameter name, value : image absolute path
-     * @author gue
-     * @since 2012.05.30
      */
     public String sendMultiPartRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap, HashMap<String, String> requestImageMap) throws Exception {
         switch (method) {
@@ -314,17 +306,15 @@ public class BaseNet {
     }
 
 
-    /* ************************************************************
-     * DESC: connection pool setting
+    /* ------------------------------------------------------------
+        DESC: connection pool setting
      */
 
     /**
-     * connection pool setting <br>
+     * connection pool setting <br/>
      * HttpClient Params, Scheme, ConnectionManager 설정
      *
      * @return defaultHttpClient
-     * @author gue
-     * @since 2012.05.30.
      */
     private HttpClient createHttpClient() {
         Log.i(TAG, "Create HttpClient...");
@@ -350,8 +340,6 @@ public class BaseNet {
      * connection, socket
      *
      * @param timeout timeout < 1 일 경우 {@link #HTTP_TIMEOUT}값으로 초기화
-     * @author gue
-     * @since 2015. 3. 25.
      */
     public void setConnectTimeout(int timeout) {
         if (_client != null) {
@@ -363,15 +351,12 @@ public class BaseNet {
     }
 
 
-    /* ************************************************************
-     * DESC: ClientConnectionManager exit
+    /* ------------------------------------------------------------
+        DESC: ClientConnectionManager exit
      */
 
     /**
      * ClientConnectionManager exit
-     *
-     * @author gue
-     * @since 2012. 5. 30.
      */
     public void shutDownHttpClient() {
         Log.i(TAG, "shutDownHttpClient...");
@@ -387,9 +372,6 @@ public class BaseNet {
         }).start();
     }
 
-    /* ************************************************************
-     * DESC: urlDecode
-     */
     public String urlDecode(String str) {
         String decodeStr = str;
         try {
@@ -402,8 +384,9 @@ public class BaseNet {
         return decodeStr;
     }
 
-    /* ************************************************************
-     * DESC: NetWork state check
+
+    /* ------------------------------------------------------------
+        DESC: NetWork state check
      */
     private final int NET_NOT_CONN = -1;
     private final int NET_UNCHECKED = -2;

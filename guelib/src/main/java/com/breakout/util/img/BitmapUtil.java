@@ -14,9 +14,7 @@ import com.breakout.util.Log;
  * Bitmap Util
  *
  * @author sung-gue
- * @version 1.0
- * @copyright Copyright 2012. sung-gue All rights reserved.
- * @since 2012. 10. 15.
+ * @version 1.0 (2012. 10. 15.)
  */
 @SuppressWarnings("ALL")
 public class BitmapUtil {
