@@ -346,7 +346,7 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
      */
     protected void onLoginFinsih(boolean isLogin) {
         Log.d(TAG, "onLoginFinsih | " + isLogin);
-        if (!TextUtils.isEmpty(_shared.getAppArarmAgreeYN()) && Const.YES.equals(_shared.getAppArarmAgreeYN())) {
+        if (!TextUtils.isEmpty(_shared.getAgreeAppArarmYN()) && Const.YES.equals(_shared.getAgreeAppArarmYN())) {
             MyFirebaseMessagingService.subscribeTopicOnlineNotice(true);
         }
     }

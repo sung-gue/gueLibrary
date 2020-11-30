@@ -1,5 +1,6 @@
 package com.breakout.util;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.breakout.util.widget.DialogView;
-import com.breakout.util.widget.DialogView.Size;
 
 
 /**
@@ -55,7 +55,7 @@ import com.breakout.util.widget.DialogView.Size;
  */
 public abstract class FragmentEx extends Fragment {
     /**
-     * Activity Tag : class simpleName
+     * Fragment Tag : class simpleName
      */
     public final String TAG = getClass().getSimpleName();
     /**
@@ -66,6 +66,10 @@ public abstract class FragmentEx extends Fragment {
      * Activity Context, init {@link #onAttach(Context)}
      */
     protected Context _context;
+    /**
+     * Activity, init {@link #onAttach(Context)}
+     */
+    private Activity _activity;
 
     public FragmentEx() {
         super();
@@ -84,6 +88,7 @@ public abstract class FragmentEx extends Fragment {
         Log.v(TAG, String.format("onAttach %s | %s", getTag(), context));
         super.onAttach(context);
         _appContext = context.getApplicationContext();
+        _activity = getActivity();
         _context = getActivity();
     }
 
@@ -276,18 +281,18 @@ public abstract class FragmentEx extends Fragment {
      * @param backGround dialog의 배경 drawable
      * @return {@link #_pDialog}
      */
+    // TODO consider to apply synchronized keyword
     public Dialog showProgress(View view, Drawable backGround) {
         if (_pDialog == null) {
             DialogView dv;
             if (view != null) {
                 dv = new DialogView(_context, view, backGround);
             } else {
-                dv = new DialogView(_context, Size.small);
+                dv = new DialogView(_context, DialogView.Size.small);
             }
             _pDialog = dv.getDialog();
         }
-        if (_pDialog != null && !_pDialog.isShowing()) {
-            Log.v(TAG, "progress show");
+        if (_activity != null && !_activity.isFinishing() && !_pDialog.isShowing()) {
             try {
                 _pDialog.show();
             } catch (Exception e) {

@@ -210,7 +210,7 @@ public class IntroActivity extends BaseActivity {
      * 알람 동의
      */
     private void checkAlarmAgree() {
-        if (_shared.getAppArarmAgreeYN() == null) {
+        if (_shared.getAgreeAppArarmYN() == null) {
             new CustomDialog(this)
                     .setContents(0, R.string.al_agree_alarm)
                     .setOkBt(R.string.ok, new DialogInterface.OnClickListener() {
@@ -218,7 +218,7 @@ public class IntroActivity extends BaseActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             MyFirebaseMessagingService.subscribeTopicAllNotice(true);
                             MyFirebaseMessagingService.subscribeTopicOfflineNotice(true);
-                            _shared.setAppArarmAgreeYN(Const.YES);
+                            _shared.setAgreeAppArarmYN(Const.YES);
                             requestInitApp();
                         }
                     })
@@ -226,7 +226,7 @@ public class IntroActivity extends BaseActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             requestInitApp();
-                            _shared.setAppArarmAgreeYN(Const.NO);
+                            _shared.setAgreeAppArarmYN(Const.NO);
                         }
                     })
                     .setCancel(false)

@@ -58,15 +58,15 @@ public final class SharedData extends SharedStorage {
     /* ------------------------------------------------------------
         default
      */
-    private final String appArarmAgreeYN = "appArarmAgreeYN";
+    private final String agreeAppArarmYN = "agreeAppArarmYN";
 
-    public void setAppArarmAgreeYN(String agreeYN) {
-        _editor.putString(appArarmAgreeYN, agreeYN);
+    public void setAgreeAppArarmYN(String agreeYN) {
+        _editor.putString(agreeAppArarmYN, agreeYN);
         _editor.commit();
     }
 
-    public String getAppArarmAgreeYN() {
-        return _shared.getString(appArarmAgreeYN, null);
+    public String getAgreeAppArarmYN() {
+        return _shared.getString(agreeAppArarmYN, "N");
     }
 
 
@@ -303,10 +303,6 @@ public final class SharedData extends SharedStorage {
 
     private final String termsOfUseUrl = "termsOfUseUrl";
 
-    public String getTermsOfUseUrl() {
-        return _sharedConst.getString(termsOfUseUrl, Const.TERMS_OF_USE_URL);
-    }
-
     public void setTermsOfUseUrl(String termsOfUseUrl) {
         if (!TextUtils.isEmpty(termsOfUseUrl)) {
             _editorConst.putString(this.termsOfUseUrl, termsOfUseUrl);
@@ -314,17 +310,21 @@ public final class SharedData extends SharedStorage {
         }
     }
 
-    private final String privacyUrl = "privacyUrl";
-
-    public String getPrivacyUrl() {
-        return _sharedConst.getString(privacyUrl, Const.PRIVACY_URL);
+    public String getTermsOfUseUrl() {
+        return _sharedConst.getString(termsOfUseUrl, Const.TERMS_OF_USE_URL);
     }
+
+    private final String privacyUrl = "privacyUrl";
 
     public void setPrivacyUrl(String privacyUrl) {
         if (!TextUtils.isEmpty(privacyUrl)) {
             _editorConst.putString(this.privacyUrl, privacyUrl);
             _editorConst.commit();
         }
+    }
+
+    public String getPrivacyUrl() {
+        return _sharedConst.getString(privacyUrl, Const.PRIVACY_URL);
     }
 
     private final String lastLoginDialogViewTime = "userLoginNoMoreCheckTime";
@@ -537,7 +537,7 @@ public final class SharedData extends SharedStorage {
         if (notiOption == null) {
             notiOption = new Option();
             notiOption.op_all = Const.NO;
-            if (Const.YES.equals(getAppArarmAgreeYN())) {
+            if (Const.YES.equals(getAgreeAppArarmYN())) {
                 if (isLoginUser()) {
                     notiOption.op1 = Const.YES;
                     notiOption.op2 = Const.YES;

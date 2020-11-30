@@ -12,13 +12,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.breakout.util.constant.CValue;
 import com.breakout.util.widget.DialogView;
-import com.breakout.util.widget.DialogView.Size;
 
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -78,7 +79,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------
-        DESC UI 구현
+        UI 구현
      */
 
     /**
@@ -114,12 +115,13 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------
-        DESC dialog
+        progress dialog
      */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
      */
     private Dialog _pDialog;
+
 
     /**
      * create & show {@link #_pDialog}, used {@link DialogView}
@@ -128,18 +130,18 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      * @param backGround dialog의 배경 drawable
      * @return {@link #_pDialog}
      */
+    // TODO consider to apply synchronized keyword
     public Dialog showProgress(View view, Drawable backGround) {
         if (_pDialog == null) {
             DialogView dv;
             if (view != null) {
                 dv = new DialogView(this, view, backGround);
             } else {
-                dv = new DialogView(this, Size.small);
+                dv = new DialogView(this, DialogView.Size.small);
             }
             _pDialog = dv.getDialog();
         }
-        if (!isFinishing() && _pDialog != null && !_pDialog.isShowing()) {
-            Log.v(TAG, "progress show");
+        if (!isFinishing() && !_pDialog.isShowing()) {
             try {
                 _pDialog.show();
             } catch (Exception e) {
@@ -168,7 +170,6 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     public void closeProgress() {
         if (_pDialog != null && _pDialog.isShowing()) {
-            Log.v(TAG, "progress close");
             _pDialog.dismiss();
             _pDialog = null;
         }
@@ -176,7 +177,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------
-        DESC finish receiver
+        finish receiver
      */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
@@ -219,9 +220,11 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     };
 
 
-    /* ------------------------------------------------------------
-        DESC : intent method
-     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, String.format(Locale.getDefault(), "requestCode = %d, resultCode = %d, intent = %s", requestCode, resultCode, data));
+    }
 
     /**
      * startActivity check
@@ -254,7 +257,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------
-        DESC activity life cycle
+        activity life cycle
      */
 
     /**
@@ -262,7 +265,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(getPackageName(), TAG + " | onCreate");
+        Log.v(getPackageName(), TAG + " | onCreate");
         _appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
         logTask("oncreate()");
@@ -297,45 +300,45 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        Log.d(getPackageName(), TAG + " | onStart");
+        Log.v(getPackageName(), TAG + " | onStart");
         super.onStart();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.d(getPackageName(), TAG + " | onNewIntent");
+        Log.v(getPackageName(), TAG + " | onNewIntent");
         super.onNewIntent(intent);
     }
 
     @Override
     protected void onRestart() {
-        Log.d(getPackageName(), TAG + " | onRestart");
+        Log.v(getPackageName(), TAG + " | onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        Log.d(getPackageName(), TAG + " | onResume");
+        Log.v(getPackageName(), TAG + " | onResume");
         if (_appContext == null) _appContext = getApplicationContext();
         super.onResume();
     }
 
     @Override
     protected void onStop() {
-        Log.d(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
+        Log.v(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
         super.onStop();
     }
 
     @Override
     public void finish() {
-        Log.d(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
+        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
         logTask("finish()");
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
+        Log.v(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
         closeProgress();
         unregisterReceiver();
         _context = null;
@@ -348,7 +351,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
+        Log.v(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
         super.onBackPressed();
     }
 
@@ -364,13 +367,13 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         for (RunningAppProcessInfo runningAppProcessInfo : processList) {
             if (getPackageName().equals(runningAppProcessInfo.processName))
                 Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName);
-            else Log.i(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
+            else Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
         }
         List<RunningTaskInfo> taskList = am.getRunningTasks(processList.size());
         for (RunningTaskInfo runningTaskInfo : taskList) {
             if (getPackageName().equals(runningTaskInfo.topActivity.getPackageName()))
                 Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-            else Log.i(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
+            else Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
         }*/
 
         try {
@@ -390,7 +393,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
 
     /* ------------------------------------------------------------
-        DESC db control
+        db control
      */
 //    /**
 //     * SQLite3 instance 
@@ -418,6 +421,5 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 //            mdb.close();
 //        } mdb = null;
 //    }
-
 
 }
