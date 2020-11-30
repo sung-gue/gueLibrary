@@ -257,9 +257,9 @@ public abstract class BaseController<T extends Object> implements Runnable {
     protected abstract void setRequiredParam(String... values);
 
 
-    /* ************************************************************
-     * DESC: 통신 오류처리와 재시도 처리
-     * 버튼 : 확인, 취소, 재시도
+    /* ------------------------------------------------------------
+        DESC:   통신 오류처리와 재시도 처리
+                버튼 : 확인, 취소, 재시도
      */
     /**
      * true이면 network error시에 생성되는 알림창을 표시하지 않는다.

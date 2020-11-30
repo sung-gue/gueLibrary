@@ -13,10 +13,8 @@ import java.util.Locale;
 /**
  * 사진 업로드를 위해 필요한 intent extra class
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2013.gue.All rights reserved.
- * @since 2013.11.11
+ * @author sung-gue
+ * @version 1.0 (2013.11.11)
  */
 public class PhotoData implements Parcelable {
     /**
@@ -94,9 +92,6 @@ public class PhotoData implements Parcelable {
         }
     };
 
-    /* ************************************************************************************************
-     * INFO static method
-     */
 
     // TODO ExifInterface.TAG_DATETIME의 형태가 모두 "yyyy:MM:dd HH:mm:ss" 으로 정해져 있는지 확인 필요.
 

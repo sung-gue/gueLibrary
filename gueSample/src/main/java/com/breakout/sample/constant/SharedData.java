@@ -24,35 +24,31 @@ import java.util.Locale;
  * App SharedPreferences<br/>
  *
  * @author sung-gue
- * @version 1.0
- * @copyright Copyright 2011. sung-gue All rights reserved.
- * @since 2012. 9. 30.
+ * @version 1.0 (2012. 9. 30.)
  */
 public final class SharedData extends SharedStorage {
-    private static SharedData _this;
 
-    private SharedData(Context appContext) {
-        super(appContext);
-    }
+    private static SharedData _instance;
 
     public static synchronized SharedData getInstance(Context context) {
-        if (_this == null) _this = new SharedData(context);
-        return _this;
+        if (_instance == null) _instance = new SharedData(context);
+        return _instance;
     }
 
     public static synchronized SharedData getInstance() throws Exception {
-        if (_this == null) throw new Exception("SharedData instance is null");
-        return _this;
+        if (_instance == null) throw new Exception("SharedData instance is null");
+        return _instance;
     }
 
     public static void destroyInstance() {
-        if (_this != null) _this.destroy();
+        if (_instance != null) {
+            _instance.destroy();
+            _instance = null;
+        }
     }
 
-    @Override
-    protected void destroy() {
-        super.destroy();
-        _this = null;
+    private SharedData(Context appContext) {
+        super(appContext);
     }
 
     public void clearUserInfo() {

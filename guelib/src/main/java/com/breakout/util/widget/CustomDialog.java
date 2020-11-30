@@ -12,9 +12,7 @@ import androidx.appcompat.app.AlertDialog;
  * Custom Alert Dialog
  *
  * @author sung-gue
- * @version 1.0
- * @copyright Copyright 2012. sung-gue All rights reserved.
- * @since 2012. 12. 31.
+ * @version 1.0 (2012. 12. 31.)
  */
 public class CustomDialog extends AlertDialog {
     private Context _context;
@@ -53,11 +51,11 @@ public class CustomDialog extends AlertDialog {
         String message = null;
         try {
             title = getContext().getString(titleId);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             message = getContext().getString(messageId);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return this.setContents(title, message);
     }
@@ -71,7 +69,7 @@ public class CustomDialog extends AlertDialog {
         String btStr = null;
         try {
             btStr = getContext().getString(btStrId);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return this.setOkBt(btStr, listener);
     }
@@ -85,7 +83,7 @@ public class CustomDialog extends AlertDialog {
         String btStr = null;
         try {
             btStr = getContext().getString(btStrId);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return this.setCancelBt(btStr, listener);
     }

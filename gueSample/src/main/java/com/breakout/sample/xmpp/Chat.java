@@ -48,13 +48,8 @@ import java.util.List;
  * Chat.getInstace().init();
  * </pre>
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2012.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2014. 8. 12.
+ * @author sung-gue
+ * @version 1.0 (2014. 8. 12.)
  */
 public final class Chat {
     private final boolean DEBUG = true;
@@ -98,8 +93,6 @@ public final class Chat {
 
     /**
      * {@link MultiUserChat#leave()}, {@link XMPPConnection#disconnect()}, {@link SmackAndroid#onDestroy()}, instance 해제까지 총 4가지 과정을 수행
-     *
-     * @author gue
      */
     public final static synchronized void destroyInstance() {
         if (_this != null) {
@@ -118,8 +111,6 @@ public final class Chat {
 
     /**
      * {@link OnChatListener}를 제거하고 connection을 해제
-     *
-     * @author gue
      */
     public void disconnect() {
         try {
@@ -150,16 +141,10 @@ public final class Chat {
 
     /**
      * {@link OnChatListener#onChatCompleteLogin(boolean)} 으로 성공 여부 전달
-     *
-     * @author gue
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2014. 8. 12.
      */
     public void connect(final String userName, final String userPw) {
         // java.net.SocketException: Bad address family
-//		System.setProperty("java.net.preferIPV6Addresses", "false");
+//        System.setProperty("java.net.preferIPV6Addresses", "false");
 
         new Thread(new Runnable() {
             @Override
@@ -174,7 +159,7 @@ public final class Chat {
                 try {
                     _connection.connect();
                     try {
-//						SASLAuthentication.supportSASLMechanism("PLAIN", 0);
+//                        SASLAuthentication.supportSASLMechanism("PLAIN", 0);
                         _connection.login(userName, userPw);
                         _userName = userName;
                         _userPw = userPw;
@@ -189,8 +174,8 @@ public final class Chat {
                         finishLogin(true, ConnectType.LOGIN, null);
 
                         // log roster entry
-//						logRoster(_connection.getRoster());
-//						getHosedRooms();
+//                        logRoster(_connection.getRoster());
+//                        getHosedRooms();
                     } catch (Exception e) {
                         finishLogin(false, ConnectType.LOGIN, e);
                     }
@@ -320,25 +305,25 @@ public final class Chat {
             _connection.addPacketListener(_defaultPacketListener, chatFilter);
 
             // add RosterListener
-			/*Roster roster = _connection.getRoster();
-			roster.addRosterListener(new RosterListener() {
-				@Override
-				public void presenceChanged(Presence presence) {
-					Log.i(TAG, "RosterListener.presenceChanged() : " + presence);
-				}
-				@Override
-				public void entriesUpdated(Collection<String> addresses) {
-					Log.i(TAG, "RosterListener.entriesUpdated() : " + addresses);
-				}
-				@Override
-				public void entriesDeleted(Collection<String> addresses) {
-					Log.i(TAG, "RosterListener.entriesDeleted() : " + addresses);
-				}
-				@Override
-				public void entriesAdded(Collection<String> addresses) {
-					Log.i(TAG, "RosterListener.entriesAdded() : " + addresses);
-				}
-			});*/
+            /*Roster roster = _connection.getRoster();
+            roster.addRosterListener(new RosterListener() {
+                @Override
+                public void presenceChanged(Presence presence) {
+                    Log.i(TAG, "RosterListener.presenceChanged() : " + presence);
+                }
+                @Override
+                public void entriesUpdated(Collection<String> addresses) {
+                    Log.i(TAG, "RosterListener.entriesUpdated() : " + addresses);
+                }
+                @Override
+                public void entriesDeleted(Collection<String> addresses) {
+                    Log.i(TAG, "RosterListener.entriesDeleted() : " + addresses);
+                }
+                @Override
+                public void entriesAdded(Collection<String> addresses) {
+                    Log.i(TAG, "RosterListener.entriesAdded() : " + addresses);
+                }
+            });*/
         }
     }
 
@@ -348,15 +333,15 @@ public final class Chat {
             _connection.addPacketListener(listener, filter);
         }
     }
-	
-/*	private void removePacketListener() {
-		if (_connection != null) {
-			XMPPConnection.removeConnectionCreationListener(_connectionCreationListener);
-			_connection.removeConnectionListener(_connectionListener);
-			_connection.removePacketListener(_defaultPacketListener);
-			if (_customPacketListener != null ) _connection.removePacketListener(_customMucPacketListener);
-		}
-	}*/
+    
+/*    private void removePacketListener() {
+        if (_connection != null) {
+            XMPPConnection.removeConnectionCreationListener(_connectionCreationListener);
+            _connection.removeConnectionListener(_connectionListener);
+            _connection.removePacketListener(_defaultPacketListener);
+            if (_customPacketListener != null ) _connection.removePacketListener(_customMucPacketListener);
+        }
+    }*/
 
     public void sendMsg(String to, String msg) {
         boolean isSuccess = false;
@@ -407,7 +392,6 @@ public final class Chat {
      * @return new boolean[] { isSuccess, isCreate }
      * <li>isSuccess : 방 연결이나 생성 성공</li>
      * <li>isCreate : 방을 생성하였으면 true</li>
-     * @author gue
      */
     public boolean[] createOrJoinRoom(String roomName, String password) throws NoResponseException, XMPPErrorException, SmackException, Exception {
         leaveJoinedRoom();
@@ -416,28 +400,28 @@ public final class Chat {
         _muc = new MultiUserChat(_connection, getRoomJid(roomName));
         try {
             isCreate = _muc.createOrJoin(_userName);
-//			_muc.sendConfigurationForm(new Form(Form.TYPE_SUBMIT));
-			/*isCreate = _muc.createOrJoin(_userName);
-			if (isCreate) {
-				
-				// Get the the room's configuration form
-				Form form = _muc.getConfigurationForm();
-				// Create a new form to submit based on the original form
-				Form submitForm = form.createAnswerForm();
-				// Add default answers to the form to submit
-				for (FormField field : form.getFields()) {
-					if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
-						// Sets the default value as the answer
-						submitForm.setDefaultAnswer(field.getVariable());
-					}
-				}
-				// Set that the room requires a password
-				submitForm.setAnswer("muc#roomconfig_passwordprotectedroom", true);
-				// Set the password for the room
-				submitForm.setAnswer("muc#roomconfig_roomsecret", "password");
-				// Send the completed form (with default values) to the server to configure the room
-				_muc.sendConfigurationForm(submitForm);
-			}*/
+//            _muc.sendConfigurationForm(new Form(Form.TYPE_SUBMIT));
+            /*isCreate = _muc.createOrJoin(_userName);
+            if (isCreate) {
+                
+                // Get the the room's configuration form
+                Form form = _muc.getConfigurationForm();
+                // Create a new form to submit based on the original form
+                Form submitForm = form.createAnswerForm();
+                // Add default answers to the form to submit
+                for (FormField field : form.getFields()) {
+                    if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
+                        // Sets the default value as the answer
+                        submitForm.setDefaultAnswer(field.getVariable());
+                    }
+                }
+                // Set that the room requires a password
+                submitForm.setAnswer("muc#roomconfig_passwordprotectedroom", true);
+                // Set the password for the room
+                submitForm.setAnswer("muc#roomconfig_roomsecret", "password");
+                // Send the completed form (with default values) to the server to configure the room
+                _muc.sendConfigurationForm(submitForm);
+            }*/
 
             _muc.addMessageListener(_defaultMucPacketListener);
             _joinRoomName = roomName;
@@ -463,7 +447,6 @@ public final class Chat {
      * @return new boolean[] { isSuccess, isCreate }
      * <li>isSuccess : 방 연결이나 생성 성공</li>
      * <li>isCreate : 방을 생성하였으면 true</li>
-     * @author gue
      */
     public boolean[] createOrJoinRoom(String roomName, String passsword, PacketListener packetListener) throws NoResponseException, XMPPErrorException, SmackException, Exception {
         boolean[] isResult = createOrJoinRoom(roomName, passsword);
@@ -596,110 +579,64 @@ public final class Chat {
     }
 
 
-    /* ************************************************************************************************
-     * INFO getter
-     */
     public final XMPPConnection getXmppConnection() {
         return _connection;
     }
 
 
-    /* ************************************************************************************************
-     * INFO listener interface
-     */
-
-    /**
-     * @author gue
-     * @version 1.0
-     * @copyright Copyright.2012.Interactivy Corporation.
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2014. 8. 22.
-     */
     public interface OnChatListener {
         /**
          * 로그인이 완료되면 호출
          *
          * @param isSuccess 로그인 성공이면 true
          */
-        public void onChatCompleteLogin(boolean isSuccess);
+        void onChatCompleteLogin(boolean isSuccess);
 
         /**
          * 1:1 메시지 전송 완료 후 호출
-         *
-         * @author gue
-         * @since 2014. 8. 22.
          */
-        public void onChatSendMessage(boolean isSuccess, String to, String msg);
+        void onChatSendMessage(boolean isSuccess, String to, String msg);
 
         /**
          * 1:1 메시지를 받으면 호출
-         *
-         * @author gue
-         * @since 2014. 8. 22.
          */
-        public void onChatReceiveMessage(String from, String msg);
+        void onChatReceiveMessage(String from, String msg);
 
         /**
          * 그룹 메시지 전송 완료 후 호출
-         *
-         * @author gue
-         * @since 2014. 8. 22.
          */
-        public void onChatSendRoomMessage(boolean isSuccess, String roomName, String msg);
+        void onChatSendRoomMessage(boolean isSuccess, String roomName, String msg);
 
         /**
          * 그룹 메시지를 받으면 호출
-         *
-         * @author gue
-         * @since 2014. 8. 22.
          */
-        public void onChatReceiveRoomMessage(String roomName, String from, String msg);
+        void onChatReceiveRoomMessage(String roomName, String from, String msg);
 
         /**
          * 로그인 시도시에 호출
-         *
-         * @author gue
-         * @since 2014. 9. 5.
          */
-        public void onChatConnectionAuthenticated();
+        void onChatConnectionAuthenticated();
 
         /**
          * {@link XMPPConnection} 재연결 성공시 호출
          *
          * @param isSuccess 재연결 성공 true, 실패 true
          * @param e         재연결 실패 Exception
-         * @author gue
-         * @since 2014. 9. 5.
          */
-        public void onChatReconnection(boolean isSuccess, Exception e);
+        void onChatReconnection(boolean isSuccess, Exception e);
 
         /**
          * {@link XMPPConnection} 연결 종료시 호출
          *
          * @param isSuccess 연결 정상 종료 true, 비정상 종료 false
          * @param e         재연결 실패 Exception
-         * @author gue
-         * @since 2014. 9. 5.
          */
-        public void onChatConnectionClosed(boolean isSuccess, Exception e);
+        void onChatConnectionClosed(boolean isSuccess, Exception e);
     }
 
 
-    /* ************************************************************************************************
-     * INFO log test
-     */
-
     /**
      * log XMPPConnection
-     *
-     * @param connection
-     * @author gue
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2014. 8. 21.
      */
     public final void logXMPPConnection(XMPPConnection connection) {
         if (!DEBUG) return;
@@ -724,13 +661,6 @@ public final class Chat {
 
     /**
      * log roster entry
-     *
-     * @param roster
-     * @author gue
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2014. 8. 21.
      */
     public final void logRoster(Roster roster) {
         if (!DEBUG) return;

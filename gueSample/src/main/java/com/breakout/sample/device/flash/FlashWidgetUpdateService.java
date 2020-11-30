@@ -1,8 +1,5 @@
 package com.breakout.sample.device.flash;
 
-import com.breakout.sample.constant.Const;
-import com.breakout.sample.R;
-
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -14,19 +11,16 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
+import com.breakout.sample.R;
+import com.breakout.sample.constant.Const;
 import com.breakout.util.device.CameraUtil;
 
 
 /**
  * widget을 그리는 도중 시간 초과로 인한 ANR 방지를 위하여 service로 위젯의 RemoteViews를 설정
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 10. 4.
+ * @author sung-gue
+ * @version 1.0 (2013. 10. 4.)
  */
 public class FlashWidgetUpdateService extends Service {
 
@@ -43,7 +37,6 @@ public class FlashWidgetUpdateService extends Service {
             context.sendBroadcast(new Intent(Const.BR_FLASH_ACTIVITY));
         }
     };
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -107,6 +100,5 @@ public class FlashWidgetUpdateService extends Service {
         unregisterReceiver(_receiver);
         super.onDestroy();
     }
-
 
 }

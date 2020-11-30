@@ -1,8 +1,5 @@
 package com.breakout.util.sample;
 
-import java.net.URLDecoder;
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +13,9 @@ import com.breakout.util.Log;
 import com.breakout.util.net.controller.BaseController;
 import com.google.gson.Gson;
 
+import java.net.URLDecoder;
+import java.util.ArrayList;
+
 
 /**
  * {@link BaseController}를 상속받아 사용할수 있는 Controller 예제<br/>
@@ -23,13 +23,8 @@ import com.google.gson.Gson;
  * </ol>
  * {@link BaseController}를 상속받아 현재 class를 상속받는 다른 Controller class들과 함께 처리될수 있는 오류의 일괄처리와 필수 코드 정의 및 통신에 따른 알림창 생성
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2012.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2014. 8. 17.
+ * @author sung-gue
+ * @version 1.0 (2014. 8. 17.)
  */
 public abstract class BaseControllerEx extends BaseController {
     private static final boolean DEBUG = true;
@@ -150,8 +145,6 @@ public abstract class BaseControllerEx extends BaseController {
 
     /**
      * activity의 handler에서 null check위해 DTO를 초기화한다.
-     *
-     * @author gue
      */
     protected abstract void initObject();
 
@@ -179,22 +172,9 @@ public abstract class BaseControllerEx extends BaseController {
         }
     }
 
-
-    /* ************************************************************************************************
-     * INFO inner class
-     */
-
     /**
      * Controller의 종류에 대한 enum class<br>
      * 서버의 url 정보와 parsing을 주 목적으로 한다<br/>
-     *
-     * @author gue
-     * @version 1.0
-     * @copyright Copyright.2012.gue.All rights reserved.
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2015. 3. 18.
      */
     public enum ControllerType {
         USER("/UserInterface.jsp", UserDTO.class, UserDTOs.class),
@@ -244,14 +224,6 @@ public abstract class BaseControllerEx extends BaseController {
      * {@link Gson}을 사용하기 위한 DTO class이다.
      * intent에 의한 작업이 이루어질수 있도록 {@link Parcelable}을 구현한다.<br/>
      * 서버와 통신 규약에 따라 다르게 정의 될수 있음
-     *
-     * @author gue
-     * @version 1.0
-     * @copyright Copyright.2012.gue.All rights reserved.
-     * @history <ol>
-     * <li>변경자/날짜 : 변경사항</li>
-     * </ol>
-     * @since 2015. 3. 18.
      */
     public static class BaseDTO implements Parcelable {
         public String code;

@@ -721,8 +721,8 @@ public final class ImageAlter {
     }
 
 
-    /* ************************************************************************************************
-     * INFO image round corner
+    /* ------------------------------------------------------------
+        DESC: image round corner
      */
     public static Bitmap roundCorner(Bitmap bitmapSrc, int roundPixel, int width, int height) throws OutOfMemoryError, Exception {
         if (width == 0) {

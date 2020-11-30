@@ -1,14 +1,5 @@
 package com.breakout.sample.xmpp;
 
-import java.util.ArrayList;
-
-import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.SmackException.NoResponseException;
-import org.jivesoftware.smack.XMPPException.XMPPErrorException;
-
-import com.breakout.sample.BaseActivity;
-import com.breakout.sample.R;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,9 +10,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.breakout.sample.BaseActivity;
+import com.breakout.sample.R;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.Log;
 import com.breakout.util.string.StringUtil;
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.SmackException.NoResponseException;
+import org.jivesoftware.smack.XMPPException.XMPPErrorException;
+
+import java.util.ArrayList;
 
 public class ChatTestActivity extends BaseActivity implements OnClickListener, Chat.OnChatListener {
 
@@ -99,11 +98,11 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
         _etUserName.setText("test3");
         _etUserPw.setText("120000000007");
         _etTargetUser.setText("test");
-//		_etTargetRoom.setText("120000000007_1408945964461");
+//        _etTargetRoom.setText("120000000007_1408945964461");
 
-//		_etUserName.setText("iostest1");
-//		_etUserPw.setText("130000000078");
-//		_etTargetRoom.setText("1_130000000078_140000000556");
+//        _etUserName.setText("iostest1");
+//        _etUserPw.setText("130000000078");
+//        _etTargetRoom.setText("1_130000000078_140000000556");
     }
 
     @Override
@@ -190,8 +189,8 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
     @Override
     public void onChatSendRoomMessage(boolean isSuccess, String room, String msg) {
         if (isSuccess) {
-//			_msgList.add(_userName + ":\n" + msg);
-//			setChatAdapter();
+//            _msgList.add(_userName + ":\n" + msg);
+//            setChatAdapter();
             _lvMsg.setSelection(_lvMsg.getCount());
         }
     }
@@ -220,9 +219,6 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
     }
 
 
-    /* ************************************************************************************************
-     * INFO listener
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -242,12 +238,12 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
                     } else {
                         _targetUser = null;
                         _targetRoom = targetRoom;
-//						_targetRoom = "120000000007_" + new Date().getTime();
+//                        _targetRoom = "120000000007_" + new Date().getTime();
                         _isRoomChat = true;
                     }
                     showProgress();
                     _chat.connect(_userName, _userPw);
-//					_chat.connect(_userName + "@" + HOST, _userPw);
+//                    _chat.connect(_userName + "@" + HOST, _userPw);
 
                 } else Toast.makeText(this, "fill in the blanks", Toast.LENGTH_SHORT).show();
                 break;
@@ -272,10 +268,6 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
 
     }
 
-
-    /* ************************************************************************************************
-     * INFO life cycle
-     */
     @Override
     protected void onDestroy() {
         if (_chat != null) _chat.disconnect();
@@ -288,6 +280,3 @@ public class ChatTestActivity extends BaseActivity implements OnClickListener, C
     }
 
 }
-
-
-

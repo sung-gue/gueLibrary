@@ -188,11 +188,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         }
     }
 
-
-    /* ************************************************************************************************
-     * INFO listener setting
-     */
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -211,20 +206,6 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         }
 
     }
-
-    /* ************************************************************************************************
-     * INFO option & context menu
-     */
-
-
-    /* ************************************************************************************************
-     * INFO callBack method
-     */
-
-
-    /* ************************************************************************************************
-     * INFO life cycle
-     */
 
     @Override
     protected void onResume() {

@@ -13,9 +13,8 @@ import java.util.ArrayList;
  * {@link Gson}을 사용하기 위한 DTO class이다.
  * intent에 의한 작업이 이루어질수 있도록 {@link Parcelable}을 구현한다.
  *
- * @author gue
- * @version 1.0
- * @since 2019-11-07
+ * @author sung-gue
+ * @version 1.0 (2019-11-07)
  */
 public abstract class BaseDto<T extends Parcelable> implements Parcelable {
 

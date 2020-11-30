@@ -8,10 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * generate View id
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.gue.All rights reserved.
- * @since 2016.02.22
+ * @author sung-gue
+ * @version 1.0 (2016.02.22)
  */
 public final class GenViewId {
     final static private AtomicInteger sNextGeneratedId = new AtomicInteger(1);

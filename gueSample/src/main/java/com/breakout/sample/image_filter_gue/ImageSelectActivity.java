@@ -141,8 +141,6 @@ public class ImageSelectActivity extends BaseActivity implements OnClickListener
 
     /**
      * uri를 사용하여 image의 실제 경로를 구한다.
-     *
-     * @author gue
      */
     private void loadImage(final Uri uri) {
         if (uri == null) {
@@ -270,10 +268,6 @@ public class ImageSelectActivity extends BaseActivity implements OnClickListener
         _bitmapThumb2 = null;
     }
 
-
-    /* ************************************************************************************************
-     * TODO listener
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -308,10 +302,6 @@ public class ImageSelectActivity extends BaseActivity implements OnClickListener
         }
     }
 
-
-    /* ************************************************************************************************
-     * TODO call back
-     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -357,9 +347,6 @@ public class ImageSelectActivity extends BaseActivity implements OnClickListener
     }
 
 
-    /* ************************************************************************************************
-     * TODO life cycle
-     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

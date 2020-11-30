@@ -126,9 +126,7 @@ public final class DateUtil {
      * @param form      {@link #DateFormat}
      * @param limitHour 시간단위 : 지정한 시간까지만 ago 형식으로 변환한다.
      * @param suffixes  new String[]{"방금전", "%s분전", "%s시간전", "%s일전", "%s달전"}
-     * @author gue
      * @see #dateFormat(String, int)
-     * @since 2012. 11. 22.
      */
     public static String dateAgoFormat(Date inputDate, int form, int limitHour, String[] suffixes) {
         String result = "0000";

@@ -34,14 +34,8 @@ import com.breakout.util.res.AnimationSuite;
  * base padding : setPaddings(density * 25, density * 12, density * 25, density * 12);<br>
  * base margin : setMargins(density * 10, density * 10, density * 10, density * 10);<br>
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @extend {@link LinearLayout}
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 1. 3.
+ * @author sung-gue
+ * @version 1.0 (2013. 1. 3.)
  */
 public class DialogView extends LinearLayout {
     /*private final String TAG = "DialogView";*/
@@ -249,10 +243,6 @@ public class DialogView extends LinearLayout {
      * 배경안에 삽입될 view를 설정한다. 입력된 view의 크기는 ProgressView의 padding과 margin의 값을 고려하고 넣어야 하며,
      * setView이전에 입력된 view의 LayoutParams을 설정하여 넣었다면 ProgressView의 padding과 marginr값을 제거하여 width와 height를 재설정한다.
      * 만약 view의 LayoutParams을 정의하지 않았다면 width,height는 {@link ViewGroup.LayoutParams#MATCH_PARENT}로 설정된다.
-     *
-     * @author gue
-     * @see DialogView
-     * @since 2012. 12. 28.
      */
     public void setView(View view) {
         _view = view;
@@ -310,8 +300,6 @@ public class DialogView extends LinearLayout {
      * @param cancel    {@link Dialog#setCancelable(boolean)}의 값을 설정, {@link Dialog#setCanceledOnTouchOutside(boolean)}는 false 고정
      * @param dimBehind true - set dim, false : clear dim
      * @return {@link DialogView}로 내부 View가 설정된 Dialog를 반환
-     * @author gue
-     * @since 2012. 12. 31.
      */
     public Dialog getDialog(boolean cancel, boolean dimBehind) {
         _dialog = new Dialog(getContext());
@@ -331,9 +319,6 @@ public class DialogView extends LinearLayout {
 
     /**
      * {@link #getDialog(boolean, boolean)} 에서 dimBehind값을 false로 고정
-     *
-     * @author gue
-     * @since 2012. 12. 31.
      */
     public Dialog getDialog(boolean cancel) {
         return getDialog(cancel, false);
@@ -341,17 +326,11 @@ public class DialogView extends LinearLayout {
 
     /**
      * {@link #getDialog(boolean, boolean)} 에서 cancel과 dimBehind값을 false로 고정
-     *
-     * @author gue
-     * @since 2012. 12. 31.
      */
     public Dialog getDialog() {
         return getDialog(false, false);
     }
 
-    /* ************************************************************************************************
-     * INFO Override
-     */
     /**
      * {@link #getImageView(Drawable)}에서 Drawable가 {@link AnimationDrawable}일 경우 해당 frame을 start하기 위한 member value
      */
@@ -472,8 +451,8 @@ public class DialogView extends LinearLayout {
     }*/
 
 
-    /* ************************************************************************************************
-     * INFO  util
+    /* ------------------------------------------------------------
+        DESC: util
      */
     @SuppressWarnings("deprecation")
     private void setBack(View view, Drawable drawable) {

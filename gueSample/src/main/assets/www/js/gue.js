@@ -50,11 +50,10 @@ function alertDismissed(){
 
 }
 
-
-/* ************************************************************************************************
- * INFO Network method
+/* ------------------------------------------------------------
+    Network method
  */
-/** 
+/**
  * 현재 network 상태를 체크 하여 알림
  */
 function checkNetworkState(){
@@ -72,9 +71,9 @@ function checkNetworkState(){
 }
 
 
-/* ************************************************************************************************
- * INFO viewport 조정
- */
+/* ------------------------------------------------------------
+    viewport 조정
+*/
 $(document).bind("mobileinit", function() {
 	$.extend($.mobile, {
 		metaViewportContent: 'user-scalable=yes, initial-scale=1, maximum-scale=2, minimum-scale=1, width=device-width'
@@ -82,16 +81,15 @@ $(document).bind("mobileinit", function() {
 });
 
 
-
-/* ************************************************************************************************
- * INFO back btn 재정의
- */
+/*
+    back btn 재정의
+*/
 $.mobile.page.prototype.options.backBtnText = "이전";
 //$.mobile.page.prototype.options.backBtnTheme = "a";
 
 
-/* ************************************************************************************************
- * INFO loading
+/*
+    loading
  */
 //$.mobile.showPageLoadingMsg();
 $(document).on("click", ".show-page-loading-msg", function() {
@@ -122,14 +120,13 @@ $(document).on("click", ".show-page-loading-msg", function() {
 
 
 
-/* ************************************************************************************************
- * INFO web storage
+/* ------------------------------------------------------------
+    web storage
  */
 
 
-
-/* ************************************************************************************************
- * INFO geolocation
+/* ------------------------------------------------------------
+    geolocation
  */
 /**
  * tag id

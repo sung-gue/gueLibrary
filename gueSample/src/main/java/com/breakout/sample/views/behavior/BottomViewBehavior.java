@@ -26,10 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 /**
  * Custom behavior.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2012.gue.All rights reserved.
- * @since 2016.02.16
+ * @author sung-gue
+ * @version 1.0 (2016.02.16)
  */
 public class BottomViewBehavior extends CoordinatorLayout.Behavior<View> {
     private String TAG = getClass().getSimpleName();

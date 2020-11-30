@@ -1,22 +1,17 @@
 package com.breakout.sample.device.flash;
 
-import com.breakout.sample.constant.Const;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import com.breakout.sample.constant.Const;
 
 
 /**
  * Flash Widget Provider 2x1
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 10. 2.
+ * @author sung-gue
+ * @version 1.0 (2013. 10. 2.)
  */
 public class FlashWidget2x1Provider extends FlashWidgetProvider {
 

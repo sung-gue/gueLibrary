@@ -25,15 +25,15 @@ import com.breakout.util.widget.DialogView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 
 /**
  * {@link FragmentEx}를 상속받아 자주 사용되는 member value & method를 정의하여 사용한다.<br>
  * {@link FragmentEx}의 docs 참고.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.breakout.All rights reserved.
- * @since 2016.03.07
+ * @author sung-gue
+ * @version 1.0 (2016.03.07)
  */
 public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListener> extends FragmentEx {
     /**
@@ -138,7 +138,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
      */
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        Log.i(TAG, String.format("-------------------------------------------------\n" +
+        Log.i(TAG, String.format(Locale.getDefault(), "-------------------------------------------------\n" +
                         "%s | startActivity\n" +
                         "|  %s\n" +
                         "|  requestCode : %d\n" +

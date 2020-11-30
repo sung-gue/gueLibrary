@@ -33,17 +33,12 @@ import java.util.HashMap;
 /**
  * menu layout
  *
- * @author gue
- * @version 1.0
- * @since 2016.02.11
+ * @author sung-gue
+ * @version 1.0 (2016.02.11)
  */
 public class SlideMenuLayout extends LinearLayout implements OnItemClickListener {
     /**
      * 전체 메뉴를 눌렀을 경우 작동
-     *
-     * @author gue
-     * @version 1.0
-     * @since 2016.02.24
      */
     public interface OnSlideMenuClickListener {
         /**

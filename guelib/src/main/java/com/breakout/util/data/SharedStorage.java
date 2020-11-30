@@ -9,11 +9,67 @@ import com.breakout.util.Log;
 
 /**
  * Custom SharedPreferences<br/>
+ * 상속받은 클래스는 아래 4가지 타입의 저장소를 바로 사용이 가능
+ * <dl>
+ *     <dt>SharedPreferences type</dt>
+ *     <dd>
+ *          <li>{@link #_sharedConst} : constant data</li>
+ *          <li>{@link #_shared} : default data</li>
+ *          <li>{@link #_sharedUser} : user data</li>
+ *          <li>{@link #_sharedFlash}: flash data</li>
+ *     </dd>
+ * </dl>
+ * <p>
+ * ex) create instance<br/>
+ * <pre>
+ *  private static SharedData _instance;
+ *
+ *  public static synchronized SharedData getInstance(Context context) {
+ *      if (_instance == null) _instance = new SharedData(context);
+ *      return _instance;
+ *  }
+ *
+ *  public static synchronized SharedData getInstance() throws Exception {
+ *      if (_instance == null) throw new Exception("SharedData instance is null");
+ *      return _instance;
+ *  }
+ *
+ *  public static void destroyInstance() {
+ *      if (_instance != null) {
+ *          _instance.destroy();
+ *          _instance = null;
+ *      }
+ *  }
+ * </pre>
  *
  * @author sung-gue
  * @version 1.0 (2012. 5. 30.)
  */
 public abstract class SharedStorage {
+    /* ------------------------------------------------------------
+        ex) create instance
+     */
+    /*
+    private static SharedData _instance;
+
+    public static synchronized SharedData getInstance(Context context) {
+        if (_instance == null) _instance = new SharedData(context);
+        return _instance;
+    }
+
+    public static synchronized SharedData getInstance() throws Exception {
+        if (_instance == null) throw new Exception("SharedData instance is null");
+        return _instance;
+    }
+
+    public static void destroyInstance() {
+        if (_instance != null) {
+            _instance.destroy();
+            _instance = null;
+        }
+    }
+    */
+
     /**
      * @see #clear(ClearMode)
      */
@@ -70,9 +126,6 @@ public abstract class SharedStorage {
     protected Context _appContext;
 
 
-    private SharedStorage() {
-    }
-
     @Deprecated
     protected SharedStorage(Context appContext, String constantName, String normalName, String flashName) {
         this._appContext = appContext;
@@ -85,7 +138,7 @@ public abstract class SharedStorage {
         _sharedFlash = appContext.getSharedPreferences(flashName, Context.MODE_PRIVATE);
         _editorFlash = _sharedFlash.edit();
         _editorFlash.apply();
-        Log.w(TAG, TAG + " create instance (Deprecated Constructor)");
+        Log.w(TAG, TAG + " instance created (Deprecated Constructor)");
     }
 
     protected SharedStorage(Context appContext) {
@@ -109,9 +162,7 @@ public abstract class SharedStorage {
         _editorFlash = _sharedFlash.edit();
         _editorFlash.apply();
         _sharedUser = getSharedPreferences(appContext, flashSuffix, "user");
-        Log.i(TAG, TAG + " instance create");
-        Log.i(TAG, TAG + " create instance (Deprecated Constructor)");
-//        _instance = this;
+        Log.i(TAG, TAG + " instance created");
     }
 
     private SharedPreferences getSharedPreferences(Context applicationContext, String name, String defaultName) {
@@ -124,20 +175,6 @@ public abstract class SharedStorage {
         editor.apply();
         return editor;
     }
-
-//    public static synchronized SharedStorage getInstance(Context context) {
-//        if (_instance == null) _instance = new SharedStorage(context) {
-//        };
-//        return _instance;
-//    }
-//
-//    public static SharedStorage getInstance() throws Exception {
-//        return _instance;
-//    }
-//
-//    public static void destroyInstance() {
-//        if (_instance != null) _instance.destroy();
-//    }
 
     /**
      * clear data
@@ -174,14 +211,14 @@ public abstract class SharedStorage {
         _editor = null;
         _sharedFlash = null;
         _editorFlash = null;
-//        _instance = null;
     }
 
 
     /* ------------------------------------------------------------
         DESC: local DB open & close
      */
-/*    private LocalDB db;
+    /*
+    private LocalDB db;
     
     private void db_read(){
         db = new LocalDB(mCtx);    
@@ -196,6 +233,6 @@ public abstract class SharedStorage {
     private void db_close(){
         if (db != null)    db.close();
         db = null;
-    }*/
-
+    }
+    */
 }

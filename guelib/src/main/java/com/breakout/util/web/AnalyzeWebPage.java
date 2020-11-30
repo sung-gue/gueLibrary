@@ -25,6 +25,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -39,8 +40,7 @@ import de.jetwick.snacktory.SHelper;
  * The type Analyze web page.
  *
  * @author sung-gue
- * @copyright Copyright 2016. sung-gue All rights reserved.
- * @since 1.0 (2016-04-19)
+ * @version 1.0 (2016-04-19)
  */
 public class AnalyzeWebPage extends Thread {
     private final String TAG = getClass().getSimpleName();
@@ -405,7 +405,7 @@ public class AnalyzeWebPage extends Thread {
     }
 
     private void completeAnalyze() {
-        Log.d(TAG, String.format("-------------------------------------------------------------\n" +
+        Log.d(TAG, String.format(Locale.getDefault(), "-------------------------------------------------------------\n" +
                         "| analyze web page (%dms)\n" +
                         "| url          | %s\n" +
                         "| title        | %s\n" +

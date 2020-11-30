@@ -34,9 +34,8 @@ import com.google.android.material.tabs.TabLayout;
  * Custom action bar<br/>
  * {@link AppCompatActivity}에서 사용되지 않는 경우 ClassCastException 을 발생시킨다.
  *
- * @author gue
- * @version 1.0
- * @since 2016.02.24
+ * @author sung-gue
+ * @version 1.0 (2016.02.24)
  */
 public class AppBar extends AppBarLayout {
     private final String TAG = getClass().getSimpleName();

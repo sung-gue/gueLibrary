@@ -83,8 +83,7 @@ import java.util.Locale;
  * Base Activity
  *
  * @author sung-gue
- * @copyright Copyright 2013. sung-gue All rights reserved.
- * @since 1.0 (2013-11-27)
+ * @version 1.0 (2013-11-27)
  */
 public abstract class BaseActivity extends AppCompatActivityEx implements SlideMenuLayout.OnSlideMenuClickListener {
     protected SharedData _shared;
@@ -203,7 +202,6 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
      * 강제성이 없는 부분이기 때문에 현재는 protected method이지만 uri로의 진입등이 많아진다면 abstract method도 고려해볼 방안이다.
      *
      * @param uri getIntent().getData()
-     * @author gue
      * @see Extra#EX_URI_MSG
      * @see Extra#EX_URI_SCHEME_HOST
      */
@@ -546,7 +544,6 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
      * {@link #onCreate(Bundle)}에서 사용
      *
      * @param layoutId layoutId에 해당하는 view를 {@link #_uiBaseClBody}에 add
-     * @author gue
      */
     protected void setBodyView(int layoutId) {
         View view = LayoutInflater.from(this).inflate(layoutId, _uiBaseClBody, false);

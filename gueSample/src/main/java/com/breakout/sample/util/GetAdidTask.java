@@ -15,8 +15,7 @@ import java.lang.ref.WeakReference;
  * get android adid
  *
  * @author sung-gue
- * @copyright Copyright 2015. sung-gue All rights reserved.
- * @since 1.0 (2015-03-08)
+ * @version 1.0 (2015-03-08)
  */
 public class GetAdidTask extends AsyncTask<Void, Void, String> {
     public interface OnFinishGetAdidListener {

@@ -6,9 +6,8 @@ import com.breakout.sample.constant.Const;
 /**
  * log switch according to {@link Log#DEBUG }
  *
- * @author gue
- * @copyright Copyright.2011.gue.All rights reserved.
- * @since 2012. 10. 4.
+ * @author sung-gue
+ * @version 1.0 (2012. 10. 4.)
  */
 public final class Log {
     private final static String TAG = Const.APP_TAG;

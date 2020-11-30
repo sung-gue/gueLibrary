@@ -70,9 +70,6 @@ public class FlashActivity extends BaseActivity implements OnClickListener {
     }
 
 
-    /* ************************************************************************************************
-     * INFO listener
-     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -94,9 +91,6 @@ public class FlashActivity extends BaseActivity implements OnClickListener {
     };
 
 
-    /* ************************************************************************************************
-     * INFO life cycle
-     */
     @Override
     protected void onResume() {
 //		FlashWidgetConfigure.flashOff(this);

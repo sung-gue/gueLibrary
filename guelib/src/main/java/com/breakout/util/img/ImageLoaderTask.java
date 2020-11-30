@@ -167,12 +167,10 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
         }
     }
 
-
-/* ************************************************************************************************
- * INFO download image
- */
-
-    private final Bitmap downloadBitmap(String url) throws OutOfMemoryError {
+    /**
+     * download image
+     */
+    private Bitmap downloadBitmap(String url) throws OutOfMemoryError {
         final int IO_BUFFER_SIZE = 2 * 1024;
 
         final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
@@ -255,11 +253,9 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
         return null;
     }
 
-
-/* ************************************************************************************************
- * INFO decode local image
- */
-    
+    /* ------------------------------------------------------------
+        DESC: decode local image
+     */
     private final Bitmap loadImageFromLocalCache(File file) throws OutOfMemoryError {
         try {
             synchronized (this) {

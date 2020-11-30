@@ -23,10 +23,8 @@ import java.util.ArrayList;
  * Controller의 종류에 대한 enum class<br>
  * 서버의 url 정보와 reponse json string을 {@link Gson}library를 사용하여 Object로 return한다.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.breakout.All rights reserved.
- * @since 2016.02.29
+ * @author sung-gue
+ * @version 1.0 (2016.02.29)
  */
 enum ControllerType {
     Init("/app/init",

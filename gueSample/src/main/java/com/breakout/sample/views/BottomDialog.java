@@ -20,13 +20,11 @@ import com.breakout.sample.R;
 import com.breakout.util.widget.ViewUtil;
 
 
-
 /**
  * 하단에서 슬라이드업 되는 커스텀 다이얼로그
  *
- * @author gue
- * @version 1.0
- * @since 2019-12-21
+ * @author sung-gue
+ * @version 1.0 (2019-12-21)
  */
 public class BottomDialog extends Dialog implements View.OnClickListener {
 

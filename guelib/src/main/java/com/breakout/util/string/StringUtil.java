@@ -15,13 +15,8 @@ import java.util.regex.Pattern;
  * {@link Util}의 method를 속성에 따라 class로 분리<br/>
  * String Util
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2012.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2015. 3. 11.
+ * @author sung-gue
+ * @version 1.0 (2015. 3. 11.)
  */
 public final class StringUtil {
     private final static String TAG = "StringUtil";
@@ -32,32 +27,23 @@ public final class StringUtil {
 
     /**
      * ""값을 null 로 교체, ""가 아니고 null이 아니라면 값을 그대로 return
-     *
-     * @author gue
-     * @since 2011. 10. 16.
      */
     @Deprecated
-    public final static String nullCheck(String str) {
+    public static String nullCheck(String str) {
         if (str != null && str.length() != 0) return str;
         else return null;
     }
 
     /**
      * ""나 null 일경우 false return
-     *
-     * @author gue
-     * @since 2011. 10. 16.
      */
     @Deprecated
-    public final static boolean nullCheckB(String str) {
+    public static boolean nullCheckB(String str) {
         return str != null && str.length() != 0;
     }
 
     /**
      * 해당 object가 특정 class의 instance인지 check
-     *
-     * @author gue
-     * @since 2011. 10. 16.
      */
     public static boolean instanceCheck(Object obj, Class<?> instance) {
         return instance.isInstance(obj);
@@ -73,8 +59,6 @@ public final class StringUtil {
      *              <li>천 - 000.0K, 백만 - 000.0M, 십억 - 000.0B</li>
      *              </ol>
      * @return 숫자로 이루어진 값이 아니거나 null값일 경우 :  '0'으로 설정
-     * @author gue
-     * @since 2012. 7. 19.
      */
     public static String convertNumberNotation(String count, int form) {
         String result = "0";
@@ -116,19 +100,13 @@ public final class StringUtil {
     /**
      * 파일의 사이즈를 byte 길이로 입력받아 kb,mb,gb,tb 의 단위로 변환후 단위를 붙혀 String으로 return한다.<br>
      * {@link DecimalFormat}의 pattern은 ",###.#"을 사요한다. pattern의 변경을 위해서는 {@link #convertFileSizeFormat(double, String)}을 사용한다.
-     *
-     * @author gue
-     * @since 2012. 10. 5.
      */
     public static String convertFileSizeFormat(double byteSize) {
         return convertFileSizeFormat(byteSize, ",###.#");
     }
 
     /**
-     * see {@link #convertFileSizeFormat(double)}
-     *
-     * @author gue
-     * @since 2013. 1. 23.
+     * @see #convertFileSizeFormat(double)
      */
     public static String convertFileSizeFormat(double byteSize, String pattern) {
         String suffix = "B";
@@ -157,8 +135,6 @@ public final class StringUtil {
      * @param price             금액
      * @param moneyUnit         화폐 단위
      * @param isMoneyUnitSuffix 화폐단위가 금액 뒤에 붙는다면 true
-     * @author gue
-     * @since 2014. 1. 14.
      */
     public static String changeMoneyFormat(int price, String moneyUnit, boolean isMoneyUnitSuffix) {
         String result = null;
@@ -179,8 +155,6 @@ public final class StringUtil {
      * @param price             금액
      * @param moneyUnit         화폐 단위
      * @param isMoneyUnitSuffix 화폐단위가 금액 뒤에 붙는다면 true
-     * @author gue
-     * @since 2014. 1. 14.
      */
     public static String changeMoneyFormat(float price, String moneyUnit, boolean isMoneyUnitSuffix) {
         String result = null;
@@ -195,35 +169,32 @@ public final class StringUtil {
         return result;
     }
 
-    /* ************************************************************************************************
-     * INFO pattern
+    /* ------------------------------------------------------------
+        DESC: INFO pattern
      */
     /**
      * Pattern ","
      */
-    public final static Pattern COMMA_PATTERN = Pattern.compile(",");
+    public static Pattern COMMA_PATTERN = Pattern.compile(",");
     /**
      * Pattern "&"
      */
-    public final static Pattern AND_PATTERN = Pattern.compile("&");
+    public static Pattern AND_PATTERN = Pattern.compile("&");
     /**
      * Pattern "+"
      */
-    public final static Pattern EQUAL_PATTERN = Pattern.compile("=");
+    public static Pattern EQUAL_PATTERN = Pattern.compile("=");
     /**
      * Pattern "/"
      */
-    public final static Pattern SLASH_PATTERN = Pattern.compile("/");
+    public static Pattern SLASH_PATTERN = Pattern.compile("/");
     /**
      * Pattern "|"
      */
-    public final static Pattern BAR_PATTERN = Pattern.compile("[|]");
+    public static Pattern BAR_PATTERN = Pattern.compile("[|]");
 
     /**
      * 1. id validation : 최소 최대 자릿수 설정 : 한글, 영소문자, 숫자
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValid_1(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
@@ -233,9 +204,6 @@ public final class StringUtil {
 
     /**
      * 2. id validation : 최소 최대 자릿수 설정 : 한글, 영대소문자, 숫자
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValid_2(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
@@ -245,9 +213,6 @@ public final class StringUtil {
 
     /**
      * 3. password validation : 최소 최대 자릿수 설정 : 영문소문자, 숫자
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValid_3(String value, int minLenth, int maxLenth) {
         if (nullCheck(value) != null)
@@ -257,9 +222,6 @@ public final class StringUtil {
 
     /**
      * 4. password validation : 최소 최대 자릿수 설정 : 영문소문자, 숫자 조합
-     *
-     * @author gue
-     * @since 2012. 10. 2.
      */
     public static boolean isValid_4(String value, int minLenth, int maxLenth) {
         boolean result = false;
@@ -275,9 +237,6 @@ public final class StringUtil {
 
     /**
      * 5. password validation : 자릿수 고정 : 영문 소문자, 숫자
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValid_5(String value, int fixLenth) {
         if (nullCheck(value) != null)
@@ -287,9 +246,6 @@ public final class StringUtil {
 
     /**
      * email validation
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValidEmail(String value) {
         if (nullCheck(value) != null)
@@ -299,9 +255,6 @@ public final class StringUtil {
 
     /**
      * 1. 숫자로만 이루어지는 pattern
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValidNumber_1(String value) {
         if (nullCheck(value) != null) return Pattern.compile("^[0-9]*$").matcher(value).matches();
@@ -310,9 +263,6 @@ public final class StringUtil {
 
     /**
      * 2. 숫자로만 이루어지고 중간에 '.'이 들어가는 pattern
-     *
-     * @author gue
-     * @since 2012. 9. 1.
      */
     public static boolean isValidNumber_2(String value) {
         if (nullCheck(value) != null)
@@ -324,8 +274,6 @@ public final class StringUtil {
      * 전화번호 형식 체크
      *
      * @param value 숫자로만 이루어진 전화번호
-     * @author gue
-     * @since 2015. 4. 18.
      */
     public static boolean isValidPhoneNumber(String value) {
         if (nullCheckB(value)) {
@@ -337,9 +285,6 @@ public final class StringUtil {
 
     /**
      * 숫자와 문자로 이루어진(전화번호등)문자에서 숫자를 제외한 문자 제거
-     *
-     * @author gue
-     * @since 2015. 4. 18.
      */
     public static String getNumber(String value) {
         if (nullCheckB(value)) {
@@ -350,14 +295,11 @@ public final class StringUtil {
     }
 
 
-    /* ************************************************************************************************
-     * INFO InputFilter
+    /* ------------------------------------------------------------
+        DESC: INFO InputFilter
      */
     /**
      * {@link InputFilter} : no space
-     *
-     * @author gue
-     * @since 2012. 9. 15.
      */
     public static InputFilter IF_NoSpace = new InputFilter() {
         @Override
@@ -371,9 +313,6 @@ public final class StringUtil {
 
     /**
      * {@link InputFilter} : no enter
-     *
-     * @author gue
-     * @since 2012. 9. 17.
      */
     public static InputFilter IF_NoEnter = new InputFilter() {
         @Override

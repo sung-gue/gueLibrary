@@ -182,10 +182,6 @@ public final class ImageLoader implements ImageLoadCompleteListener {
     }
 
 
-    /* ************************************************************************************************
-     * INFO public method
-     */
-
     /**
      * 1. image loading : url
      *

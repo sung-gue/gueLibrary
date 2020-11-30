@@ -23,10 +23,8 @@ import java.io.File;
 /**
  * The type Camera activity.
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2013.gue.All rights reserved.
- * @since 2013.11.11
+ * @author sung-gue
+ * @version 1.0 (2013.11.11)
  */
 public class CameraActivity extends BaseActivity {
     public static final String BR_PHOTO_UPLOAD = "br_photo_upload";

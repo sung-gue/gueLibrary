@@ -41,10 +41,8 @@ import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
  *     }
  * </pre>
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.gue.All rights reserved.
- * @since 2016.02.18
+ * @author sung-gue
+ * @version 1.0 (2016.02.18)
  */
 public class TabLayoutEx extends TabLayout {
 
@@ -67,7 +65,7 @@ public class TabLayoutEx extends TabLayout {
      * @param position current pager position
      * @return the modify position
      */
-    public static final int getModifyTabPosition(int pageCnt, int position) {
+    public static int getModifyTabPosition(int pageCnt, int position) {
         // TODO 2016-03-29 무한루프 제거
 //        int modifyPosition = position - 1;
 //        if (position == 0) {
@@ -86,7 +84,7 @@ public class TabLayoutEx extends TabLayout {
      * @param position current pager position
      * @return the modify position
      */
-    public static final int getModifyPagerPosition(int pageCnt, int position) {
+    public static int getModifyPagerPosition(int pageCnt, int position) {
         // TODO 2016-03-29 무한루프 제거
 //        int modifyPosition = position - 1;
 //        if (position == 0) {
@@ -98,7 +96,7 @@ public class TabLayoutEx extends TabLayout {
         return position;
     }
 
-    public static final int getFirstPagerPosition() {
+    public static int getFirstPagerPosition() {
         // TODO 2016-03-29 무한루프 제거
 //        return 1;
         return 0;
@@ -110,7 +108,7 @@ public class TabLayoutEx extends TabLayout {
      * @param realPageCnt the real pagecnt
      * @return the int
      */
-    public static final int getCalcTotalPageCount(int realPageCnt) {
+    public static int getCalcTotalPageCount(int realPageCnt) {
         // TODO 2016-03-29 무한루프 제거
 //        return realPageCnt + 2;
         return realPageCnt;
@@ -122,7 +120,7 @@ public class TabLayoutEx extends TabLayout {
      * @param realPagerCnt the real viewPager count
      * @return the int
      */
-    public static final int getCalcTotalTabCount(int realPagerCnt) {
+    public static int getCalcTotalTabCount(int realPagerCnt) {
         // TODO 2016-03-29 무한루프 제거
 //        return realPagerCnt - 2;
         return realPagerCnt;
@@ -130,8 +128,6 @@ public class TabLayoutEx extends TabLayout {
 
     /**
      * modify method {@link #setupWithViewPager(ViewPager)}
-     *
-     * @param viewPager
      */
     public final void setupWithViewPagerEx(@NonNull ViewPager viewPager) {
 //        super.setupWithViewPager(viewPager);
@@ -317,7 +313,7 @@ public class TabLayoutEx extends TabLayout {
             }
             // TODO 2016-03-29 무한루프 제거
             /*final ViewPager viewPager = mViewPager.get();
-            *//*Log.i("onPageSelected | " + position + " / tab position | " + tabLayout.getSelectedTabPosition() + " / scrollstate | " + mScrollState);*//*
+             *//*Log.i("onPageSelected | " + position + " / tab position | " + tabLayout.getSelectedTabPosition() + " / scrollstate | " + mScrollState);*//*
             if (tabLayout != null && viewPager != null) {
                 int pageCnt = TabLayoutEx.getCalcTotalPageCount(tabLayout.getTabCount());
                 int modifyPosition = TabLayoutEx.getModifyTabPosition(pageCnt, position);

@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.breakout.sample.BaseActivity;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.Const;
@@ -32,9 +34,9 @@ import com.breakout.util.img.ImageUtil;
 
 public class ImageFilterActivity extends BaseActivity implements OnClickListener {
     private final String TAG = "ImageFilter";
-//	private final String EXTRA_OUTPUT_PATH = "ex_output_path"; 
-//	private final String EXTRA_IMAGE_PATH = "ex_iamge_path";
-//	private final String SAVE_FOLDER_NAME = "ius";
+//    private final String EXTRA_OUTPUT_PATH = "ex_output_path"; 
+//    private final String EXTRA_IMAGE_PATH = "ex_iamge_path";
+//    private final String SAVE_FOLDER_NAME = "ius";
 
     private Bitmap _bitmapOriginal;
     private Bitmap _bitmapAlter;
@@ -148,13 +150,13 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
 
     private void loadImage(Uri uri) {
         System.out.println("loadImage : " + uri.toString());
-//		_mediaUri = null;
-//		_outputFilePath = null;
-//		ImageUtil.recycleBitmap(_bitmapAddFilter);
-//		_bitmapAddFilter = null;
+//        _mediaUri = null;
+//        _outputFilePath = null;
+//        ImageUtil.recycleBitmap(_bitmapAddFilter);
+//        _bitmapAddFilter = null;
 
 
-//		Toast.makeText(this, "loadImage() fail image read", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "loadImage() fail image read", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -193,9 +195,9 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
                         _bitmapAlter = ImageAlter.getRotateBitmap(_bitmapAlter, (_currentDegree % 360), true);
                     } else if (filterType == R.id.btOk) {
                         msg.what = 3;
-//						Bitmap bitmap = ImageUtil.getBitmapFixWidth(_originalImagePath, 800, Config.ARGB_8888);
-//						filterProcess(_currentFilterType);
-//						bitmap = ImageAlter.getRotateBitmap(_bitmapAlter, (_currentDegree%360), true);
+//                        Bitmap bitmap = ImageUtil.getBitmapFixWidth(_originalImagePath, 800, Config.ARGB_8888);
+//                        filterProcess(_currentFilterType);
+//                        bitmap = ImageAlter.getRotateBitmap(_bitmapAlter, (_currentDegree%360), true);
                     } else {
                         filterProcess(filterType);
                     }
@@ -233,10 +235,9 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
     /**
      * 이미지를 decode 한 후 imageView에 해당 bitmap을 할당한다.
      */
-    private Handler _imageHandler = new Handler() {
+    private Handler _imageHandler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+        public boolean handleMessage(@NonNull Message msg) {
             _progress.setVisibility(View.GONE);
             Message newMsg = Message.obtain(msg);
             switch (newMsg.what) {
@@ -249,8 +250,8 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
                     Log.i(TAG, "alter image size : " + _bitmapAlter.getWidth() + "x" + _bitmapAlter.getHeight());
                     break;
                 case 3: {
-//					Intent intent = new Intent();
-//					setResult(RESULT_OK, intent);
+//                    Intent intent = new Intent();
+//                    setResult(RESULT_OK, intent);
                     Toast.makeText(getApplicationContext(), "파일이 저장 되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                     break;
@@ -262,13 +263,15 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
                     break;
             }
             _isFiltering = false;
+            return true;
         }
-    };
+    });
 
 
-    /* ************************************************************************************************
-     * TODO listener
+    /*
+        TODO listener
      */
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -308,22 +311,22 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
         ColorMatrix cm = new ColorMatrix();
         float contrast = 2;
         float brightness = -80;
-//		cm.set(new float[] {
-//				contrast,	0,			0,			0,			brightness,
-//				0,			contrast,	0,			0,			brightness,
-//				0,			0,			contrast,	0,			brightness,
-//				0,			0,			0,			contrast,	0,
-//		});
+//        cm.set(new float[] {
+//                contrast,    0,            0,            0,            brightness,
+//                0,            contrast,    0,            0,            brightness,
+//                0,            0,            contrast,    0,            brightness,
+//                0,            0,            0,            contrast,    0,
+//        });
         cm.setSaturation(0);
         paint.setColorFilter(new ColorMatrixColorFilter(cm));
 
 
         Matrix matrix = new Matrix();
         matrix.setScale(1, 1);
-//		m.setRotate(90, (float) _bitmapOriginal.getWidth() / 2, (float) _bitmapOriginal.getHeight() / 2);
+//        m.setRotate(90, (float) _bitmapOriginal.getWidth() / 2, (float) _bitmapOriginal.getHeight() / 2);
         try {
             canvas.drawBitmap(_bitmapOriginal, matrix, paint);
-//			output = Bitmap.createBitmap(_bitmapOriginal, 0, 0, _bitmapOriginal.getWidth(), _bitmapOriginal.getHeight(), matrix, true);
+//            output = Bitmap.createBitmap(_bitmapOriginal, 0, 0, _bitmapOriginal.getWidth(), _bitmapOriginal.getHeight(), matrix, true);
             if (_bitmapOriginal != output) {
                 _bitmapOriginal.recycle();
                 _bitmapOriginal = null;
@@ -337,10 +340,6 @@ public class ImageFilterActivity extends BaseActivity implements OnClickListener
         }
     }
 
-
-    /* ************************************************************************************************
-     * TODO life cycle
-     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

@@ -58,11 +58,7 @@ import java.util.regex.Pattern;
  * https://developer.android.com/guide/webapps
  *
  * @author sung-gue
- * @copyright Copyright 2013. sung-gue All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 3. 21.
+ * @version 1.0 (2013. 3. 21.)
  */
 public class CustomWebViewClient extends WebViewClient {
     public interface CustomWebViewClientListener {
@@ -126,7 +122,6 @@ public class CustomWebViewClient extends WebViewClient {
      *
      * @param wv   사용되는 웹뷰
      * @param mode CacheMode {@link WebSettings#LOAD_DEFAULT}, {@link WebSettings#setCacheMode(int)}
-     * @author gue
      */
     @SuppressLint("SetJavaScriptEnabled")
     public WebSettings initWebView(WebView wv, int mode) {
@@ -377,8 +372,8 @@ public class CustomWebViewClient extends WebViewClient {
     }*/
 
 
-    /* ************************************************************
-     * DESC: web setting
+    /* ------------------------------------------------------------
+        DESC: web setting
      */
     public void setSupportZoom(boolean flag) {
         if (_wv != null) {
@@ -413,8 +408,8 @@ public class CustomWebViewClient extends WebViewClient {
     }
 
 
-    /* ************************************************************
-     * DESC: cookie
+    /* ------------------------------------------------------------
+        DESC: cookie
      */
     private static void flushCookie(CookieSyncManager cookieSyncManager, CookieManager cookieManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -473,9 +468,6 @@ public class CustomWebViewClient extends WebViewClient {
     }
 
 
-    /**
-     *
-     */
     public static void clearCookie(Context context) {
         CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
@@ -484,9 +476,6 @@ public class CustomWebViewClient extends WebViewClient {
         flushCookie(cookieSyncManager, cookieManager);
     }
 
-    /**
-     *
-     */
     public static void clearSession(Context context) {
         CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
@@ -495,8 +484,8 @@ public class CustomWebViewClient extends WebViewClient {
     }
 
 
-    /* ************************************************************
-     * DESC: input file download
+    /* ------------------------------------------------------------
+        DESC: input file download
      */
     private static final String TYPE_IMAGE = "image/*";
     public static final int INPUT_FILE_REQUEST_CODE = 1333;
@@ -554,8 +543,8 @@ public class CustomWebViewClient extends WebViewClient {
     }
 
 
-    /* ************************************************************
-     * DESC: LG 전자결제
+    /* ------------------------------------------------------------
+        DESC: LG 전자결제
      */
 
     /**

@@ -3,10 +3,8 @@ package com.breakout.sample.constant;
 /**
  * define BroadCast filter name
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.gue.All rights reserved.
- * @since 2016.02.25
+ * @author sung-gue
+ * @version 1.0 (2016.02.25)
  */
 public final class ReceiverName {
     /**

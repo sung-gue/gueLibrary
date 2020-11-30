@@ -33,10 +33,8 @@ import java.util.Locale;
 /**
  * 오류의 일괄처리와 필수코드 정의 및 통신에 따른 알림창 생성
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2016.breakout.All rights reserved.
- * @since 2016.02.29
+ * @author sung-gue
+ * @version 1.0 (2016.02.29)
  */
 abstract class ControllerEx<T extends BaseDto> extends BaseController<T> {
     /**
@@ -215,7 +213,6 @@ abstract class ControllerEx<T extends BaseDto> extends BaseController<T> {
      * activity의 handler에서 null check를 위해 DTO object를 초기화한다
      *
      * @return 각 controller에 맞는 초기화된 인스턴스
-     * @author gue
      */
     protected abstract T initObject();
 

@@ -18,11 +18,7 @@ import java.net.URLEncoder;
  * {@link CustomWebViewClient} 상속 class sample
  *
  * @author sung-gue
- * @copyright Copyright 2013. sung-gue All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 3. 21.
+ * @version 1.0 (2013. 3. 21.)
  */
 public class CustomWebViewClientEx extends CustomWebViewClient {
     private final String TAG;

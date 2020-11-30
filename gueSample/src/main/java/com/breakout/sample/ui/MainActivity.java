@@ -183,9 +183,7 @@ public class MainActivity extends BaseActivity {
      */
 
     /**
-     * // Serializable class : write & read test
-     *
-     * @since 2013. 10. 1.
+     * Serializable class : write & read test
      */
     void execSerializable() {
 //        writeObj();

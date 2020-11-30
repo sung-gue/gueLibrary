@@ -259,9 +259,6 @@ public class ImageViewTouchBase extends ImageView implements IDisposable {
 
     /**
      * 최대 확대 비율 설정
-     *
-     * @author gue
-     * @since 2013. 7. 5.
      */
     public void setMaxZoom(float maxZoom) {
         _isUserSetMaxZoom = true;

@@ -11,8 +11,7 @@ import com.breakout.util.Log;
  * 기본적인 웹뷰 설정과 ovrride 함수의 로그를 제공한다.<br>
  *
  * @author sung-gue
- * @copyright Copyright 2020. sung-gue All rights reserved.
- * @since 2020-03-30
+ * @version 1.0 (2020-03-30)
  */
 public class CustomWebChromeClient extends WebChromeClient {
     private final String TAG = "CWCC";

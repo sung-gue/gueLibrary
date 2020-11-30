@@ -22,13 +22,8 @@ import java.lang.reflect.Method;
 /**
  * Flash Widget Configure
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 10. 2.
+ * @author sung-gue
+ * @version 1.0 (2013. 10. 2.)
  */
 public class FlashWidgetConfigure {
 
@@ -81,8 +76,6 @@ public class FlashWidgetConfigure {
 
     /**
      * @param showFlag true : flash on
-     * @author gue
-     * @since 2013. 10. 17.
      */
     public static void setNotification(Context context, boolean showFlag) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

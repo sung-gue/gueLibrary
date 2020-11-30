@@ -12,12 +12,8 @@ import com.breakout.util.data.DBManager;
 /**
  * com.com.breakout.util 라이브러리의 {@link DBManager}를 상속받아 사용하는 예제 class
  *
- * @author gue
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 1. 2.
+ * @author sung-gue
+ * @version 1.0 (2013. 1. 2.)
  */
 public class LocalDB extends DBManager {
     /**
@@ -40,20 +36,20 @@ public class LocalDB extends DBManager {
      */
     private static final String CREATE_T_USERINFO =
             "CREATE TABLE " + TABLE_USER_INFO +
-                    " (	email 				TEXT unique, " +
-                    "	nick 				TEXT NULL, " +
-                    "	gender 				TEXT NULL, " +
-                    "	birth 				TEXT NULL, " +
-                    "	user_id 			INTEGER PRIMARY KEY);";
+                    " (  email                 TEXT unique, " +
+                    "    nick                 TEXT NULL, " +
+                    "    gender                 TEXT NULL, " +
+                    "    birth                 TEXT NULL, " +
+                    "    user_id             INTEGER PRIMARY KEY);";
 
-//	/** table name : TABLE_dbname */
-//	private static final String TABLE_dbname = "";
-//	/** create table sql : TABLE_dbname */
-//	private static final String CREATE_TABLE_dbnamee = 
-//			"CREATE TABLE " + TABLE_dbname +
-//			"	(	root_id	TEXT PRIMARY KEY, " +
-//			"		, " +
-//			"		);" ;
+//    /** table name : TABLE_dbname */
+//    private static final String TABLE_dbname = "";
+//    /** create table sql : TABLE_dbname */
+//    private static final String CREATE_TABLE_dbnamee = 
+//            "CREATE TABLE " + TABLE_dbname +
+//            "    (    root_id    TEXT PRIMARY KEY, " +
+//            "        , " +
+//            "        );" ;
 
     public LocalDB(Context ctx) {
         super(ctx, DB_NAME, DB_VERSION);
@@ -91,8 +87,9 @@ public class LocalDB extends DBManager {
     }
 
 
-    //*********************************************************************************************
-    // user table setting
+    /* ------------------------------------------------------------
+        DESC: user table setting
+     */
 
     /**
      * userInfo del

@@ -25,9 +25,8 @@ import java.util.List;
  * 외부에서 앱 진입시에 해당 uri의 query parameter를 분석 및 이동을 한다.<br>
  * manifest에 launchMoe가 singleTask로 설정 되어 있고 taskAffinity가 package name으로 되어 있어 기존 task가 존재한다면 해당 task로 합쳐진다.
  *
- * @author gue
- * @version 1.0
- * @since 2016.04.05
+ * @author sung-gue
+ * @version 1.0 (2016.04.05)
  */
 public class UriActivity extends BaseActivity {
 

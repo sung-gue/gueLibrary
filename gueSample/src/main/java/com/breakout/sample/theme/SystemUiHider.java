@@ -123,10 +123,6 @@ public abstract class SystemUiHider {
     }
 
 
-    /* ************************************************************************************************
-     * INFO abstract method
-     */
-
     /**
      * Sets up the system UI hider. Should be called from
      * {@link Activity#onCreate}.
@@ -148,10 +144,6 @@ public abstract class SystemUiHider {
      */
     public abstract void show();
 
-
-    /* ************************************************************************************************
-     * INFO interface
-     */
 
     /**
      * A callback interface used to listen for system UI visibility changes.

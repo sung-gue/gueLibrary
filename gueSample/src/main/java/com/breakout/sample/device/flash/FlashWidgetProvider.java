@@ -1,23 +1,18 @@
 package com.breakout.sample.device.flash;
 
-import com.breakout.sample.Log;
-
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 
+import com.breakout.sample.Log;
+
 
 /**
  * Flash Widget Provider
  *
- * @author gue
- * @version 1.0
- * @copyright Copyright.2011.gue.All rights reserved.
- * @history <ol>
- * <li>변경자/날짜 : 변경사항</li>
- * </ol>
- * @since 2013. 10. 7.
+ * @author sung-gue
+ * @version 1.0 (2013. 10. 7.)
  */
 public abstract class FlashWidgetProvider extends AppWidgetProvider {
     protected final String TAG = getClass().getSimpleName();
@@ -53,11 +48,12 @@ public abstract class FlashWidgetProvider extends AppWidgetProvider {
         Log.d(TAG + " | onReceive");
         super.onReceive(context, intent);
     }
-	
-	
-	/*	@Override
-	public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-		Log.d(TAG, "");
-		super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-	}*/
+
+    /*
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        Log.d(TAG, "");
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+    }
+    */
 }

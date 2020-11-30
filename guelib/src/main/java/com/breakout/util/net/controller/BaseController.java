@@ -208,8 +208,8 @@ public abstract class BaseController<T extends Object> implements Runnable {
     }
 
 
-    /* ************************************************************************************************
-     * INFO parameter check & clear
+    /* ------------------------------------------------------------
+        DESC: parameter check & clear
      */
 
     /**
@@ -260,8 +260,8 @@ public abstract class BaseController<T extends Object> implements Runnable {
     protected abstract void setRequiredParam(String... values);
 
 
-    /* ************************************************************************************************
-     * INFO 통신 오류처리와 재시도 처리
+    /* ------------------------------------------------------------
+        DESC: 통신 오류처리와 재시도 처리
      */
     /**
      * true이면 network error시에 생성되는 알림창을 표시하지 않는다.

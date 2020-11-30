@@ -28,16 +28,13 @@ import java.util.Locale;
  * View Util
  *
  * @author sung-gue
- * @copyright Copyright.2012.sung-gue.All rights reserved.
- * @since 2015. 3. 11.
+ * @version 1.0 (2015. 3. 11.)
  */
 public class ViewUtil {
     private final static String TAG = "ViewUtil";
 
     /**
      * set width, height
-     *
-     * @since 2013. 10. 1.
      */
     public static <Params extends ViewGroup.LayoutParams> Params getLayoutParams(Context context, Params params) {
         float density = context.getResources().getDisplayMetrics().density;
@@ -48,8 +45,6 @@ public class ViewUtil {
 
     /**
      * set margin params, size : dp unit
-     *
-     * @since 2013. 10. 1.
      */
     public static <Params extends ViewGroup.LayoutParams> Params getMarginLayoutParams(Context context, Params params, int left, int top, int right, int bottom) {
         float density = context.getResources().getDisplayMetrics().density;
@@ -77,8 +72,6 @@ public class ViewUtil {
 
     /**
      * px -> dp
-     *
-     * @since 2012. 12. 28.
      */
     public static float px2dp(int px, Context context) {
         /*DisplayMetrics metrics = new DisplayMetrics();
@@ -89,8 +82,6 @@ public class ViewUtil {
 
     /**
      * dp -> px
-     *
-     * @since 2012. 12. 28.
      */
     public static float dp2px(int dp, Context context) {
 //        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
@@ -104,8 +95,6 @@ public class ViewUtil {
      *
      * <li>int[0] : status bar</li>
      * <li>int[1] : title bar</li>
-     *
-     * @since 2014. 1. 8.
      */
     public static void getStatusBarHeight(final Activity act, final CompleteGetStatusSizeListener listener) {
         new View(act).post(new Runnable() {
@@ -133,8 +122,6 @@ public class ViewUtil {
     /**
      * {@link #getStatusBarHeight(Activity, CompleteGetStatusSizeListener)} 에서 title, status bar 크기를 구한뒤
      * 값을 전달 받는 listener
-     *
-     * @since 2014. 1. 8.
      */
     public interface CompleteGetStatusSizeListener {
         void onComplete(int statusBarHeight, int titleBarHeight);
@@ -145,7 +132,6 @@ public class ViewUtil {
      * 키보드를 지정된 시간후에 올리고, 해당 view에 focus를 준다.
      *
      * @param appearTime 실행후 키보드가 올라오는 time지정 1/1000초
-     * @since 2012. 9. 4.
      */
     public static void appearKeyPad(final Context context, final View v, int appearTime) {
         v.requestFocus();
@@ -161,7 +147,6 @@ public class ViewUtil {
      * 키보드를 지정된 시간후에 키보드를 내린다.
      *
      * @param appearTime 실행후 키보드가 올라오는 time지정 1/1000초
-     * @since 2012. 9. 4.
      */
     public static void hideKeyPad(final Context context, final View v, int appearTime) {
         new Handler().postDelayed(new Runnable() {
@@ -176,8 +161,6 @@ public class ViewUtil {
     /**
      * ScrollView안에 Scroll이 가능한 View가 있을시에 해당 View가 scroll이 가능하게 해준다.<br/>
      * <li>EditText : android:maxLines="", android:scrollbars="vertical" 이 설정되어 있어야 한다.</li>
-     *
-     * @since 2014. 1. 8.
      */
     public static void setViewScrollEnable(final ScrollView sc, View v) {
         v.setOnTouchListener(new OnTouchListener() {
@@ -195,10 +178,8 @@ public class ViewUtil {
     }
 
     /**
-     * background window blur effect <br>
+     * background window blur effect <br/>
      * 주의 : 항상 setContentView()이전에 실행되어야 한다.
-     *
-     * @since 2012. 7. 29.
      */
     public static void setBackgroudBlur(Activity act) {
         if (android.os.Build.VERSION.SDK_INT != 16)
@@ -225,10 +206,8 @@ public class ViewUtil {
 
 
     /**
-     * AlertDialog에 사용되는 문구가 가운데로 정렬되어 있는 view를 반환하여 준다.<br>
+     * AlertDialog에 사용되는 문구가 가운데로 정렬되어 있는 view를 반환하여 준다.<br/>
      * msg,title은 String으로 전달받는다.
-     *
-     * @since 2013. 1. 2.
      */
     public static View alertViewCenterAlign(String msg, String title, Context context) {
         CV_Tv2 view = new CV_Tv2(context);
@@ -238,10 +217,8 @@ public class ViewUtil {
     }
 
     /**
-     * AlertDialog에 사용되는 문구가 가운데로 정렬되어 있는 view를 반환하여 준다.<br>
+     * AlertDialog에 사용되는 문구가 가운데로 정렬되어 있는 view를 반환하여 준다.<br/>
      * msg,title은 resourceId으로 전달받는다.
-     *
-     * @since 2013. 1. 2.
      */
     public static View alertViewCenterAlign(int msg, int title, Context context) {
         CV_Tv2 view = new CV_Tv2(context);
@@ -250,7 +227,7 @@ public class ViewUtil {
         return view;
     }
 
-    /*
+    /**
      * ui 이동시에 animation을 정의하여 form번호 입력으로 통일 시켜 사용함으로써
      * 추후에 eclipse에서 이동효과에 대한 구조를 볼때 어디서 어떠한 animation을 사용하는지 관리할 수 있다.
      * @param animForm enter / exit
@@ -264,9 +241,9 @@ public class ViewUtil {
      *         <li></li>
      *         <li></li>
      * </ol>
-     * @since 2012. 8. 10.
      */
-    /*public final static void uiAnimation(Activity activity, int animForm) {
+    /*
+    public static void uiAnimation(Activity activity, int animForm) {
         switch (animForm) {
             case 1:
                 activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -284,7 +261,8 @@ public class ViewUtil {
                 activity.overridePendingTransition(R.anim.fade_in, R.anim.hold);
                 break;
         }
-    }*/
+    }
+    */
 
     /*
      * view animation
@@ -302,9 +280,9 @@ public class ViewUtil {
      *         <li></li>
      *         <li></li>
      * </ol>
-     * @since 2012. 8. 10.
      */
-    /*public final static void viewAnimation(Context context, View view, int animForm){
+    /*
+    public final static void viewAnimation(Context context, View view, int animForm){
         switch (animForm) {
             case 1:
                 view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
@@ -334,5 +312,6 @@ public class ViewUtil {
                 view.setAnimation(AnimationUtils.loadAnimation(context, R.anim.push_right_out));
                 break;
             }
-    }*/
+    }
+    */
 }
