@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * intent에 의한 작업이 이루어질수 있도록 {@link Parcelable}을 구현한다.
  *
  * @author sung-gue
- * @version 1.0 (2019-11-07)
+ * @version 1.0 (2014. 8. 17.)
  */
 public abstract class BaseDto<T extends Parcelable> implements Parcelable {
 
