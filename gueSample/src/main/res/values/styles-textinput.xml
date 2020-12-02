@@ -25,7 +25,7 @@
 
     <!-- Error message appearance here -->
     <style name="AppTheme.TextErrorAppearance" parent="TextAppearance.Design.Error">
-        <item name="android:textColor">@color/color_accent</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/textSize_small</item>
     </style>
 

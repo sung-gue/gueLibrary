@@ -42,7 +42,7 @@
 
     <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
     <style name="AppBar.Toolbar.ActionButton.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_option_white</item>
+        <item name="android:src">@drawable/ic_more_vert_white_24dp</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
     </style>
 
@@ -59,10 +59,20 @@
         <item name="tabTextAppearance">@style/AppBar.TabLayout.Tab.TextStyle</item>
     </style>
 
+    <style name="AppBar.TabLayout1" parent="FontStyle.Widget.Design.TabLayout">
+        <!--parent="Widget.MaterialComponents.TabLayout">-->
+        <!-- check !!-->
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+    </style>
+
     <style name="AppBar.TabLayout.Tab.TextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/tabLayout_textSize</item>
         <item name="android:textStyle">normal</item>
-        <!--<item name="textAllCaps">true</item>-->
+    </style>
+
+    <style name="AppBar.TabLayout.Tab.TextStyle1" parent="FontStyle.TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/tabLayout_textSize</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="AppBar.Title.TextStyle" parent="FontStyle.Widget.AppCompat.TextView">

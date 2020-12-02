@@ -172,7 +172,7 @@ dependencies {
 
     //https://material.io/develop/android/docs/getting-started
     //TODO 버전 올릴 경우 오류 확인 필요 - style.xml
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
 
     /* ------------------------------------------------------------

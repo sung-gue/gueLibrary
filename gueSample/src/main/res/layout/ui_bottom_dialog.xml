@@ -78,7 +78,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/cancel"
-                android:textColor="@color/color_first"
+                android:textColor="@color/white"
                 android:textSize="@dimen/textSize_normal" />
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/ok"
-                android:textColor="@color/color_first"
+                android:textColor="@color/white"
                 android:textSize="@dimen/textSize_normal" />
         </LinearLayout>
     </LinearLayout>
