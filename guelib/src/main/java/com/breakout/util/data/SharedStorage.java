@@ -162,6 +162,8 @@ public abstract class SharedStorage {
         _editorFlash = _sharedFlash.edit();
         _editorFlash.apply();
         _sharedUser = getSharedPreferences(appContext, userSuffix, "user");
+        _editorUser = _sharedUser.edit();
+        _editorUser.apply();
         Log.i(TAG, TAG + " instance created");
     }
 
