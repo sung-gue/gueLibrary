@@ -113,6 +113,12 @@ public abstract class FragmentEx extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.v(TAG, String.format("onViewCreated %s", getTag()));
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     /**
      * Activity의 onCreate()가 반환된 후에 호출
      */
