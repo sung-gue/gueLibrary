@@ -158,7 +158,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     //인앱 UI를 빌드 및 구조화하고 딥 링크를 처리하며 화면 간에 이동합니다.
-    def nav_version = "2.3.1"
+    def nav_version = "2.3.2"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     //Android 5 이전 기기에 여러 dex 파일이 있는 애플리케이션을 배포합니다.
