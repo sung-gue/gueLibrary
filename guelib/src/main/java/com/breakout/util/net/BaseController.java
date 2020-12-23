@@ -125,6 +125,12 @@ public abstract class BaseController<T extends Object> implements Runnable {
      */
     protected int _currentNetState = NetState.NOT_INIT_CONTROLLER.code;
     /**
+     * 디바이스의 net state를 제대로 읽지 못할 경우 false 로 설정
+     * <p>
+     * ex) android-x86
+     */
+    private boolean _isCheckNetState = true;
+    /**
      * request url
      * TODO change name
      */
@@ -138,7 +144,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
     private String _ok = "확인";
     private String _retry = "재시도";
     /**
-     * 기본 알림창을 사용하지 않는 경우에 true
+     * 기본 제공하는 알림창을 사용하지 않는 경우 true 설정
      */
     private boolean _isUseCustomDialog;
 
@@ -172,10 +178,22 @@ public abstract class BaseController<T extends Object> implements Runnable {
     }
 
     /**
-     * 기본 알림창을 사용하지 않는 경우 설정
+     * 알림창 설정
+     *
+     * @param useCustomDialog 기본 제공하는 알림창을 사용하지 않는 경우 true 설정
      */
-    protected final void setUseCustomDialog(boolean flag) {
-        _isUseCustomDialog = flag;
+    protected final void setUseCustomDialog(boolean useCustomDialog) {
+        _isUseCustomDialog = useCustomDialog;
+    }
+
+    /**
+     * 네트워크 상태 체크 설정<br/>
+     * ex) android-x86
+     *
+     * @param isCheckNetState 디바이스의 net state를 제대로 읽지 못할 경우 false 로 설정
+     */
+    protected final void setCheckNetState(boolean isCheckNetState) {
+        _isCheckNetState = isCheckNetState;
     }
 
     /**
@@ -600,7 +618,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
     private void netCheckBeforStart() {
         _currentNetState = NetState.NOT_INIT_CONTROLLER.code;
         _netState = NetState.NOT_INIT_CONTROLLER;
-        if (BaseNet.getInstance().getNetState(_context) < 0) {
+        if (_isCheckNetState && BaseNet.getInstance().getNetState(_context) < 0) {
             connectFail(NetState.EXCEPTION_NET_NOT_WAKE);
         } else {
             new Thread(this).start();
