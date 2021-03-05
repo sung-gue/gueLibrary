@@ -27,7 +27,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         /*
             https://developers.google.com/android/guides/google-services-plugin
             https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file

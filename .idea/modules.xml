@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/gueLibrary.iml" filepath="$PROJECT_DIR$/gueLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gueSample/gueLibrary.gueSample.iml" filepath="$PROJECT_DIR$/.idea/modules/gueSample/gueLibrary.gueSample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/guelib/gueLibrary.guelib.iml" filepath="$PROJECT_DIR$/.idea/modules/guelib/gueLibrary.guelib.iml" />
+    </modules>
+  </component>
+</project>
