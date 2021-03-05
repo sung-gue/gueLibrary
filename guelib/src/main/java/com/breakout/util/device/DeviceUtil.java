@@ -24,8 +24,6 @@ import com.breakout.util.string.StringUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import org.apache.http.conn.util.InetAddressUtils;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
@@ -280,7 +278,8 @@ public final class DeviceUtil {
                 for (InetAddress inetAddress : Collections.list(networkInterface.getInetAddresses())) {
                     if (!inetAddress.isLoopbackAddress()) {
                         String ip = inetAddress.getHostAddress();//.toUpperCase();
-                        boolean isIPv4 = InetAddressUtils.isIPv4Address(ip);
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(ip);
+                        boolean isIPv4 = ip.indexOf(':') < 0;
                         int suffix = ip.indexOf('%'); // remove ipv6 port suffix
                         if (LocalIP == null || getPrivateIP) {
                             if (useIPv4 && isIPv4) {
