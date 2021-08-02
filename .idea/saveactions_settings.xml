@@ -15,6 +15,7 @@
     <option name="inclusions">
       <set>
         <option value=".*\.java" />
+        <option value="res/.*\.xml" />
       </set>
     </option>
   </component>

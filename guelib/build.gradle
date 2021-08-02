@@ -3,15 +3,6 @@ plugins {
     id 'kotlin-android'
 }
 
-/*repositories {
-    jcenter()
-    // https://docs.gradle.org/current/userguide/dependency_management.html#sec:flat_dir_resolver
-    flatDir {
-        dirs 'libs'
-    }
-    mavenCentral()
-}*/
-
 android {
     /*signingConfigs {
         // def keyProps = new Properties()
@@ -41,19 +32,18 @@ android {
     }*/
 
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
-//        applicationId "com.breakout.util"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 6
         versionName "1.0.5"
 
 //        multiDexEnabled true
-//        consumerProguardFiles "consumer-rules.pro"
 //        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     /*dexOptions {
@@ -70,6 +60,15 @@ android {
         /*debug {
             signingConfig signingConfigs.debug
         }*/
+    }
+
+    /* ------------------------------------------------------------
+        자바 8 언어 기능 및 API 사용
+        https://developer.android.com/studio/write/java8-support
+     */
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     // off lint options
@@ -92,11 +91,19 @@ android {
     useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+    // https://docs.gradle.org/current/userguide/dependency_management.html#sub:flat_dir_resolver
+    /*flatDir {
+        dirs 'libs'
+    }*/
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
 
     /* ------------------------------------------------------------
@@ -174,9 +181,6 @@ dependencies {
 
     //https://github.com/airbnb/lottie-android
 //    implementation 'com.airbnb.android:lottie:3.4.1'
-
-    //https://github.com/YvesCheung/RollingText
-//    implementation 'com.github.YvesCheung:RollingText:1.2.5'
 
     //Blurry is an easy blur library for Android. https://github.com/wasabeef/Blurry
 //    implementation 'jp.wasabeef:blurry:3.0.0'
