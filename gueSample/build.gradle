@@ -41,25 +41,19 @@ android {
     project.ext.set("ouputDir", "~/Downloads/")
     project.ext.set("ouputDirMac", "~/Downloads/")
 
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 30
+    //buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.breakout.sample"
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdk 19
+        targetSdk 30
         versionCode 1
         versionName "1.0.0"
 
         multiDexEnabled true
         //vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    dexOptions {
-        maxProcessCount 4 // this is the default value
-        javaMaxHeapSize "4g"
-        jumboMode true
     }
 
     buildTypes {
@@ -99,6 +93,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     // off lint options
     /*lintOptions {
         checkReleaseBuilds false
@@ -121,10 +119,6 @@ android {
 
 repositories {
     maven { url 'https://jitpack.io' }
-    // https://docs.gradle.org/current/userguide/dependency_management.html#sub:flat_dir_resolver
-    /*flatDir {
-        dirs 'libs'
-    }*/
 }
 
 dependencies {

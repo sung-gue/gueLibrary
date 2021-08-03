@@ -298,6 +298,7 @@ fabric.properties
 
 
 # add .gitignore by sung-gue
+.idea/deploymentTargetDropDown.xml
 #!*.iml
 !*.jks
 !*.keystore

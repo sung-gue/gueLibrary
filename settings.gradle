@@ -1,9 +1,28 @@
+dependencyResolutionManagement {
+    /*
+        RepositoriesMode 설정은 project build.gradle > repositories에 의해 모두 재설정
+            https://docs.gradle.org/7.0.2/userguide/declaring_repositories.html#sub:centralized-repository-declaration
+            PREFER_SETTINGS         : settings.gradle > repositories 우선
+            FAIL_ON_PROJECT_REPOS   :
+            PREFER_PROJECT          : (default) project build.gradle > repositories 우선
+     */
+//    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name='gueLibrary'
 include ':guelib'
 include ':gueSample'
-/*include ':pulltorefresh-library'
-project(':pulltorefresh-library').projectDir = new File('../../open_source/Chrisbanes-PullToRefresh/pulltorefresh-library')*/
-/* 경로가 다른 위치의 module 삽입
+/*
+include ':pulltorefresh-library'
+project(':pulltorefresh-library').projectDir = new File('../../open_source/Chrisbanes-PullToRefresh/pulltorefresh-library')
+*/
+/*  경로가 다른 위치의 module 삽입
 include ':guelib'
 project(':guelib').projectDir = new File('../../gue/gue_project/guelib')
  */
-rootProject.name='gueLibrary'
