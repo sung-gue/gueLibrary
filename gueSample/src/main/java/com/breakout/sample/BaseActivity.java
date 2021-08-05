@@ -39,6 +39,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -50,14 +52,17 @@ import com.airbnb.lottie.LottieDrawable;
 import com.breakout.sample.constant.Const;
 import com.breakout.sample.constant.Extra;
 import com.breakout.sample.constant.ReceiverName;
-import com.breakout.sample.constant.RequestCode;
 import com.breakout.sample.constant.SharedData;
 import com.breakout.sample.controller.AccountController;
+import com.breakout.sample.databinding.UiBaseLayoutBinding;
+import com.breakout.sample.device.speech.STTHelper;
+import com.breakout.sample.device.speech.TTSHelper;
 import com.breakout.sample.dto.UserDto;
 import com.breakout.sample.dto.data.User;
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
 import com.breakout.sample.ui.IntroActivity;
 import com.breakout.sample.ui.MainActivity;
+import com.breakout.sample.util.GoogleSignInHelper;
 import com.breakout.sample.views.AppBar;
 import com.breakout.sample.views.LoginDialog;
 import com.breakout.sample.views.SlideMenuLayout;
@@ -66,17 +71,9 @@ import com.breakout.util.FragmentEx;
 import com.breakout.util.img.ImageLoader;
 import com.breakout.util.widget.DialogView;
 import com.breakout.util.widget.ViewUtil;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import java.util.ArrayList;
-import java.util.Locale;
 
 
 /**
@@ -85,20 +82,24 @@ import java.util.Locale;
  * @author sung-gue
  * @version 1.0 (2013-11-27)
  */
-public abstract class BaseActivity extends AppCompatActivityEx implements SlideMenuLayout.OnSlideMenuClickListener {
+public abstract class BaseActivity extends AppCompatActivityEx implements SlideMenuLayout.OnSlideMenuClickListener, GoogleSignInHelper.GoogleLoginHelperListener {
     protected SharedData _shared;
     protected ImageLoader _imageLoader;
-    ;
     /**
      * {@link android.util.DisplayMetrics#density}
      */
-    private float _density;
+    protected float _density;
 
 
-    /* ------------------------------------------------------------
-        firebase analytics
+    /*
+        INFO: firebase analytics
      */
     private FirebaseAnalytics _firebaseAnalytics;
+
+    private void initFirebaseAnalytics() {
+        _firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        analyticsRecordScreen(_firebaseAnalytics);
+    }
 
     /**
      * {@link #_firebaseAnalytics} 를 사용하여 화면 기록<br/>
@@ -108,15 +109,14 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        life cycle
+    /*
+        INFO: life cycle
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initFirebaseAnalytics();
         _density = getResources().getDisplayMetrics().density;
-        _firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        analyticsRecordScreen(_firebaseAnalytics);
 
         // init field
         _shared = SharedData.getInstance(_appContext);
@@ -124,13 +124,15 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
         _imageLoader.setsdErrStr(getString(R.string.al_sdcard_strange_condition));
 
         checkFromURI();
-        googleLoginInit();
+//        initTTS();
+//        initSTT();
+        initGoogleSignIn();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        googleLoginCheck();
+        checkGoogleSignIn();
     }
 
     @Override
@@ -144,9 +146,21 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
         super.onDestroy();
     }
 
+    /**
+     * 유효한 데이터를 불러오지 못할 경우 activity 종료
+     */
+    protected void finishToast() {
+        finishToast(getString(R.string.al_not_match_data));
+    }
 
-    /* ------------------------------------------------------------
-        check uri
+    protected void finishToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
+    /*
+        INFO: check uri
      */
     /**
      * @see Extra#EX_URI_SCHEME_HOST
@@ -209,48 +223,64 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        google login
+    /*
+        INFO: TTS, STT
      */
-    /**
-     * <h3>google login</h3>
-     * google : https://developers.google.com/identity/sign-in/android/sign-in
-     * <p>
-     * firebase : https://firebase.google.com/docs/auth/android/google-signin
-     * <p>
-     * TODO firebase 로그인 테스트 필요
-     */
-    public GoogleSignInClient mGoogleSignInClient;
-
-    private void googleLoginInit() {
-        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();*/
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestServerAuthCode(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    private void initTTS() {
+        new TTSHelper(this);
     }
 
-    /**
-     * onStart 에서 로그인 여부 체크
+    private void initSTT() {
+        new STTHelper(this);
+    }
+
+
+    /*
+        INFO: google login
      */
-    protected void googleLoginCheck() {
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        Log.d(TAG, "google-signin googleLoginCheck | " + account);
+    private GoogleSignInHelper _googleSignInHelper;
+
+    private void initGoogleSignIn() {
+        _googleSignInHelper = new GoogleSignInHelper(this, this);
+    }
+
+    protected void checkGoogleSignIn() {
+        if (_googleSignInHelper != null) {
+            _googleSignInHelper.checkGoogleSignIn();
+        }
+    }
+
+    @Override
+    public void onCompleteCheckSignIn(GoogleSignInAccount account) {
         if (account != null) {
             setGoogleUserInfo(account);
         } else {
             /*
-                TODO 로그인 만료시 어떤식으로 처리할지 적용 해야함
+                TODO 로그인 만료시 어떤식으로 처리할지 적용 필요
              */
             if (this instanceof IntroActivity) {
-                Log.d(TAG, "todo check login ...");
+                Log.i(TAG, "todo check login ...");
 //                _shared.clearUserInfo();
             }
+        }
+    }
+
+    /**
+     * google login
+     */
+    protected void googleSignIn() {
+        if (_googleSignInHelper != null) {
+            _googleSignInHelper.signIn();
+        }
+    }
+
+    @Override
+    public void onCompleteSignIn(GoogleSignInAccount account, Status status) {
+        if (account != null) {
+            setGoogleUserInfo(account);
+            requestRegist();
+        } else {
+            onLoginFinsih(false);
         }
     }
 
@@ -263,9 +293,6 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
         String id = account.getId();
         String name = account.getDisplayName();
         String email = account.getEmail();
-        Log.i(TAG, "google-signin  setGoogleUserInfo authCode | " + authCode);
-        Log.i(TAG, "google-signin  setGoogleUserInfo idToken | " + idToken);
-        Log.i(TAG, "google-signin  setGoogleUserInfo | " + id + " / " + name + " / " + email);
 
         _shared.setGoogleAccountIdToken(idToken);
         _shared.setGoogleAccountServerAuthCode(authCode);
@@ -279,70 +306,26 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
     /**
-     * gogle login
-     *
-     * @see #googleLoginCallBack(GoogleSignInAccount)
-     */
-    protected void googleSignIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RequestCode.RC_GOOGLE_SIGN_IN);
-    }
-
-    /**
      * google logout
      */
     public void googleSignOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d(TAG, "google-signin onComplete");
-                        onSignOutFinishAndRestartApp();
-                    }
-                });
-    }
-
-    /**
-     * Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...)
-     */
-    protected void onActivityResultGoogleLogin(@Nullable Intent data) {
-        // The Task returned from this call is always completed, no need to attach a listener.
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//        handleSignInResult(task);
-
-        try {
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
-            googleLoginCallBack(account);
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.e(true, TAG, "Google sign in failed code=" + e.getStatusCode(), e);
-            googleLoginCallBack(null);
+        if (_googleSignInHelper != null) {
+            _googleSignInHelper.signOut();
         }
     }
 
-    /**
-     * google login result callback
-     */
-    protected void googleLoginCallBack(GoogleSignInAccount account) {
-        Log.d(TAG, "google-signin googleLoginCallBack | " + account);
-        if (account != null) {
-            setGoogleUserInfo(account);
-            requestRegist();
-        } else {
-            onLoginFinsih(false);
-        }
-
+    @Override
+    public void onCompleteSignOut() {
+        onSignOutFinishAndRestartApp();
     }
 
 
-    /* ------------------------------------------------------------
-        login
+    /*
+        INFO: login 처리
      */
 
     /**
-     * 로그인 완료 후 호출, Override 사용
+     * 로그인 완료 처리
      */
     protected void onLoginFinsih(boolean isLogin) {
         Log.d(TAG, "onLoginFinsih | " + isLogin);
@@ -352,7 +335,7 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
     /**
-     * {{@link #googleSignOut()}} 완료 후 호출<br/>
+     * 로그아웃 완료 처리<br/>
      * 회원 정보 초기화 후 앱 재시작
      */
     public void onSignOutFinishAndRestartApp() {
@@ -394,12 +377,14 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
                 }
             });
         }
-        _loginDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        _loginDialog.show();
+        if (_loginDialog != null) {
+            _loginDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            _loginDialog.show();
+        }
     }
 
     /**
-     * {{@link LoginDialog}} 취소버튼 클릭시 호출, Override 사용
+     * {{@link LoginDialog}} 취소버튼 클릭시 호출
      */
     protected void onLoginDialogCancel() {
     }
@@ -462,9 +447,11 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        DESC: UI
+    /*
+        INFO: init base UI
      */
+    private final int _baseLayoutResId = R.layout.ui_base_layout;
+    //private int _baseLayoutResId = R.layout.ui_base_layout_drawer;
     private FrameLayout _uiBaseFlRoot;
     private DrawerLayout _uiBaseDlRoot;
     private ImageView _uiBaseIvBackground;
@@ -473,7 +460,7 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     private SwipeRefreshLayout _uiBaseSrlWrap;
     protected CoordinatorLayout _uiBaseClBody;
     private CoordinatorLayout _uiBaseClFooter;
-    private int _baseLayoutResId = R.layout.ui_base_layout;
+    private UiBaseLayoutBinding _baseLayoutBinding;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -485,41 +472,56 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
             _appBar = findViewById(R.id.uiBaseAppbar);
             _uiBaseClBody = findViewById(R.id.uiBaseClBody);
             _uiBaseClFooter = findViewById(R.id.uiBaseClFooter);
-            _uiBaseIvBackground = findViewById(R.id.uiBaseIvBackground);
+            _uiBaseSrlWrap = findViewById(R.id.uiBaseSrlWrap);
+            initSwipeRefreshLayout(_uiBaseSrlWrap);
             /*
-                투명 테마 사용
+                공통 배경 적용
              */
+            _uiBaseIvBackground = findViewById(R.id.uiBaseIvBackground);
             if (this instanceof IntroActivity || this instanceof MainActivity) {
                 _uiBaseIvBackground.setVisibility(View.VISIBLE);
             }
-            /*
-                새로고침 패턴 사용
-             */
-            _uiBaseSrlWrap = findViewById(R.id.uiBaseSrlWrap);
-            _uiBaseSrlWrap.setEnabled(false);
-            if (this instanceof SwipeRefreshLayoutListener) {
-                _uiBaseSrlWrap.setColorSchemeColors(ContextCompat.getColor(this, R.color.swipeRefreshLayout_progress));
-                _uiBaseSrlWrap.setEnabled(true);
-                _uiBaseSrlWrap.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refreshUI();
-                        _uiBaseSrlWrap.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                _uiBaseSrlWrap.setRefreshing(false);
-                            }
-                        }, 500);
-                    }
-                });
-                final SwipeRefreshLayoutListener listener = (SwipeRefreshLayoutListener) this;
-                listener.initRefreshUI(_uiBaseSrlWrap);
-            }
-        } else {
-            _baseLayoutResId = layoutResID;
         }
-        //checkPermission();
         //initSlideArea();
+    }
+
+    public <T extends ViewDataBinding> T setContentViewBinding(int layoutResID) {
+        T viewDataBinding = DataBindingUtil.setContentView(this, layoutResID);
+        if (layoutResID == _baseLayoutResId) {
+            _baseLayoutBinding = (UiBaseLayoutBinding) viewDataBinding;
+            _uiBaseClMain = _baseLayoutBinding.uiBaseClMain;
+            _appBar = _baseLayoutBinding.uiBaseAppbar;
+            _uiBaseClBody = _baseLayoutBinding.uiBaseClBody;
+            _uiBaseClFooter = _baseLayoutBinding.uiBaseClFooter;
+            _uiBaseSrlWrap = _baseLayoutBinding.uiBaseSrlWrap;
+            initSwipeRefreshLayout(_uiBaseSrlWrap);
+        }
+        return viewDataBinding;
+    }
+
+    /**
+     * UI 새로고침
+     */
+    private void initSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
+        swipeRefreshLayout.setEnabled(false);
+        if (this instanceof SwipeRefreshLayoutListener) {
+            swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.progress_swipeRefreshLayout));
+            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshUI();
+                    swipeRefreshLayout.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }, 500);
+                }
+            });
+            final SwipeRefreshLayoutListener listener = (SwipeRefreshLayoutListener) this;
+            listener.initRefreshUI(swipeRefreshLayout);
+        }
     }
 
     @Nullable
@@ -548,6 +550,12 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     protected void setBodyView(int layoutId) {
         View view = LayoutInflater.from(this).inflate(layoutId, _uiBaseClBody, false);
         setBodyView(view);
+    }
+
+    protected <T extends ViewDataBinding> T setBodyViewDataBinding(int layoutId) {
+        T binding = DataBindingUtil.inflate(getLayoutInflater(), layoutId, null, false);
+        setBodyView(binding.getRoot());
+        return binding;
     }
 
     /**
@@ -744,14 +752,6 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
     /**
-     * 유효한 데이터를 불러오지 못할 경우 activity 종료
-     */
-    protected void finishToast() {
-        Toast.makeText(this, R.string.al_not_match_data, Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
-    /**
      * 화면 안내 문구 노출
      *
      * @param span TextView 에 삽입될 SpannableString
@@ -784,8 +784,8 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        progress dialog
+    /*
+        INFO: progress dialog
      */
     private Dialog _pDialog;
     private int DIALOG_TYPE = 1;
@@ -872,9 +872,8 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
 
     private Dialog getProgress2() {
         ProgressBar progressBar = new ProgressBar(_context, null, DialogView.Size.medium.defStyle);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(_context, R.color.swipeRefreshLayout_progress), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(_context, R.color.progress_swipeRefreshLayout), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
         DialogView dv = new DialogView(_context, progressBar, null);
-//        DialogView dv = new DialogView(_context, new ProgressBar(_context, null, DialogView.Size.medium.defStyle), null);
 //        DialogView dv = new DialogView(_context, new ProgressBar(_context, null, DialogView.Size.medium.defStyle), null);
 //        DialogView dv = new DialogView(_context, DialogView.Size.small);
         Dialog dialog = dv.getDialog(false, false);
@@ -890,54 +889,9 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
         }
     }
 
-
-    /* ------------------------------------------------------------
-        check permission
+    /*
+        INFO etc
      */
-    protected boolean isGrantedReadStorage() {
-        return ContextCompat.checkSelfPermission(_context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    protected boolean isGrantedWriteStorage() {
-        return ContextCompat.checkSelfPermission(_context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    protected void checkPermission() {
-        if (isGrantedReadStorage() && isGrantedWriteStorage()) {
-            successCheckPermission();
-            completeCheckPermission();
-        } else {
-            // Permission is not granted Should we show an explanation?
-            if (false && ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Log.d(TAG, "shouldShowRequestPermissionRationale");
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                Log.d(TAG, "requestPermissions");
-                ArrayList<String> arrPermissions = new ArrayList<>();
-                if (!isGrantedReadStorage()) {
-                    arrPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-                }
-                if (!isGrantedWriteStorage()) {
-                    arrPermissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }
-                String[] temp = new String[arrPermissions.size()];
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this, arrPermissions.toArray(temp), RequestCode.PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-    }
-
-    protected void successCheckPermission() {
-        if (isGrantedReadStorage()) {
-            initBlurBackground(_uiBaseIvBackground);
-        }
-    }
-
     private void initBlurBackground(final ImageView imageView) {
         /*
             TODO: 2020-02-06 M(23) 이하 버전에서 android.permission.WRITE_SETTINGS permission 오류 발생 수정 필요
@@ -947,9 +901,19 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
             }
         }
         if (!isFinishing() && imageView != null && imageView.getVisibility() == View.VISIBLE) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             Drawable drawable = WallpaperManager.getInstance(_context).getDrawable();
             if (imageView.getVisibility() == View.VISIBLE) {
-                PorterDuffColorFilter filter = new PorterDuffColorFilter(ContextCompat.getColor(this, R.color.box_black), PorterDuff.Mode.SRC_ATOP);
+                PorterDuffColorFilter filter = new PorterDuffColorFilter(ContextCompat.getColor(this, R.color.bg_box01), PorterDuff.Mode.SRC_ATOP);
                 drawable.setColorFilter(filter);
                 imageView.setImageDrawable(drawable);
                 try {
@@ -982,36 +946,9 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
         }
     }
 
-    protected void cancelCheckPermission() {
-    }
 
-    protected void completeCheckPermission() {
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case RequestCode.PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                // If request is cancelled, the result arrays are empty.
-                //if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (grantResults.length > 0) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    successCheckPermission();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    cancelCheckPermission();
-                }
-                break;
-        }
-        completeCheckPermission();
-    }
-
-
-    /* ------------------------------------------------------------
-        intent
+    /*
+        INFO: intent
      */
     public void fragmentTransactionCommit(int containerViewId, Fragment fragment, String tag, boolean useBackStack, String backStackName) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -1024,19 +961,16 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        activity callback
+    /*
+        INFO: activity callback
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, String.format(Locale.getDefault(), "requestCode = %d, resultCode = %d, intent = %s", requestCode, resultCode, data));
-
-        switch (requestCode) {
-            case RequestCode.RC_GOOGLE_SIGN_IN:
-                onActivityResultGoogleLogin(data);
+        /*switch (requestCode) {
+            default:
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -1050,8 +984,8 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
     }
 
 
-    /* ------------------------------------------------------------
-        finish animation
+    /*
+        INFO: finish animation
      */
     @Override
     public void finishAfterTransition() {

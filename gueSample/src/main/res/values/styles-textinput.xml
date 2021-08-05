@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        INFO: TextInput Style
+    -->
 
     <!--
         <com.google.android.material.textfield.TextInputLayout
@@ -20,13 +23,13 @@
     <!-- Floating label appearance here -->
     <style name="AppTheme.TextFloatLabelAppearance" parent="TextAppearance.Design.Hint">
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
     <!-- Error message appearance here -->
     <style name="AppTheme.TextErrorAppearance" parent="TextAppearance.Design.Error">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
 </resources>

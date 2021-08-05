@@ -3,7 +3,7 @@ package com.breakout.sample.xmpp;
 import android.content.Context;
 import android.os.Handler;
 
-import com.breakout.util.Log;
+import com.breakout.sample.Log;
 import com.breakout.util.string.StringUtil;
 
 import org.jivesoftware.smack.ConnectionConfiguration;

@@ -1,4 +1,4 @@
-package com.breakout.util.data;
+package com.breakout.util.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 
-public class CustomWebViewClient extends com.breakout.util.web.CustomWebViewClient {
+public class CustomWebViewClientExt extends com.breakout.util.web.CustomWebViewClient {
     public interface CustomWebViewClientListenerEx extends CustomWebViewClientListener {
 
     }
@@ -59,7 +59,7 @@ public class CustomWebViewClient extends com.breakout.util.web.CustomWebViewClie
     private boolean _isProgressCancel = true;
     private boolean _isFirstFinishPage = true;
 
-    public CustomWebViewClient(BaseActivity baseAct, CustomWebViewClientListenerEx listener, WebView wv, int mode) {
+    public CustomWebViewClientExt(BaseActivity baseAct, CustomWebViewClientListenerEx listener, WebView wv, int mode) {
         super(baseAct, wv, listener);
         this._wv = wv;
         this.TAG = super.TAG + "|" + baseAct.getClass().getSimpleName();
@@ -99,7 +99,7 @@ public class CustomWebViewClient extends com.breakout.util.web.CustomWebViewClie
             public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
                 Log.d(TAG, "WebChromeClient : onCreateWindow");
                 final WebView wv = new WebView(_context);
-                CustomWebViewClient client = new CustomWebViewClient(_baseAct, _listener, wv, WebSettings.LOAD_DEFAULT);
+                CustomWebViewClientExt client = new CustomWebViewClientExt(_baseAct, _listener, wv, WebSettings.LOAD_DEFAULT);
                 wv.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
 
                 if (isDialog && false) {

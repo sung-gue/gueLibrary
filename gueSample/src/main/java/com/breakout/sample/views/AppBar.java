@@ -15,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
@@ -32,7 +34,7 @@ import com.google.android.material.tabs.TabLayout;
 
 /**
  * Custom action bar<br/>
- * {@link AppCompatActivity}에서 사용되지 않는 경우 ClassCastException 을 발생시킨다.
+ * {@link AppCompatActivity}의 Context가 아니라면 ClassCastException을 발생시킨다.
  *
  * @author sung-gue
  * @version 1.0 (2016.02.24)
@@ -82,7 +84,7 @@ public class AppBar extends AppBarLayout {
                 _activity.setSupportActionBar(_toolbar);
                 _actionBar = _activity.getSupportActionBar();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    float elevation = getResources().getDimension(R.dimen.appbar_elevation);
+                    float elevation = getResources().getDimension(R.dimen.AppBar_Elevation);
                     StateListAnimator stateListAnimator = new StateListAnimator();
                     stateListAnimator.addState(new int[0], ObjectAnimator.ofFloat(this, "elevation", elevation));
                     this.setStateListAnimator(stateListAnimator);
@@ -95,12 +97,20 @@ public class AppBar extends AppBarLayout {
         if (attrs != null) {
             TypedArray type = _context.obtainStyledAttributes(attrs, R.styleable.AppBar);
             String titleStr = type.getString(R.styleable.AppBar_titleStr);
-            if (!TextUtils.isEmpty(titleStr)) {
+            if (isInEditMode()) {
+                _toolbar.setTitle(titleStr);
+            } else {
                 setTitle(titleStr);
+                if (!TextUtils.isEmpty(titleStr)) {
+                }
             }
             Drawable titleIcon = type.getDrawable(R.styleable.AppBar_titleIcon);
             if (titleIcon != null) {
-                _actionBar.setIcon(titleIcon);
+                if (_actionBar != null) {
+                    _actionBar.setIcon(titleIcon);
+                } else {
+                    _toolbar.setLogo(titleIcon);
+                }
             }
             boolean useTabs = type.getBoolean(R.styleable.AppBar_useTabs, true);
             setTabLayout(useTabs);
@@ -130,7 +140,6 @@ public class AppBar extends AppBarLayout {
         }
     }
 
-
     public AppBar setIsFragmentUI(boolean isFragment) {
         _isFragment = isFragment;
         setHomeIcon();
@@ -144,6 +153,15 @@ public class AppBar extends AppBarLayout {
                 }
             }
         });
+        return this;
+    }
+
+    public AppBar setLogo(int resId) {
+        return this.setLogo(ContextCompat.getDrawable(_context, resId));
+    }
+
+    public AppBar setLogo(Drawable drawable) {
+        _toolbar.setLogo(drawable);
         return this;
     }
 
@@ -289,22 +307,21 @@ public class AppBar extends AppBarLayout {
         return setCustomTitle(textView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setElevation(float elevation) {
         super.setElevation(elevation);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            /*if (_toolbarTopLayout != null) {
-                _toolbarTopLayout.setElevation(elevation);
-            }
-            if (_toolbar != null) {
-                _toolbar.setElevation(elevation);
-            }
-            if (_actionBar != null) {
-                _actionBar.setElevation(elevation);
-            }
-            if (_tabLayout != null) {
-                _tabLayout.setElevation(elevation);
-            }*/
+        /*if (_toolbarTopLayout != null) {
+            _toolbarTopLayout.setElevation(elevation);
         }
+        if (_toolbar != null) {
+            _toolbar.setElevation(elevation);
+        }
+        if (_actionBar != null) {
+            _actionBar.setElevation(elevation);
+        }
+        if (_tabLayout != null) {
+            _tabLayout.setElevation(elevation);
+        }*/
     }
 }

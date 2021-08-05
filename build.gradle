@@ -6,20 +6,20 @@ def keyPropsFile = rootProject.file("keys/keystore.properties")
 keyProps.load(new FileInputStream(keyPropsFile))
 
 ext {
-    test_var = 'test'
-    debug_storeFile = keyProps['debug_storeFile']
-    debug_storePassword = keyProps['debug_storePassword']
-    debug_keyAlias = keyProps['debug_keyAlias']
-    debug_keyPassword = keyProps['debug_keyPassword']
+    test_var = "test"
+    debug_storeFile = keyProps["debug_storeFile"]
+    debug_storePassword = keyProps["debug_storePassword"]
+    debug_keyAlias = keyProps["debug_keyAlias"]
+    debug_keyPassword = keyProps["debug_keyPassword"]
 
-    release_storeFile = keyProps['release_storeFile']
-    release_storePassword = keyProps['release_storePassword']
-    release_keyAlias = keyProps['release_keyAlias']
-    release_keyPassword = keyProps['release_keyPassword']
+    release_storeFile = keyProps["release_storeFile"]
+    release_storePassword = keyProps["release_storePassword"]
+    release_keyAlias = keyProps["release_keyAlias"]
+    release_keyPassword = keyProps["release_keyPassword"]
 }
 
 buildscript {
-    ext.kotlin_version = '1.5.10'
+    ext.kotlin_version = "1.5.31"
 
     repositories {
         google()
@@ -27,7 +27,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0'
+        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -35,8 +36,7 @@ buildscript {
             https://developers.google.com/android/guides/google-services-plugin
             https://developers.google.com/android/guides/google-services-plugin#adding_the_json_file
          */
-        classpath 'com.google.gms:google-services:4.3.4'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.gms:google-services:4.3.4"
     }
 }
 
@@ -48,7 +48,7 @@ allprojects {
         /*
         // https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:flat_dir_resolver
         flatDir {
-            dirs 'libs'
+            dirs "libs"
         }
         */
     }
@@ -57,8 +57,8 @@ allprojects {
 subprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        maven { url "https://jitpack.io" }
+        maven { url "https://devrepo.kakao.com/nexus/content/groups/public/" }
     }
 }
 

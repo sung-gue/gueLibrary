@@ -1,7 +1,7 @@
 package com.breakout.util.constant;
 
 /**
- * constant values
+ * constant values in library
  *
  * @author sung-gue
  * @version 1.0 (2012. 10. 4.)
@@ -9,17 +9,16 @@ package com.breakout.util.constant;
 public class CValue {
     /**
      * library의 console log에 대한 설정
-     * <dl><li>true : test</li>
-     * <li>flase : deployment</li>
+     * <ul>
+     *     <li>true : development</li>
+     *     <li>flase : deployment</li>
+     * </ul>
      */
     public static boolean DEBUG = true;
 
-    public static final String DB_WRITE = "write";
-    public static final String DB_READ = "read";
 
-
-    /* ------------------------------------------------------------
-        color
+    /*
+        INFO: color
      */
     public static final int C_RED = 0xFFFF0000;
     public static final int C_GREEN = 0xFF00FF00;
@@ -32,19 +31,19 @@ public class CValue {
     public static final int C_GRAY = 0xFF0303FF;
 
 
-    /* ------------------------------------------------------------
-        dimen
+    /*
+        INFO: dimen
      */
-    public static final int N01 = 1;
-    public static final int N05 = 5;
-    public static final int N10 = 10;
-    public static final int N20 = 20;
-    public static final int N30 = 30;
-    public static final int N40 = 40;
+    public static final int N_01 = 1;
+    public static final int N_05 = 5;
+    public static final int N_10 = 10;
+    public static final int N_20 = 20;
+    public static final int N_30 = 30;
+    public static final int N_40 = 40;
 
 
-    /* ------------------------------------------------------------
-        intent extra key
+    /*
+        INFO: intent extra key
      */
     public static final String EX_EXIT = "exit";
     public static final String EX_EXIT_SHARE = "exit_share";

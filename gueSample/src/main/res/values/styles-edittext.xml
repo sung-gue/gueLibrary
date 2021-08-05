@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        INFO: EditText Style
+    -->
+
+    <!--<style name="AppEditText" parent="Theme.AppCompat.Light">-->
+    <style name="AppEditText" parent="Widget.AppCompat.EditText">
+        <!--<item name="android:editTextBackground">?attr/editTextBackground</item>-->
+        <!--<item name="editTextBackground">@drawable/abc_textfield_default_mtrl</item>-->
+        <!--<item name="android:background">?attr/background</item>-->
+        <!--<item name="android:textAppearance">@style/AppEditTextStyle</item>-->
+        <item name="android:textSize">12sp</item>
+        <item name="editTextColor">#ff212121</item>
+        <item name="colorControlNormal">#ffd8d8d8</item>
+        <!--<item name="colorControlHighlight">?android:attr/colorControlHighlight</item>-->
+        <item name="colorControlHighlight">#ff212121</item>
+        <item name="colorControlActivated">#ff2abb9c</item>
+    </style>
+
+    <style name="AppEditTextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#ff5271b1</item>
+        <item name="android:textColorHint">#fff73279</item>
+        <item name="android:textColorHighlight">#ffffe857</item>
+        <!--<item name="textColorLink">?attr/textColorLink</item>-->
+        <!--<item name="textSize">@dimen/text_size_body_1_material</item>-->
+        <!--<item name="fontFamily">@string/font_family_body_1_material</item>-->
+    </style>
+
+    <style name="AppEditText_13" parent="AppEditText">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="AppEditText_13_b" parent="AppEditText">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppEditText_12" parent="AppEditText">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

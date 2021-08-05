@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        INFO: Font Style
+    -->
 
     <style name="FontStyle">
         <item name="android:fontFamily">@font/roboto</item>
@@ -18,15 +21,18 @@
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
-    <style name="FontStyle.RadioButton" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
+    <style name="FontStyle.RadioButton"
+        parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
-    <style name="FontStyle.Checkbox" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+    <style name="FontStyle.Checkbox"
+        parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 
-    <style name="FontStyle.TextAppearance.Widget.AppCompat.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="FontStyle.TextAppearance.Widget.AppCompat.Toolbar.Title"
+        parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 

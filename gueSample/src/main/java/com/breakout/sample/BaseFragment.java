@@ -69,8 +69,8 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
 
-    /* ------------------------------------------------------------
-        fragment life cycle
+    /*
+        INFO: fragment life cycle
      */
 
     /**
@@ -129,8 +129,8 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
 
-    /* ------------------------------------------------------------
-        intent
+    /*
+        INFO: intent
      */
 
     /**
@@ -169,8 +169,8 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
         fragmentTransaction.commit();
     }
 
-    /* ------------------------------------------------------------
-        progress dialog
+    /*
+        INFO: progress dialog
      */
     private Dialog _pDialog;
 
@@ -178,7 +178,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     public Dialog showProgress() {
         if (_pDialog == null) {
             ProgressBar progressBar = new ProgressBar(_context, null, DialogView.Size.medium.defStyle);
-            progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(_context, R.color.swipeRefreshLayout_progress), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
+            progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(_context, R.color.progress_swipeRefreshLayout), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
             DialogView dv = new DialogView(_context, progressBar, null);
 //            DialogView dv = new DialogView(_context, new ProgressBar(_context, null, DialogView.Size.medium.defStyle), null);
 //            DialogView dv = new DialogView(_context, new ProgressBar(_context, null, DialogView.Size.medium.defStyle), null);
@@ -189,7 +189,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
             try {
                 _pDialog.show();
             } catch (Exception e) {
-                com.breakout.util.Log.e(TAG, e.getMessage(), e);
+                Log.e(TAG, e.getMessage(), e);
             }
         }
         return _pDialog;
@@ -204,8 +204,8 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
 
-    /* ------------------------------------------------------------
-        option menu
+    /*
+        INFO: option menu
      */
 
     /**

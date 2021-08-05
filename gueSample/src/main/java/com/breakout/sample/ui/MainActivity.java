@@ -19,7 +19,7 @@ import com.breakout.sample.constant.ReceiverName;
 import com.breakout.sample.device.flash.FlashActivity;
 import com.breakout.sample.hybrid.phonegap.PhonegapActivity;
 import com.breakout.sample.image_filter_gue.ImageSelectActivity;
-import com.breakout.sample.sqlite.SQLiteActivity;
+import com.breakout.sample.storage.SQLiteActivity;
 import com.breakout.sample.test.HtmlTestActivity;
 import com.breakout.sample.theme.ThemeActivity;
 import com.breakout.sample.ui.recyclerview.ListActivity;
@@ -56,7 +56,6 @@ public class MainActivity extends BaseActivity {
         super.registerfinishReceiver(ReceiverName.FINISH);
         super.setContentView(R.layout.ui_base_layout);
         super.setBaseBodyView();
-
 
         new Handler().postDelayed(new Runnable() {
             @Override

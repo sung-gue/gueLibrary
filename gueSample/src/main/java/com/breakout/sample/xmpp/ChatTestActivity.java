@@ -11,9 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breakout.sample.BaseActivity;
+import com.breakout.sample.Log;
 import com.breakout.sample.R;
 import com.breakout.sample.views.AppBar;
-import com.breakout.util.Log;
 import com.breakout.util.string.StringUtil;
 
 import org.jivesoftware.smack.SmackException;

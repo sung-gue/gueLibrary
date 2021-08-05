@@ -1,9 +1,12 @@
-# gradlew 사용
+### gradlew 사용
+```shell
 $ chmod 744 gradlew
 $ ./gradlew signingReport
+```
 
 
-# 0:dev
+### dev
+```shell
 $ keytool -list -v -alias androiddebugkey -keystore ./keys/debug.keystore -storepass android -keypass android
     별칭 이름: androiddebugkey
     생성 날짜: Oct 24, 2019
@@ -18,15 +21,16 @@ $ keytool -list -v -alias androiddebugkey -keystore ./keys/debug.keystore -store
          MD5:  9F:19:67:A6:C8:B5:03:35:D0:07:24:48:3E:B2:D0:7E
          SHA1: 38:C2:E6:11:88:7D:2E:45:FB:D9:A2:DB:7E:F0:FD:A9:48:64:69:AA
          SHA256: 2F:6D:15:A8:06:02:79:EE:03:EB:EB:E0:26:CA:65:52:72:3C:C1:4D:CF:2A:B7:17:35:A3:5B:CC:B9:E2:7E:FB
-         key_hash: OMLmEYh9LkX72aLbfvD9qUhkaao=
     서명 알고리즘 이름: SHA1withRSA
     주체 공용 키 알고리즘: 2048비트 RSA 키
     버전: 1
 $ keytool -exportcert -alias androiddebugkey -keystore ./keys/debug.keystore -storepass android -keypass android | openssl sha1 -binary | openssl base64
     OMLmEYh9LkX72aLbfvD9qUhkaao=
+```
 
 
-# 1:release
+### release
+```shell
 $ keytool -list -v -alias breakout_release_key -keystore ./keys/breakout.keystore -storepass breakout2019 -keypass breakout2019
     별칭 이름: breakout_release_key
     생성 날짜: Jan 14, 2020
@@ -46,11 +50,14 @@ $ keytool -list -v -alias breakout_release_key -keystore ./keys/breakout.keystor
     버전: 3
 $ keytool -exportcert -alias breakout_release_key -keystore ./keys/breakout.keystore -storepass breakout2019 -keypass breakout2019 | openssl sha1 -binary | openssl base64
     kMO24LGIddJXBvqgTXPhxwkeJbc=
+```
 
 
-# 2:playstore
+### playstore
+```shell
     인증서 지문:
          MD5:
          SHA1:
          SHA256:
      key_hash:
+```

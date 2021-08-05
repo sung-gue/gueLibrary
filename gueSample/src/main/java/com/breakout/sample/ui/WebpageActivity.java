@@ -15,12 +15,12 @@ import com.breakout.sample.BaseActivity;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.Extra;
 import com.breakout.sample.constant.ReceiverName;
-import com.breakout.sample.util.CustomWebViewClient;
+import com.breakout.sample.util.CustomWebViewClientExt;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.widget.ViewUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-public class WebpageActivity extends BaseActivity implements CustomWebViewClient.CustomWebViewClientListenerEx {
+public class WebpageActivity extends BaseActivity implements CustomWebViewClientExt.CustomWebViewClientListenerEx {
 
     private WebView _webView;
 
@@ -60,7 +60,7 @@ public class WebpageActivity extends BaseActivity implements CustomWebViewClient
         String url = intent.getStringExtra(Extra.URL);
 
         _webView = findViewById(R.id.wv);
-        CustomWebViewClient webClient = new CustomWebViewClient(this, this, _webView, WebSettings.LOAD_DEFAULT);
+        CustomWebViewClientExt webClient = new CustomWebViewClientExt(this, this, _webView, WebSettings.LOAD_DEFAULT);
         _webView.getSettings().setUseWideViewPort(false);
         webClient.setShowProgress(true);
         webClient.setProgressCancel(true);
@@ -73,7 +73,7 @@ public class WebpageActivity extends BaseActivity implements CustomWebViewClient
             flWeb.addView(_progressBar);
             _progressBar.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
             _progressBar.getLayoutParams().height = (int) ViewUtil.dp2px(3, this);
-            _progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(this, R.color.webPage_topProgressBar), PorterDuff.Mode.SRC_IN);
+            _progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(this, R.color.progress_webView), PorterDuff.Mode.SRC_IN);
         }
 
     }

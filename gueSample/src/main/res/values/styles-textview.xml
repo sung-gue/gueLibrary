@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        INFO: TextView Style
+    -->
 
     <!--<style name="TextStyle" parent="TextAppearance.AppCompat">-->
     <style name="TextStyle" parent="Widget.AppCompat.TextView">
@@ -10,15 +13,15 @@
     </style>
 
     <style name="TextStyle.Small">
-        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
     <style name="TextStyle.Medium">
-        <item name="android:textSize">@dimen/textSize_medium</item>
+        <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
     <style name="TextStyle.Large">
-        <item name="android:textSize">@dimen/textSize_large</item>
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 
     <style name="TextShadow">

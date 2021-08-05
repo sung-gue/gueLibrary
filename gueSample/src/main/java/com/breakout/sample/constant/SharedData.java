@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.breakout.sample.Log;
-import com.breakout.util.data.SharedStorage;
+import com.breakout.util.storage.SharedStorage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -67,6 +67,21 @@ public final class SharedData extends SharedStorage {
 
     public String getAgreeAppArarmYN() {
         return _shared.getString(agreeAppArarmYN, "N");
+    }
+
+
+    /* ------------------------------------------------------------
+        sqlite
+     */
+    private final String databaseVersion = "database_version";
+
+    public void setDatabaseVersion(int databaseVersion) {
+        _editorConst.putInt(this.databaseVersion, databaseVersion);
+        _editorConst.commit();
+    }
+
+    public int getDatabaseVersion() {
+        return _sharedConst.getInt(databaseVersion, -1);
     }
 
 

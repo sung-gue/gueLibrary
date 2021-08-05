@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * An InputStream that skips the exact number of bytes provided, unless it reaches EOF. 
+ * An InputStream that skips the exact number of bytes provided, unless it reaches EOF.
  * inputstream Bug on slow connections, fixed in future release.
  */
 public final class FlushedInputStream extends FilterInputStream {

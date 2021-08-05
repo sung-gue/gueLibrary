@@ -17,8 +17,8 @@ public class Const {
     public static final String ANALYTICS_TRACKING_ID = (TEST ? "T_ANALYTICS_TRACKING_ID" : "ANALYTICS_TRACKING_ID");
 
 
-    /* ------------------------------------------------------------
-        app info
+    /*
+        INFO: app info
      */
     /**
      * R.string.app_scheme
@@ -34,8 +34,8 @@ public class Const {
     public static final String PRIVACY_URL = URL_HOME + "/terms/privacy.html";
 
 
-    /* ------------------------------------------------------------
-        constant value
+    /*
+        INFO: constant value
      */
     public static final String AES_KEY = Const.APP_NAME;
 
@@ -86,15 +86,15 @@ public class Const {
     public static final String NUM_FORMAT = ",###.#";
 
 
-    /* ------------------------------------------------------------
-        test.sample.image_filter_gue
+    /*
+        INFO: test.sample.image_filter_gue
      */
     public final static String OUTPUT_PATH = "output_path";
     public final static String IMAGE_PATH = "image_path";
 
 
-    /* ------------------------------------------------------------
-        widget
+    /*
+        INFO: widget
      */
     public final static String WIDGET_1X1_CLICK_ACTION = "com.com.breakout.util.flash_widget1x1.CLICK";
     public final static String WIDGET_2X1_CLICK_ACTION = "com.com.breakout.util.flash_widget2x1.CLICK";

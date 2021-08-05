@@ -3,7 +3,7 @@
     android:id="@+id/llDrawer"
     android:layout_width="200dp"
     android:layout_height="match_parent"
-    android:background="@color/drawerLayout_background"
+    android:background="@color/bg_drawerLayout"
     android:orientation="vertical">
 
     <ListView
@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:text="@string/app_corps"
-        android:textSize="@dimen/textSize_small"
+        android:textSize="@dimen/text_small"
         android:textStyle="bold" />
 
 </LinearLayout>

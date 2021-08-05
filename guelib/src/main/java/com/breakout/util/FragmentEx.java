@@ -76,8 +76,8 @@ public abstract class FragmentEx extends Fragment {
     }
 
 
-    /* ------------------------------------------------------------
-        fragment life cycle
+    /*
+        INFO: fragment life cycle
      */
 
     /**
@@ -105,7 +105,6 @@ public abstract class FragmentEx extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -128,11 +127,9 @@ public abstract class FragmentEx extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-
     /**
-     * fragment를 복구할 필요가 있을경우 상태를 bundle로 저장
+     * Fragment를 복구할 필요가 있을경우 상태를 bundle로 저장
      */
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         StringBuilder logBuilder = new StringBuilder();
@@ -147,7 +144,7 @@ public abstract class FragmentEx extends Fragment {
     }
 
     /**
-     * Activity가 화면에 보이게 되면 호출
+     * Fragment가 화면에 보이게 되면 호출
      */
     @Override
     public void onStart() {
@@ -156,7 +153,7 @@ public abstract class FragmentEx extends Fragment {
     }
 
     /**
-     * Activity가 준비 완료되면 호출
+     * Fragment가 준비 완료되면 호출
      */
     @Override
     public void onResume() {
@@ -165,7 +162,7 @@ public abstract class FragmentEx extends Fragment {
     }
 
     /**
-     * Activity가 화면에는 보이지만 포커스를 일게 되면 호출
+     * Fragment가 화면에는 보이지만 포커스를 일게 되면 호출
      */
     @Override
     public void onPause() {
@@ -174,7 +171,7 @@ public abstract class FragmentEx extends Fragment {
     }
 
     /**
-     * Activity가 더이상 화면에 보이자 않게 되면 호출
+     * Fragment가 더이상 화면에 보이자 않게 되면 호출
      */
     @Override
     public void onStop() {
@@ -199,12 +196,7 @@ public abstract class FragmentEx extends Fragment {
     @Override
     public void onDestroy() {
         Log.v(TAG, String.format("onDestroy %s", getTag()));
-        if (_pDialog != null && _pDialog.isShowing()) {
-            _pDialog.dismiss();
-            _pDialog = null;
-        }
-        _context = null;
-        _appContext = null;
+        closeProgress();
         super.onDestroy();
     }
 
@@ -218,46 +210,9 @@ public abstract class FragmentEx extends Fragment {
         super.onDetach();
     }
 
-//    @Override
-//    public void finish() {
-//        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
-//
-//        // get activity task
-//        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-//        // process & task check
-//        /*List<RunningAppProcessInfo> processList = am.getRunningAppProcesses();
-//        for (RunningAppProcessInfo runningAppProcessInfo : processList) {
-//            if (getPackageName().equals(runningAppProcessInfo.processName))
-//                Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName);
-//            else Log.i(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
-//        }
-//        List<RunningTaskInfo> taskList = am.getRunningTasks(processList.size());
-//        for (RunningTaskInfo runningTaskInfo : taskList) {
-//            if (getPackageName().equals(runningTaskInfo.topActivity.getPackageName()))
-//                Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-//            else Log.i(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-//        }*/
-//
-//        try {
-//            List<RunningTaskInfo> info = am.getRunningTasks(1);
-//            Log.i(TAG, String.format("-------------------------------------------------\n" +
-//                            "%s | activity finish\n" +
-//                            "     baseActivity : %s\n" +
-//                            "     topActivity : %s\n" +
-//                            "     numActivities : %s\n" +
-//                            "     numRunning : %s\n" +
-//                            "-------------------------------------------------",
-//                    TAG, info.get(0).baseActivity.getClassName(), info.get(0).topActivity.getClassName(),
-//                    info.get(0).numActivities, info.get(0).numRunning));
-//        } catch (Exception e) {
-//            Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-//        }
-//        super.finish();
-//    }
 
-
-    /* ------------------------------------------------------------
-        UI 구현
+    /*
+        INFO: UI 구현
      */
 
     /**
@@ -271,8 +226,8 @@ public abstract class FragmentEx extends Fragment {
     protected abstract void refreshUI();
 
 
-    /* ------------------------------------------------------------
-        progress dialog
+    /*
+        INFO: progress dialog
      */
     // TODO: 2016-02-17 Fragment 에서 사용될 수 있는 dialog 변경작업 필요
     /**
@@ -302,7 +257,7 @@ public abstract class FragmentEx extends Fragment {
             try {
                 _pDialog.show();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage(), e);
             }
         }
         return _pDialog;
@@ -334,52 +289,10 @@ public abstract class FragmentEx extends Fragment {
     }
 
 
-    /* ------------------------------------------------------------
-        Fragment management
+    /*
+        INFO: Fragment management
         TODO: 2016-02-17 Fragment stack 등 관리 목적 코드 필요
      */
 
-
-    /* ------------------------------------------------------------
-        intent
-     */
-    /*
-     * startActivity check
-     */
-    /*@Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        if (CValue.DEBUG) {
-            StringBuilder logBuilder = new StringBuilder("-------------------------------------------------\n");
-            logBuilder.append(String.format("| %s | startActivity\n", TAG));
-            logBuilder.append(String.format("|  %s\n", intent));
-            logBuilder.append(String.format("|  requestCode : %d\n", requestCode));
-            logBuilder.append(String.format("|  component : %s\n", intent != null ? intent.getComponent() : ""));
-            logBuilder.append(String.format("|  uri : %s\n", intent != null ? intent.getData() : ""));
-            try {
-                if (intent != null && intent.getExtras() != null) {
-                    logBuilder.append("|  extra bundle\n");
-                    Bundle bundle = intent.getExtras();
-                    for (String key : bundle.keySet()) {
-                        logBuilder.append(String.format("       %s : %s\n", key, bundle.get(key)));
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-            logBuilder.append("-------------------------------------------------");
-            Log.i(TAG, logBuilder.toString());
-        }
-        super.startActivityForResult(intent, requestCode);
-    }*/
-
-    /*public void fragmentTransactionCommit(int containerViewId, Fragment fragment, String tag, boolean useBackStack, String backStackName) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment, tag);
-        if (useBackStack) {
-            fragmentTransaction.addToBackStack(backStackName);
-        }
-        fragmentTransaction.commit();
-    }*/
 
 }

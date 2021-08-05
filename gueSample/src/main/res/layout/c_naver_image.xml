@@ -26,6 +26,6 @@
         android:maxLines="2"
         android:padding="2dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/textSize_normal"
+        android:textSize="@dimen/text_normal"
         tools:text="사진" />
 </FrameLayout>

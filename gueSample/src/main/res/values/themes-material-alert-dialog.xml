@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        INFO: MaterialAlertDialog Theme
+
+        TODO learn theme | MaterialAlertDialog
+            https://material.io/components/dialogs/android#theming-dialogs
+    -->
+
+    <!-- INFO: MaterialAlertDialog Theme -->
+    <style name="ThemeOverlay.App.MaterialAlertDialog"
+        parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/gray</item>
+        <item name="colorSecondary">@color/gray_dark</item>
+        <item name="colorSurface">@color/red</item>
+        <item name="colorOnSurface">@color/red_indian</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
+        </item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
+    </style>
+
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text"
+        parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/red_indian</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">@color/red_indian</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.TextButton"
+        parent="Widget.MaterialComponents.Button.TextButton">
+        <!--
+        <item name="android:textColor">@color/mtrl_text_btn_text_color_selector</item>
+        <item name="android:paddingLeft">@dimen/mtrl_btn_text_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/mtrl_btn_text_btn_padding_right</item>
+        <item name="iconTint">@color/mtrl_text_btn_text_color_selector</item>
+        <item name="iconPadding">@dimen/mtrl_btn_text_btn_icon_padding</item>
+        <item name="backgroundTint">@color/mtrl_btn_text_btn_bg_color_selector</item>
+        <item name="rippleColor">@color/mtrl_btn_text_btn_ripple_color</item>
+        -->
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent"
+        parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+</resources>

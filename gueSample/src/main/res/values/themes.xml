@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+        INFO: Application Theme
+    -->
 
+    <!-- INFO: Application Theme | color -->
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryVariant">@color/white_press</color>
+    <color name="colorOnPrimary">@color/black</color>
+    <color name="colorPrimaryDark">@color/white_press</color>
+    <color name="colorAccent">@color/red_pink</color>
+
+    <color name="windowStatusBar">@color/black</color>
+    <color name="windowBackground">@color/white</color>
+    <color name="windowNavigationBar">@color/black</color>
+
+    <color name="windowStatusBar_black">@color/windowStatusBar</color>
+    <color name="windowBackground_black">@color/windowNavigationBar</color>
+    <color name="windowNavigationBar_black">#FF000000</color>
+
+    <color name="windowStatusBar_translucent">#22000000</color>
+    <color name="windowBackground_translucent">#22FFFFFF</color>
+    <color name="windowNavigationBar_translucent">#22000000</color>
+
+
+    <!-- INFO: Application Theme | dimen -->
+    <dimen name="actionButtonPadding">14dp</dimen>
+
+
+    <!-- INFO: AppTheme -->
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light">-->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- brand color. https://material.io/develop/android/theming/color -->
@@ -25,29 +53,35 @@
         <item name="colorError">#FFB00020</item>
         <item name="colorOnError">#FFFFFFFF</item>
         -->
-        <item name="android:colorBackground">#FFFFFFFF</item>
+        <item name="android:colorBackground">@color/white</item>
         <item name="colorOnSurface">@color/black</item>
 
-        <!--  TODO  -->
-        <item name="android:windowBackground">#FFFFFFFF</item>
+        <!-- TODO 확인 후 삭제 필요 -->
+        <item name="android:windowBackground">@color/windowBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
         <!-- Status bar color. -->
-        <!--<item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>-->
+        <!--
+        <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
+        -->
         <item name="android:statusBarColor" tools:targetApi="21">@color/windowStatusBar</item>
 
-        <!-- Widget style-->
-        <item name="android:actionButtonStyle">@style/AppTheme.ActionButton</item>
-        <item name="actionButtonStyle">@style/AppTheme.ActionButton</item>
-        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationView</item>
-        <!--<item name="android:textColorPrimary">@color/black</item>-->
-        <!--<item name="android:textColorPrimaryInverse">@color/black</item>-->
-        <!--<item name="android:textColorSecondary">@color/black</item>-->
-        <!--<item name="android:textColorSecondaryInverse">@color/black</item>-->
-        <!--<item name="android:actionMenuTextColor">@color/black</item>-->
+        <!-- Widget style -->
+        <item name="android:actionButtonStyle">@style/CustomTheme.ActionButton</item>
+        <item name="actionButtonStyle">@style/CustomTheme.ActionButton</item>
+        <item name="bottomNavigationStyle">@style/CustomTheme.BottomNavigationView</item>
+        <!--
+        <item name="android:alertDialogTheme">@style/AppTheme.AlertDialogStyle</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimaryInverse">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColorSecondaryInverse">@color/black</item>
+        <item name="android:actionMenuTextColor">@color/black</item>
+        -->
 
-        <!-- font style-->
+        <!-- font style -->
         <item name="android:textViewStyle">@style/FontStyle.TextView</item>
         <item name="android:buttonStyle">@style/FontStyle.Button</item>
         <item name="android:editTextStyle">@style/FontStyle.EditText</item>
@@ -60,65 +94,6 @@
         <item name="colorControlHighlight">@color/gray</item>
     </style>
 
-    <!-- https://material.io/develop/android/components/bottom-navigation -->
-    <!-- TODO learn BottomNavigationView Theme -->
-    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="materialThemeOverlay">
-            @style/AppTheme.ThemeOverlay.BottomNavigationView
-        </item>
-        <item name="itemIconSize">24dp</item>
-        <item name="itemTextAppearanceActive">
-            @style/AppTheme.BottomNavigationView.TextAppearanceActive
-        </item>
-        <item name="itemTextAppearanceInactive">
-            @style/AppTheme.BottomNavigationView.TextAppearanceInactive
-        </item>
-        <item name="backgroundTint">@color/white</item>
-    </style>
-
-    <style name="AppTheme.ThemeOverlay.BottomNavigationView" parent="">
-        <item name="colorSurface">@color/black</item>
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorOnSurface">@color/green</item>
-    </style>
-
-    <style name="AppTheme.ThemeOverlay.BottomNavigationView.Colored" parent="">
-        <item name="android:background">#f00</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary">@color/blue</item>
-    </style>
-
-    <style name="AppTheme.BottomNavigationView.TextAppearanceInactive" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="itemTextColor">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="AppTheme.BottomNavigationView.TextAppearanceActive" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="itemTextColor">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="AppTheme.ActionButton" parent="Widget.AppCompat.ActionButton">
-        <item name="android:paddingStart">14dp</item>
-        <item name="paddingStart">14dp</item>
-        <item name="android:paddingEnd">14dp</item>
-        <item name="paddingEnd">14dp</item>
-    </style>
-
-    <style name="AppTheme.SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:textColorPrimaryDisableOnly">#b71c1c</item>
-        <item name="android:colorControlActivated" tools:targetApi="21">#1b5e20</item>
-        <item name="android:colorForeground">#f57f17</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
-    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -131,6 +106,45 @@
         </item>
     </style>
 
+
+    <style name="CustomTheme.ActionButton" parent="Widget.AppCompat.ActionButton">
+        <item name="paddingStart">@dimen/actionButtonPadding</item>
+        <item name="android:paddingStart">@dimen/actionButtonPadding</item>
+        <item name="paddingEnd">@dimen/actionButtonPadding</item>
+        <item name="android:paddingEnd">@dimen/actionButtonPadding</item>
+        <!--<item name="minWidth">@dimen/design_bottom_navigation_height</item>
+        <item name="android:minWidth">@dimen/design_bottom_navigation_height</item>
+        <item name="minHeight">@dimen/design_bottom_navigation_height</item>
+        <item name="android:minHeight">@dimen/design_bottom_navigation_height</item>-->
+        <!--
+        <item name="maxWidth">@dimen/design_bottom_navigation_height</item>
+        <item name="android:maxWidth">@dimen/design_bottom_navigation_height</item>
+        <item name="maxHeight">@dimen/design_bottom_navigation_height</item>
+        <item name="android:maxHeight">@dimen/design_bottom_navigation_height</item>
+        -->
+        <!--
+        <item name="android:width">@dimen/design_bottom_navigation_height</item>
+        <item name="android:height">@dimen/design_bottom_navigation_height</item>
+        -->
+    </style>
+
+
+    <style name="CustomTheme.AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/red_pink</item>
+        <item name="android:textColorPrimary">@color/red</item>
+        <!--<item name="android:textSize">20sp</item>-->
+    </style>
+
+
+    <style name="CustomTheme.SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textColorPrimaryDisableOnly">#b71c1c</item>
+        <item name="android:colorControlActivated" tools:targetApi="21">#1b5e20</item>
+        <item name="android:colorForeground">#f57f17</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    </style>
+
+
+    <!-- INFO: Theme others -->
     <style name="AppTheme.NoActionBar.Translucent">
         <item name="android:windowBackground">@color/windowBackground_translucent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -211,68 +225,8 @@
     <style name="ButtonBarButton" />
 
 
-    <!--EditText-->
-    <!--<style name="AppEditText" parent="Theme.AppCompat.Light">-->
-    <style name="AppEditText" parent="Widget.AppCompat.EditText">
-        <!--<item name="android:editTextBackground">?attr/editTextBackground</item>-->
-        <!--<item name="editTextBackground">@drawable/abc_textfield_default_mtrl</item>-->
-        <!--<item name="android:background">?attr/background</item>-->
-        <!--<item name="android:textAppearance">@style/AppEditTextStyle</item>-->
-        <item name="android:textSize">12sp</item>
-        <item name="editTextColor">#ff212121</item>
-        <item name="colorControlNormal">#ffd8d8d8</item>
-        <!--<item name="colorControlHighlight">?android:attr/colorControlHighlight</item>-->
-        <item name="colorControlHighlight">#ff212121</item>
-        <item name="colorControlActivated">#ff2abb9c</item>
-    </style>
-
-    <style name="AppEditTextStyle" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">#ff5271b1</item>
-        <item name="android:textColorHint">#fff73279</item>
-        <item name="android:textColorHighlight">#ffffe857</item>
-        <!--<item name="textColorLink">?attr/textColorLink</item>-->
-        <!--<item name="textSize">@dimen/text_size_body_1_material</item>-->
-        <!--<item name="fontFamily">@string/font_family_body_1_material</item>-->
-    </style>
-
-    <style name="AppEditText_13" parent="AppEditText">
-        <item name="android:textSize">13sp</item>
-    </style>
-
-    <style name="AppEditText_13_b" parent="AppEditText">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="AppEditText_12" parent="AppEditText">
-        <item name="android:textSize">12sp</item>
-    </style>
-
-
-    <!-- Theme -->
     <style name="Theme.TransparentDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <!-- shadow -->
-    <style name="shadow1">
-        <item name="android:shadowColor">#ff00ff00</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">2</item>
-    </style>
-
-    <!-- progress dialog -->
-    <style name="progress">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTitleStyle">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

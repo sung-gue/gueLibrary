@@ -46,7 +46,7 @@ public class BottomViewBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull View child, @NonNull View dependency) {
 //        Log.d(TAG, String.format("onDependentViewChanged | %s, %s, %s, %s", child.getHeight(), dependency.getHeight(), dependency.getTop(), dependency.getTranslationY()));
-        float appbarHeight = parent.getContext().getResources().getDimension(R.dimen.appbar_height);
+        float appbarHeight = parent.getContext().getResources().getDimension(R.dimen.AppBar_Height);
         float childHeight = child.getHeight();
         if (child.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             childHeight += ((ViewGroup.MarginLayoutParams) child.getLayoutParams()).bottomMargin;

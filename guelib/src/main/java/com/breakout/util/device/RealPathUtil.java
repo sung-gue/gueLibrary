@@ -17,7 +17,7 @@ import androidx.loader.content.CursorLoader;
  * Uri 경로에서 해당 파일의 실제 경로
  * http://gogorchg.tistory.com/entry/Android-Get-RealPath-from-Uri
  * http://stackoverflow.com/questions/28229518/getting-image-from-gallery-in-android/28229595#28229595
- *
+ * <p>
  * dete
  */
 public class RealPathUtil {
@@ -88,7 +88,7 @@ public class RealPathUtil {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] { split[1] };
+                final String[] selectionArgs = new String[]{split[1]};
 
                 return getDataColumn(context, contentUri, selection,
                         selectionArgs);
@@ -115,14 +115,10 @@ public class RealPathUtil {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context
-     *            The context.
-     * @param uri
-     *            The Uri to query.
-     * @param selection
-     *            (Optional) Filter used in the query.
-     * @param selectionArgs
-     *            (Optional) Selection arguments used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
     public static String getDataColumn(Context context, Uri uri,
@@ -130,7 +126,7 @@ public class RealPathUtil {
 
         Cursor cursor = null;
         final String column = "_data";
-        final String[] projection = { column };
+        final String[] projection = {column};
 
         try {
             cursor = context.getContentResolver().query(uri, projection,
@@ -147,8 +143,7 @@ public class RealPathUtil {
     }
 
     /**
-     * @param uri
-     *            The Uri to check.
+     * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
     public static boolean isExternalStorageDocument(Uri uri) {
@@ -157,8 +152,7 @@ public class RealPathUtil {
     }
 
     /**
-     * @param uri
-     *            The Uri to check.
+     * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
     public static boolean isDownloadsDocument(Uri uri) {
@@ -167,8 +161,7 @@ public class RealPathUtil {
     }
 
     /**
-     * @param uri
-     *            The Uri to check.
+     * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
     public static boolean isMediaDocument(Uri uri) {
@@ -177,8 +170,7 @@ public class RealPathUtil {
     }
 
     /**
-     * @param uri
-     *            The Uri to check.
+     * @param uri The Uri to check.
      * @return Whether the Uri authority is Google Photos.
      */
     public static boolean isGooglePhotosUri(Uri uri) {
@@ -188,7 +180,7 @@ public class RealPathUtil {
 
     @SuppressLint("NewApi")
     public static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         String result = null;
 
         CursorLoader cursorLoader = new CursorLoader(
@@ -196,7 +188,7 @@ public class RealPathUtil {
                 contentUri, proj, null, null, null);
         Cursor cursor = cursorLoader.loadInBackground();
 
-        if(cursor != null){
+        if (cursor != null) {
             int column_index =
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -205,8 +197,8 @@ public class RealPathUtil {
         return result;
     }
 
-    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri){
-        String[] proj = { MediaStore.Images.Media.DATA };
+    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         int column_index
                 = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);

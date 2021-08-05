@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">@android:color/transparent</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_press">#BBFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="black_press">#BB000000</color>
+    <color name="black_press2">#FF212121</color>
+    <color name="gray">#FF808080</color>
+    <color name="gray_light">#FFAAAAAA</color>
+    <color name="gray_dim">#FF696969</color>
+    <color name="gray_dark">#FF212121</color>
+    <color name="red">#FFFF0000</color>
+    <color name="red_pink">#FFD81B60</color>+
+    <color name="red_orange">#FFFF4500</color>
+    <color name="red_indian">#FFCD5C5C</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="gold">#FFFFD700</color>
+    <color name="blue">#FF0000FF</color>
+    <color name="blue_medium">#FF5271B1</color>
+    <color name="blue_medium_press">#FF4160A0</color>
+    <color name="blue_sky">#FF87CEEB</color>
+    <color name="pink">#FFFFC0CB</color>
+    <color name="pink_light">#FFFFB6C1</color>
+    <color name="pink_deep">#FFFF1493</color>
+    <color name="coral">#FFFF7F50</color>
+    <color name="coral_light">#FFF08080</color>
+    <color name="orange">#FFFFA500</color>
+    <color name="orange_dark">#FFFF8C00</color>
+    <color name="green">#FF00DD00</color>
+    <color name="green_forest">#FF228B22</color>
+    <color name="neon">#FFCBFF58</color>
+    <color name="purple">#FF800080</color>
+    <color name="purple_medium">#FF9370DB</color>
+    <color name="violet">#FFEE82EE</color>
+
+</resources>

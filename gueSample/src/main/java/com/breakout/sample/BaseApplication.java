@@ -15,12 +15,10 @@ import com.breakout.util.constant.CValue;
 
 public class BaseApplication extends Application {
     private final String TAG = getClass().getSimpleName();
-//    private static GoogleAnalytics sAnalytics;
-//    private static Tracker sTracker;
 
 
     /**
-     * 공유할 data나 특정 변수의 초기화를 설정한다.
+     * Application에서 공유할 data 초기화 설정
      */
     @Override
     public void onCreate() {
@@ -28,23 +26,7 @@ public class BaseApplication extends Application {
         CValue.DEBUG = Const.DEBUG;
         MyFirebaseMessagingService.initChannel(this);
         super.onCreate();
-
-//        sAnalytics = GoogleAnalytics.getInstance(this);
     }
-
-    /*
-     * Gets the default {@link Tracker} for this {@link Application}.
-     *
-     * @return tracker
-     */
-    /*synchronized public Tracker getDefaultTracker() {
-        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-        if (sTracker == null) {
-            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
-        }
-
-        return sTracker;
-    }*/
 
     /**
      * Application이 종료시에 호출 (강제종료시에는 미호출)

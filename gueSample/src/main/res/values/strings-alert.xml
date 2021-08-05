@@ -19,6 +19,8 @@
     <string name="al_server_checkup">"긴급 서버 점검중입니다. 불편을 드려 죄송합니다."</string>
     <string name="al_db_error">"해당 응답 지연중 입니다. 불편을 드려 죄송합니다."</string>
     <string name="al_sdcard_write_fail">"파일쓰기에 실패하였습니다. SDcard불량이거나 남은 용량을 확인해주세요."</string>
+    <string name="al_denied_device_permission">"앱을 실행하려면 장치 권한을 항상 허락해야 합니다."</string>
+    <string name="al_accept_app_permission">"앱을 실행하려면 권한을 허가해야 합니다."</string>
 
 
     <!-- data error -->
@@ -29,9 +31,9 @@
 
 
     <!-- server error -->
-    <!--<string name="al_expire_auth">"로그인세션이 만료되었습니다. 다시 로그인 해주세요."</string>-->
-    <!--<string name="al_expire_login">"로그인이 만료되어 앱을 재시작합니다."</string>을-->
-    <string name="al_expire_session">"세션이 만료되어 앱을 재시작합니다."</string>을
+    <string name="al_expire_auth">"로그인세션이 만료되었습니다. 다시 로그인 해주세요."</string>
+    <string name="al_expire_login">"로그인이 만료되어 앱을 재시작합니다."</string>
+    <string name="al_expire_session">"세션이 만료되어 앱을 재시작합니다."</string>
 
 
     <!-- camera, image, file-->
@@ -39,7 +41,8 @@
     <string name="al_img_handle_fail">"사진을 처리하데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
     <string name="al_img_alter">"사진을 변환하는데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
     <string name="al_sdcard_not_found">"원활한 사용을 위한 SDCard를 찾을수 없습니다. 확인하시고 다시 시도하여 주세요."</string>
-    <string name="al_sdcard_lack_capacity">"SD카드의 저장공간이 부족합니다. 어플의 원할한 사용을 위해서 저장공간을 확보해 주세요"</string>
+    <string
+        name="al_sdcard_lack_capacity">"SD카드의 저장공간이 부족합니다. 어플의 원할한 사용을 위해서 저장공간을 확보해 주세요"</string>
     <string name="al_sdcard_strange_condition">"SD카드에 이상이 있어 원활한 진행을 할 수 없습니다."</string>
     <string name="al_sdcard_fail_write">"파일쓰기에 실패하였습니다. SDcard불량이거나 남은 용량을 확인해주세요."</string>
 

@@ -326,8 +326,7 @@ public final class CodeAction {
     private static Key getKey2(String keyValue) throws Exception {
         DESedeKeySpec desKeySpec = new DESedeKeySpec(keyValue.getBytes());
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
-        Key key = keyFactory.generateSecret(desKeySpec);
-        return key;
+        return keyFactory.generateSecret(desKeySpec);
     }
 
     /**

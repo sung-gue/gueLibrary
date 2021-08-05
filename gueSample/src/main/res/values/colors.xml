@@ -1,69 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryVariant">@color/white_press</color>
-    <color name="colorOnPrimary">@color/black</color>
-    <color name="colorPrimaryDark">@color/white_press</color>
-    <color name="colorAccent">@color/red_pink</color>
+    <color name="bg_dialog">#77000000</color>
+    <color name="bg_drawerLayout">#FF272727</color>
+    <color name="bg_layout">#AA060606</color>
+    <color name="bg_box01">#99000000</color>
+    <color name="line01">@color/gray</color>
 
-    <color name="windowStatusBar">@color/black</color>
-    <color name="windowBackground">@color/white</color>
-    <color name="windowNavigationBar">@color/black</color>
+    <color name="text_base">@color/black</color>
+    <color name="text_title">@color/black</color>
 
-    <color name="windowStatusBar_black">@color/windowStatusBar</color>
-    <color name="windowBackground_black">@color/windowNavigationBar</color>
-    <color name="windowNavigationBar_black">#FF000000</color>
-
-    <color name="windowStatusBar_translucent">#22000000</color>
-    <color name="windowBackground_translucent">#22FFFFFF</color>
-    <color name="windowNavigationBar_translucent">#22000000</color>
-
-    <color name="dialog_background">#77000000</color>
-    <color name="drawerLayout_background">#FF272727</color>
-    <color name="webPage_topProgressBar">#FF272727</color>
-    <color name="swipeRefreshLayout_progress">#FFFFAAAA</color>
-
-    <color name="appbar_textColor">@color/black</color>
-    <color name="tabLayout_textColor">@color/white</color>
-    <color name="tabLayout_selectedTextColor">@color/red_pink</color>
-
-    <color name="base_textColor">@color/black</color>
-    <color name="line1">@color/gray</color>
-    <color name="box_black">#99000000</color>
-
-    <color name="transparent">@android:color/transparent</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="white_press">#BBFFFFFF</color>
-    <color name="black">#FF000000</color>
-    <color name="black_press">#BB000000</color>
-    <color name="black_press2">#FF212121</color>
-    <color name="gray">#FF808080</color>
-    <color name="gray_light">#FFAAAAAA</color>
-    <color name="gray_dim">#FF696969</color>
-    <color name="gray_dark">#FF212121</color>
-    <color name="red">#FFFF0000</color>
-    <color name="red_pink">#FFD81B60</color>+
-    <color name="red_orange">#FFFF4500</color>
-    <color name="red_indian">#FFCD5C5C</color>
-    <color name="yellow">#FFFFFF00</color>
-    <color name="gold">#FFFFD700</color>
-    <color name="blue">#FF0000FF</color>
-    <color name="blue_medium">#FF5271B1</color>
-    <color name="blue_medium_press">#FF4160A0</color>
-    <color name="blue_sky">#FF87CEEB</color>
-    <color name="pink">#FFFFC0CB</color>
-    <color name="pink_light">#FFFFB6C1</color>
-    <color name="pink_deep">#FFFF1493</color>
-    <color name="coral">#FFFF7F50</color>
-    <color name="coral_light">#FFF08080</color>
-    <color name="orange">#FFFFA500</color>
-    <color name="orange_dark">#FFFF8C00</color>
-    <color name="green">#FF00DD00</color>
-    <color name="green_forest">#FF228B22</color>
-    <color name="neon">#FFCBFF58</color>
-    <color name="purple">#FF800080</color>
-    <color name="purple_medium">#FF9370DB</color>
-    <color name="violet">#FFEE82EE</color>
+    <color name="progress_webView">#FF272727</color>
+    <color name="progress_swipeRefreshLayout">#FFFFAAAA</color>
 
 </resources>

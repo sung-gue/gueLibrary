@@ -1,4 +1,4 @@
-package com.breakout.sample.sqlite;
+package com.breakout.sample.storage;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,16 +23,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.breakout.sample.BaseActivity;
+import com.breakout.sample.Log;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.ReceiverName;
+import com.breakout.sample.storage.data.TrainTimeTable;
+import com.breakout.sample.storage.data.User;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.res.AnimationSuite;
 import com.breakout.util.string.StringUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class SQLiteActivity extends BaseActivity {
@@ -46,7 +52,7 @@ public class SQLiteActivity extends BaseActivity {
     private EditText _etDel;
     private ListView _lv;
 
-    private LocalDB _db;
+    private DbHelper _dbHelper;
     private Cursor cursor;
 
     @Override
@@ -56,15 +62,21 @@ public class SQLiteActivity extends BaseActivity {
         super.setContentView(R.layout.ui_base_layout);
         super.setBodyView(R.layout.sqlite_layout);
 
-        _db = new LocalDB(getApplicationContext());
-        _db.read();
-        /*try {
-            db = new LocalDB(getApplicationContext(), CValue.DB_WRITE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+        _dbHelper = new DbHelper(getApplicationContext());
 
         super.initUI();
+    }
+
+    private void testLocalDB() {
+        try {
+            LocalDBHelper localDBHelper = new LocalDBHelper(_context);
+            String upStation = localDBHelper.getUpStation();
+            String downStation = localDBHelper.getDownStation();
+            ArrayList<TrainTimeTable> listFirstAndLast = localDBHelper.getListFirstAndLast("평일");
+            ArrayList<TrainTimeTable> list = localDBHelper.getList(TrainTimeTable.Type.WEEKDAY_UP);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
     }
 
     @Override
@@ -72,10 +84,7 @@ public class SQLiteActivity extends BaseActivity {
         appBar.setVisibility(View.VISIBLE);
         appBar.fixAppBarLocation(false)
                 .setHomeIcon(true)
-//                .setCustomTitle()
                 .setTitle("SQLite3")
-//                .setIcon(android.R.drawable.ic_menu_share)
-//                .setTabLayout(false)
         ;
     }
 
@@ -98,7 +107,7 @@ public class SQLiteActivity extends BaseActivity {
         _etBirth.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                final SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+                final SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 final Calendar c = Calendar.getInstance();
                 if (_etBirth.getText().toString().length() > 0) {
                     Date d;
@@ -139,22 +148,21 @@ public class SQLiteActivity extends BaseActivity {
                 }
                 String birth = _etBirth.getText().toString();
 
-                if (StringUtil.nullCheck(nick) != null && StringUtil.nullCheck(email) != null &&
-                        StringUtil.nullCheck(gender) != null && StringUtil.nullCheck(birth) != null) {
-                    int userId = _db.getLastUserId();
+                if (!TextUtils.isEmpty(nick) && !TextUtils.isEmpty(email) &&
+                        !TextUtils.isEmpty(gender) && !TextUtils.isEmpty(birth)) {
+                    int userId = _dbHelper.getLastUserId();
                     ContentValues values = new ContentValues();
-                    values.put("nick", nick);
-                    values.put("email", email);
-                    values.put("gender", gender);
-                    values.put("birth", birth);
-                    long result = _db.setUserInfo(values);
+                    values.put(User.Entry.nick, nick);
+                    values.put(User.Entry.email, email);
+                    values.put(User.Entry.gender, gender);
+                    values.put(User.Entry.birth, birth);
+                    long result = _dbHelper.insertUser(values);
                     String str = userId + " / " + nick + " / " + email + " / " + gender + " / " + birth + " / 결과 : " + result;
-                    Toast.makeText(_appContext, str, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(_context, str, Toast.LENGTH_SHORT).show();
                     showPop();
                 } else {
                     Toast.makeText(_appContext, "내용 다 채워!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -168,7 +176,7 @@ public class SQLiteActivity extends BaseActivity {
         findViewById(R.id.btDrop).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                _db.delUserInfo(null);
+                _dbHelper.delUserInfo(null);
             }
         });
 
@@ -178,7 +186,7 @@ public class SQLiteActivity extends BaseActivity {
                 String userId = _etDel.getText().toString();
                 _etDel.setText(null);
                 if (StringUtil.nullCheck(userId) != null) {
-                    _db.delUserInfo(userId);
+                    _dbHelper.delUserInfo(userId);
                     showPop();
                 }
             }
@@ -198,7 +206,7 @@ public class SQLiteActivity extends BaseActivity {
         _llResult.setAnimation(AnimationSuite.zoomIn());
 
         cursorClose();
-        cursor = _db.getUserList();
+        cursor = _dbHelper.getUserList();
 
         CursorAdapter cursorAdapter = new CursorAdapter(_appContext, cursor) {
             @Override
@@ -210,11 +218,11 @@ public class SQLiteActivity extends BaseActivity {
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
-                ((TextView) ((ViewGroup) view).getChildAt(0)).setText(cursor.getString(cursor.getColumnIndex("user_id")));
-                ((TextView) ((ViewGroup) view).getChildAt(1)).setText(cursor.getString(cursor.getColumnIndex("nick")));
-                ((TextView) ((ViewGroup) view).getChildAt(2)).setText(cursor.getString(cursor.getColumnIndex("gender")));
-                ((TextView) ((ViewGroup) view).getChildAt(3)).setText(cursor.getString(cursor.getColumnIndex("birth")));
-                ((TextView) ((ViewGroup) view).getChildAt(4)).setText(cursor.getString(cursor.getColumnIndex("email")));
+                ((TextView) ((ViewGroup) view).getChildAt(0)).setText(cursor.getString(cursor.getColumnIndexOrThrow(User.Entry.userId)));
+                ((TextView) ((ViewGroup) view).getChildAt(1)).setText(cursor.getString(cursor.getColumnIndexOrThrow(User.Entry.nick)));
+                ((TextView) ((ViewGroup) view).getChildAt(2)).setText(cursor.getString(cursor.getColumnIndexOrThrow(User.Entry.gender)));
+                ((TextView) ((ViewGroup) view).getChildAt(3)).setText(cursor.getString(cursor.getColumnIndexOrThrow(User.Entry.birth)));
+                ((TextView) ((ViewGroup) view).getChildAt(4)).setText(cursor.getString(cursor.getColumnIndexOrThrow(User.Entry.email)));
             }
         };
 
@@ -223,7 +231,7 @@ public class SQLiteActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 cursor.moveToPosition(position);
-                String userId = cursor.getString(cursor.getColumnIndex("user_id"));
+                String userId = cursor.getString(cursor.getColumnIndexOrThrow("user_id"));
                 _etDel.setText(userId);
             }
         });
@@ -250,7 +258,7 @@ public class SQLiteActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         cursorClose();
-        if (_db != null) _db.close();
+        _dbHelper.close();
         super.onDestroy();
     }
 

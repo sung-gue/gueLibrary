@@ -37,10 +37,16 @@
     <string name="cancel">취소</string>
     <string name="retry">재시도</string>
     <string name="close">닫기</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
     <string name="no_list">내역이 없습니다.</string>
     <string name="complete">완료</string>
     <string name="never_see_again">다시보지않기</string>
     <string name="never_see_aday">하루동안 보지 않기</string>
+
+    <string name="nav_home">home</string>
+    <string name="nav_guide">guide</string>
+    <string name="nav_photo">photo</string>
 
 
     <!-- gue string-->

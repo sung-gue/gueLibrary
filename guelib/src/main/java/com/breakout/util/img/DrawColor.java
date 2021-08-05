@@ -16,10 +16,10 @@
 
 package com.breakout.util.img;
 
-import java.lang.ref.WeakReference;
-
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+
+import java.lang.ref.WeakReference;
 
 
 /**
@@ -28,10 +28,10 @@ import android.graphics.drawable.ColorDrawable;
  * if a new binding is required, and makes sure that only the last started download process can
  * bind its result, independently of the download finish order.</p>
  */
-class DrawColor extends ColorDrawable implements DrawBase{
-	/**
-	 * @see ImageLoader#download
-	 */
+class DrawColor extends ColorDrawable implements DrawBase {
+    /**
+     * @see ImageLoader#download
+     */
     private final WeakReference<ImageLoaderTask> task;
     private String tag;
 
@@ -39,20 +39,20 @@ class DrawColor extends ColorDrawable implements DrawBase{
         super(Color.parseColor("#00000000"));
         task = new WeakReference<ImageLoaderTask>(imageLoaderTask);
     }*/
-    
+
     public DrawColor(ImageLoaderTask imageLoaderTask, String tag) {
-    	super(Color.parseColor("#00000000"));
-    	this.tag = tag;
-    	task = new WeakReference<ImageLoaderTask>(imageLoaderTask);
+        super(Color.parseColor("#00000000"));
+        this.tag = tag;
+        task = new WeakReference<ImageLoaderTask>(imageLoaderTask);
     }
-    
+
     @Override
-	public ImageLoaderTask getImageLoaderTask() {
+    public ImageLoaderTask getImageLoaderTask() {
         return task.get();
     }
-    
+
     @Override
     public String getDrawableTag() {
-    	return tag;
+        return tag;
     }
 }

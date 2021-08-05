@@ -1,27 +1,28 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
+    id "com.android.application"
+    id "kotlin-android"
 }
 
 android {
-    signingConfigs {
-        /*def keyProps = new Properties()
+    /*signingConfigs {
+        def keyProps = new Properties()
         //def keyPropsFile = rootProject.file("keys/keystore.properties")
         def keyPropsFile = new File("keys/keystore.properties")
         keyProps.load(new FileInputStream(keyPropsFile))
         release {
-            storeFile file(keyProps['release_storeFile'])
-            storePassword keyProps['release_storePassword']
-            keyAlias keyProps['release_keyAlias']
-            keyPassword keyProps['release_keyPassword']
+            storeFile file(keyProps["release_storeFile"])
+            storePassword keyProps["release_storePassword"]
+            keyAlias keyProps["release_keyAlias"]
+            keyPassword keyProps["release_keyPassword"]
         }
         debug {
-            storeFile file(keyProps['debug_storeFile'])
-            storePassword keyProps['debug_storePassword']
-            keyAlias keyProps['debug_keyAlias']
-            keyPassword keyProps['debug_keyPassword']
-        }*/
-
+            storeFile file(keyProps["debug_storeFile"])
+            storePassword keyProps["debug_storePassword"]
+            keyAlias keyProps["debug_keyAlias"]
+            keyPassword keyProps["debug_keyPassword"]
+        }
+    }*/
+    signingConfigs {
         release {
             storeFile file(release_storeFile)
             storePassword release_storePassword
@@ -41,25 +42,26 @@ android {
     project.ext.set("ouputDir", "~/Downloads/")
     project.ext.set("ouputDirMac", "~/Downloads/")
 
-    compileSdk 30
+    compileSdk 31
     //buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.breakout.sample"
-        minSdk 19
+        minSdk 21
         targetSdk 30
         versionCode 1
         versionName "1.0.0"
 
         multiDexEnabled true
         //vectorDrawables.useSupportLibrary = true
+        //consumerProguardFiles "consumer-rules.pro"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
             manifestPlaceholders = [
                     app_name       : "@string/app_name",
@@ -86,15 +88,33 @@ android {
 
     /* ------------------------------------------------------------
         자바 8 언어 기능 및 API 사용
-        https://developer.android.com/studio/write/java8-support
+            https://developer.android.com/studio/write/java8-support
      */
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    /*
+        Databinding
+            https://developer.android.com/jetpack/androidx/releases/databinding
+            https://developer.android.com/topic/libraries/data-binding/start
+        Viewbinding
+            https://developer.android.com/topic/libraries/view-binding
+     */
+    /*
+    // Databinding : AndroidStudio 4.0 이전
+    dataBinding {
+        enabled = true
+    }
+    viewBinding  {
+        enabled = true
+    }
+    */
+    // Databinding : AndroidStudio 4.0 이후
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
     // off lint options
@@ -106,133 +126,283 @@ android {
     }*/
 
     /*packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
+        exclude "META-INF/DEPENDENCIES"
+        exclude "META-INF/NOTICE"
+        exclude "META-INF/LICENSE"
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
     }*/
 
     // TODO: 2018-07-21 | http 라이브러리 교체 필요함
-    useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
+    useLibrary "org.apache.http.legacy"     // api 23 : Apache HTTP Client Removal
 }
 
 repositories {
-    maven { url 'https://jitpack.io' }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation fileTree(dir: 'libs/email', include: ['*.jar'])
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation project(':guelib')
+    /* ex
+    implementation fileTree(include: ["*.jar"], dir: "libs")
+    implementation "[group-id]:[artifact-id]:[version]"
+    implementation project(":[module-name ]")
+    implementation group: "[group-id]", name: "[artifact-id]", version: "[version]"
+    */
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(dir: "libs/email", include: ["*.jar"])
+    testImplementation "junit:junit:4.13.2"
+    androidTestImplementation "androidx.test.ext:junit:1.1.3"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    implementation project(":guelib")
 
 
     /* ------------------------------------------------------------
         Kotlin
-        https://developer.android.com/kotlin/add-kotlin
-        https://developer.android.com/kotlin/ktx
+            https://developer.android.com/kotlin/add-kotlin
+        Android KTX
+            https://developer.android.com/kotlin/ktx
      */
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    /* ------------------------------------------------------------
+        Google Play
+     */
+    /*
+        Play Install Referrer
+            https://developer.android.com/google/play/installreferrer/library
+     */
+    implementation "com.android.installreferrer:installreferrer:2.2"
+
+
+    /* ------------------------------------------------------------
+        Google Material Design
+     */
+    /*
+        Material Components for Android
+            https://material.io/develop/android/docs/getting-started
+     */
+    //TODO 버전 올릴 경우 오류 확인 필요 - style.xml
+//    implementation "com.google.android.material:material:1.0.0"
+    implementation "com.google.android.material:material:1.2.1"
 
 
     /* ------------------------------------------------------------
         Jetpack
-        https://developer.android.com/jetpack/androidx/explorer
+            https://developer.android.com/jetpack/androidx/explorer
      */
-    //Play 서비스 유무에 관계없이 광고 ID를 가져옵니다.
-    implementation 'androidx.ads:ads-identifier:1.0.0-alpha04'
-    //이전 API 버전의 플랫폼에서 새 API에 액세스할 수 있습니다(대부분 머티리얼 디자인 사용).
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
-    //상대 위치에 따라 유연한 방식으로 위젯의 위치와 크기를 지정합니다.
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    //최신 플랫폼 기능과 API를 타겟팅하는 동시에 이전 기기도 지원합니다.
-    implementation "androidx.core:core-ktx:1.3.2"
-    //활동 또는 프래그먼트의 현재 수명 주기 상태에 따라 동작을 조정할 수 있는 수명 주기 인식 구성요소를 빌드합니다.
-    def lifecycle_version = "2.2.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    /*
+        Appcompat | https://developer.android.com/jetpack/androidx/releases/appcompat
+            이전 API 버전의 플랫폼에서 새 API에 액세스할 수 있습니다(대부분 머티리얼 디자인 사용).
+     */
+    implementation "androidx.appcompat:appcompat:1.3.1"
+    /*
+        Annotation | https://developer.android.com/jetpack/androidx/releases/annotation
+            도구 및 다른 개발자가 앱의 코드를 이해하는 데 도움이 되는 메타데이터를 노출합니다.
+     */
+    implementation "androidx.annotation:annotation:1.2.0"
+    /*
+        Multidex | https://developer.android.com/jetpack/androidx/releases/multidex
+            Android 5 이전 기기에 여러 dex 파일이 있는 애플리케이션을 배포합니다.
+     */
+    implementation "androidx.multidex:multidex:2.0.1"
+    /*
+        Ads | https://developer.android.com/jetpack/androidx/releases/ads
+            Play 서비스 유무에 관계없이 광고 ID를 가져옵니다.
+     */
+    implementation "androidx.ads:ads-identifier:1.0.0-alpha04"
+    /*
+        Lifecycle | https://developer.android.com/jetpack/androidx/releases/lifecycle
+            활동 또는 프래그먼트의 현재 수명 주기 상태에 따라 동작을 조정할 수 있는 수명 주기 인식 구성요소를 빌드합니다.
+     */
+    def lifecycle_version = "2.3.1"
+    // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    //인앱 UI를 빌드 및 구조화하고 딥 링크를 처리하며 화면 간에 이동합니다.
-    def nav_version = "2.3.2"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+
+    /* ------------------------------------------------------------
+        Jetpack | UI
+     */
+    /*
+        Navigation | https://developer.android.com/jetpack/androidx/releases/navigation
+             인앱 UI를 빌드 및 구조화하고 딥 링크를 처리하며 화면 간에 이동합니다.
+     */
+    def nav_version = "2.3.5"
+    // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    //Android 5 이전 기기에 여러 dex 파일이 있는 애플리케이션을 배포합니다.
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation "androidx.viewpager2:viewpager2:1.1.0-alpha01"
+    /*
+        Constraintlayout | https://developer.android.com/jetpack/androidx/releases/constraintlayout
+            상대 위치에 따라 유연한 방식으로 위젯의 위치와 크기를 지정합니다.
+     */
+    implementation "androidx.constraintlayout:constraintlayout:2.1.1"
+    /*
+        Swiperefreshlayout | https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout
+            스와이프하여 새로고침 UI 패턴을 구현합니다.
+     */
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    /*
+        ViewPager2 | https://developer.android.com/jetpack/androidx/releases/viewpager2
+            스와이프할 수 있는 형식으로 뷰 또는 프래그먼트를 표시합니다.
+     */
+    implementation "androidx.viewpager2:viewpager2:1.1.0-beta01"
+    /*
+        Vectordrawable | https://developer.android.com/jetpack/androidx/releases/vectordrawable
+            벡터 그래픽을 렌더링합니다.
+     */
+    implementation "androidx.vectordrawable:vectordrawable:1.1.0"
 
 
-    //https://developer.android.com/google/play/installreferrer/library
-    implementation 'com.android.installreferrer:installreferrer:2.1'
-
-
-    //https://material.io/develop/android/docs/getting-started
-    //TODO 버전 올릴 경우 오류 확인 필요 - style.xml
-    implementation 'com.google.android.material:material:1.2.1'
+    /* ------------------------------------------------------------
+        Jetpack | Devices
+     */
+    /*
+        CameraX | https://developer.android.com/jetpack/androidx/releases/camera
+            모바일 카메라 앱을 빌드합니다.
+     */
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.2"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha29"
+    // If you want to additionally use the CameraX Extensions library
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha29"
 
 
     /* ------------------------------------------------------------
         Firebase
-        https://firebase.google.com/docs/android/setup
-        https://firebase.google.com/docs/android/setup#available-libraries
+            https://firebase.google.com/docs/android/setup
+            https://firebase.google.com/docs/android/setup#available-libraries
      */
-    implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'com.google.firebase:firebase-messaging:21.0.0'
-    implementation 'com.google.firebase:firebase-analytics:18.0.0'
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
+    implementation "com.google.firebase:firebase-core:18.0.0"
+    implementation "com.google.firebase:firebase-auth:20.0.1"
+    implementation "com.google.firebase:firebase-messaging:21.0.0"
+    implementation "com.google.firebase:firebase-analytics:18.0.0"
 
 
     /* ------------------------------------------------------------
         Google
-        https://developers.google.com/android/guides/setup
+            https://developers.google.com/android/guides/setup
      */
-    implementation 'com.google.android.gms:play-services-base:17.5.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation "com.google.android.gms:play-services-base:17.6.0"
+    implementation "com.google.android.gms:play-services-auth:19.2.0"
+    implementation "com.google.android.gms:play-services-analytics:17.0.1"
 
 
     /* ------------------------------------------------------------
-        util
+        Util
      */
-    //guava : google util https://github.com/google/guava
-    implementation 'com.google.guava:guava:28.0-android'
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
-    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: '1.30.0'
-
-    //https://github.com/airbnb/lottie-android
-    implementation 'com.airbnb.android:lottie:3.4.1'
-
-    //https://github.com/YvesCheung/RollingText
-    implementation 'com.github.YvesCheung:RollingText:1.2.5'
-
-    //Blurry is an easy blur library for Android. https://github.com/wasabeef/Blurry
-//    implementation 'jp.wasabeef:blurry:3.0.0'
-
-    //https://github.com/carloscj6/BlurryLayout
-//    implementation 'com.revosleap.layout:blurrylayout:2.0.0'
-
-    //https://github.com/mmin18/RealtimeBlurView
-//    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
-
-    //html parser https://jsoup.org/
-    implementation 'org.jsoup:jsoup:1.13.1'
-
-    //https://github.com/karussell/snacktory
-    implementation 'com.github.karussell:snacktory:c05c5ec338'
-
-
-    /**
-     * todo 하단 패키지 확인 필요
+    /*
+        Guava: Google Core Libraries for Java
+            https://github.com/google/guava
      */
-//    implementation 'com.android.support:design:28.0.0'
-//    implementation 'com.android.support:support-v4:28.0.0'
-//    implementation 'com.android.support:appcompat-v7:28.0.0'
-//    implementation 'com.android.support:cardview-v7:28.0.0'
-//    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation "com.google.guava:guava:28.0-android"
+
+    // Gson | https://github.com/google/gson
+    implementation "com.google.code.gson:gson:2.8.6"
+
+    // Lottie | https://github.com/airbnb/lottie-android
+    implementation "com.airbnb.android:lottie:3.4.1"
+
+    // Java HTML Parser | https://jsoup.org/
+    implementation "org.jsoup:jsoup:1.13.1"
+
+    // Snacktory | https://github.com/karussell/snacktory
+    implementation "com.github.karussell:snacktory:c05c5ec338"
+
+    // CameraView | https://github.com/natario1/CameraView
+    api "com.otaliastudios:cameraview:2.7.1"
+
+    // Facebook SDK
+    implementation "com.facebook.android:facebook-android-sdk:[5,6)"
+    implementation group: "com.kakao.sdk", name: "kakaolink", version: "1.30.0"
+
+    // RemoteMonster | https://github.com/RemoteMonster/android-sdk
+    api "com.remotemonster:sdk:2.7.0"
+
+    // RollingText | https://github.com/YvesCheung/RollingText
+    implementation "com.github.YvesCheung:RollingText:1.2.5"
+
+
+    /* ------------------------------------------------------------
+        Blurry View
+     */
+    // Blurry is an easy blur library for Android. | https://github.com/wasabeef/Blurry
+//    implementation "jp.wasabeef:blurry:4.0.0"
+
+    // BlurryLayout | https://github.com/carloscj6/BlurryLayout
+//    implementation "com.revosleap.layout:blurrylayout:2.0.0"
+
+    // RealtimeBlurView | https://github.com/mmin18/RealtimeBlurView
+//    implementation "com.github.mmin18:realtimeblurview:1.2.1"
+
+
+    /* ------------------------------------------------------------
+        TODO 하단 패키지 확인 필요
+     */
+//    implementation "com.android.support:design:28.0.0"
+//    implementation "com.android.support:support-v4:28.0.0"
+//    implementation "com.android.support:appcompat-v7:28.0.0"
+//    implementation "com.android.support:cardview-v7:28.0.0"
+//    implementation "com.android.support:recyclerview-v7:28.0.0"
+
+    /* Google Support Library
+    implementation "com.android.support:support-v4:23.1.1"
+    implementation "com.android.support:appcompat-v7:23.1.1"
+    implementation "com.android.support:cardview-v7:23.1.1"
+    implementation "com.android.support:recyclerview-v7:23.1.1"
+    implementation "com.android.support:design:23.1.1"
+    */
+
+    /*  Google PLay Service api
+        https://developers.google.com/android/guides/google-services-plugin
+    implementation "com.google.android.gms:play-services:10.0.1"                   // all api
+    implementation "com.google.android.gms:play-services-plus:10.0.1"              // Google+
+    implementation "com.google.android.gms:play-services-auth:10.0.1"              // Google Account Login
+    implementation "com.google.android.gms:play-services-base:10.0.1"              // Google Actions, Base Client Library
+    implementation "com.google.android.gms:play-services-identity:10.0.1"          // Google Address API
+    implementation "com.google.firebase:firebase-appindexing:10.0.1"               // Firebase App Indexing
+    implementation "com.google.android.gms:play-services-analytics:10.0.1"         // Google Analytics
+    implementation "com.google.android.gms:play-services-awareness:10.0.1"         // Google Awareness
+    implementation "com.google.android.gms:play-services-cast:10.0.1"              // Google Cast
+    implementation "com.google.android.gms:play-services-gcm:10.0.1"               // Google Cloud Messaging
+    implementation "com.google.android.gms:play-services-drive:10.0.1"             // Google Drive
+    implementation "com.google.android.gms:play-services-fitness:10.0.1"           // Google Fit
+    implementation "com.google.android.gms:play-services-location:10.0.1"          // Google Location and Activity Recognition
+    implementation "com.google.android.gms:play-services-maps:10.0.1"              // Google Maps
+    implementation "com.google.android.gms:play-services-ads:10.0.1"               // Google Mobile Ads
+    implementation "com.google.android.gms:play-services-places:10.0.1"            // Google Places
+    implementation "com.google.android.gms:play-services-vision:10.0.1"            // Mobile Vision
+    implementation "com.google.android.gms:play-services-nearby:10.0.1"            // Google Nearby
+    implementation "com.google.android.gms:play-services-panorama:10.0.1"          // Google Panorama Viewer
+    implementation "com.google.android.gms:play-services-games:10.0.1"             // Google Play Game services
+    implementation "com.google.android.gms:play-services-safetynet:10.0.1"         // SafetyNet
+    implementation "com.google.android.gms:play-services-wallet:10.0.1"            // Android Pay
+    implementation "com.google.android.gms:play-services-wearable:10.0.1"          // Android Wear
+    */
+
+    /*  Firebase
+        https://firebase.google.com/docs/android/setup#available_libraries
+    implementation "com.google.firebase:firebase-core:10.0.1"                      // Analytics
+    implementation "com.google.firebase:firebase-database:10.0.1"                  // 실시간 데이터베이스
+    implementation "com.google.firebase:firebase-storage:10.0.1"                   // 저장소
+    implementation "com.google.firebase:firebase-crash:10.0.1"                     // 오류 보고
+    implementation "com.google.firebase:firebase-auth:10.0.1"                      // 인증
+    implementation "com.google.firebase:firebase-messaging:10.0.1"                 // 클라우드 메시징 / 알림
+    implementation "com.google.firebase:firebase-config:10.0.1"                    // 원격 구성
+    implementation "com.google.firebase:firebase-invites:10.0.1"                   // 초대 / 동적 링크
+    implementation "com.google.firebase:firebase-ads:10.0.1"                       // AdMob
+    implementation "com.google.android.gms:play-services-appindexing:10.0.1"       // 앱 색인 생성
+    */
 }
 
 // Add to the bottom of the file
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"

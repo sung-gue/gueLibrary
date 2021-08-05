@@ -23,7 +23,7 @@ import java.util.Locale;
 
 
 /**
- * {@link AppCompatActivity}를 부모로 두고 UI의 작성 편의를 위한 abstract method와 유용한 method 몇가지를 제공한다.<br>
+ * {@link AppCompatActivity}를 상속하여 UI의 작성 편의를 위한 abstract method와 유용한 method 몇가지를 제공한다.<br>
  * <dl>
  * <dt>abstract method</dt>
  * <dd>
@@ -78,8 +78,140 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected Context _context = this;
 
 
-    /* ------------------------------------------------------------
-        UI 구현
+    /*
+        INFO: activity life cycle
+     */
+
+    /**
+     * 데이터의 초기화 작업 이후에 UI를 설정하기 위하여 {@link #initUI()}를 하여 주어야 한다.
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.v(getPackageName(), TAG + " | onCreate");
+        _appContext = getApplicationContext();
+        super.onCreate(savedInstanceState);
+        logTask("oncreate()");
+
+        if (CValue.DEBUG) {
+            try {
+                Intent intent = getIntent();
+                StringBuilder logBuilder = new StringBuilder("\n---------------");
+                logBuilder.append(String.format("\n| [%s] | onCreate() - check intent", TAG));
+                logBuilder.append(String.format("\n| intent      | %s", intent));
+                logBuilder.append(String.format("\n| component   | %s", intent.getComponent()));
+                logBuilder.append(String.format("\n| uri         | %s", intent.getData()));
+                try {
+                    if (intent.getExtras() != null) {
+                        Bundle bundle = intent.getExtras();
+                        for (String key : bundle.keySet()) {
+                            logBuilder.append(String.format("\n| extra       | %s : %s", key, bundle.get(key)));
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage(), e);
+                }
+                logBuilder.append("\n---------------");
+                Log.d(getPackageName(), logBuilder.toString());
+            } catch (Exception e) {
+                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        Log.v(getPackageName(), TAG + " | onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Log.v(getPackageName(), TAG + " | onNewIntent");
+        super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.v(getPackageName(), TAG + " | onRestart");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.v(getPackageName(), TAG + " | onResume");
+        if (_appContext == null) _appContext = getApplicationContext();
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.v(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
+        super.onStop();
+    }
+
+    @Override
+    public void finish() {
+        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
+        logTask("finish()");
+        super.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.v(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
+        closeProgress();
+        unregisterReceiver();
+        /*
+        // Activity View resource 해제
+        Util.recursiveRecycle(getWindow().getDecorView());
+        */
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.v(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
+        super.onBackPressed();
+    }
+
+    protected void logTask(String title) {
+        if (!CValue.DEBUG) {
+            return;
+        }
+
+        // get activity task
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        // process & task check
+        /*List<RunningAppProcessInfo> processList = am.getRunningAppProcesses();
+        for (RunningAppProcessInfo runningAppProcessInfo : processList) {
+            if (getPackageName().equals(runningAppProcessInfo.processName))
+                Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName);
+            else Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
+        }
+        List<RunningTaskInfo> taskList = am.getRunningTasks(processList.size());
+        for (RunningTaskInfo runningTaskInfo : taskList) {
+            if (getPackageName().equals(runningTaskInfo.topActivity.getPackageName()))
+                Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
+            else Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
+        }*/
+
+        try {
+            List<RunningTaskInfo> info = am.getRunningTasks(1);
+            Log.d(getPackageName(), String.format("\n-------------------" +
+                            "\n| [%s] | %s - logTask" +
+                            "\n| baseActivity    | %s" +
+                            "\n| topActivity     | %s" +
+                            "\n| numActivities   | %s" +
+                            "\n| numRunning      | %s" +
+                            "\n-------------------",
+                    TAG, title, info.get(0).baseActivity.getClassName(), info.get(0).topActivity.getClassName(), info.get(0).numActivities, info.get(0).numRunning));
+        } catch (Exception e) {
+            Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
+        }
+    }
+
+    /*
+        INFO: UI 구현
      */
 
     /**
@@ -114,8 +246,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     protected abstract void refreshUI();
 
 
-    /* ------------------------------------------------------------
-        progress dialog
+    /*
+        INFO: progress dialog
      */
     /**
      * {@link #showProgress(View, Drawable)}로 생성한 progress dialog
@@ -176,8 +308,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
 
-    /* ------------------------------------------------------------
-        finish receiver
+    /*
+        INFO: finish receiver
      */
     /**
      * {@link #finishReceiver}가 등록이 되었다면 true
@@ -254,172 +386,5 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         }
         super.startActivityForResult(intent, requestCode);
     }
-
-
-    /* ------------------------------------------------------------
-        activity life cycle
-     */
-
-    /**
-     * 데이터의 초기화 작업 이후에 UI를 설정하기 위하여 {@link #initUI()}를 하여 주어야 한다.
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.v(getPackageName(), TAG + " | onCreate");
-        _appContext = getApplicationContext();
-        super.onCreate(savedInstanceState);
-        logTask("oncreate()");
-
-        if (CValue.DEBUG) {
-            try {
-                Intent intent = getIntent();
-                StringBuilder logBuilder = new StringBuilder("\n---------------");
-                logBuilder.append(String.format("\n| [%s] | onCreate() - check intent", TAG));
-                logBuilder.append(String.format("\n| intent      | %s", intent));
-                logBuilder.append(String.format("\n| component   | %s", intent.getComponent()));
-                logBuilder.append(String.format("\n| uri         | %s", intent.getData()));
-                try {
-                    if (intent.getExtras() != null) {
-                        Bundle bundle = intent.getExtras();
-                        for (String key : bundle.keySet()) {
-                            logBuilder.append(String.format("\n| extra       | %s : %s", key, bundle.get(key)));
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
-                logBuilder.append("\n---------------");
-                Log.d(getPackageName(), logBuilder.toString());
-            } catch (Exception e) {
-                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-            }
-        }
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        Log.v(getPackageName(), TAG + " | onStart");
-        super.onStart();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Log.v(getPackageName(), TAG + " | onNewIntent");
-        super.onNewIntent(intent);
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.v(getPackageName(), TAG + " | onRestart");
-        super.onRestart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.v(getPackageName(), TAG + " | onResume");
-        if (_appContext == null) _appContext = getApplicationContext();
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.v(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
-        super.onStop();
-    }
-
-    @Override
-    public void finish() {
-        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
-        logTask("finish()");
-        super.finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.v(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
-        closeProgress();
-        unregisterReceiver();
-        _context = null;
-        /*
-        // Activity View resource 해제
-        Util.recursiveRecycle(getWindow().getDecorView());
-        */
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.v(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
-        super.onBackPressed();
-    }
-
-    protected void logTask(String title) {
-        if (!CValue.DEBUG) {
-            return;
-        }
-
-        // get activity task
-        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        // process & task check
-        /*List<RunningAppProcessInfo> processList = am.getRunningAppProcesses();
-        for (RunningAppProcessInfo runningAppProcessInfo : processList) {
-            if (getPackageName().equals(runningAppProcessInfo.processName))
-                Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName);
-            else Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
-        }
-        List<RunningTaskInfo> taskList = am.getRunningTasks(processList.size());
-        for (RunningTaskInfo runningTaskInfo : taskList) {
-            if (getPackageName().equals(runningTaskInfo.topActivity.getPackageName()))
-                Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-            else Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-        }*/
-
-        try {
-            List<RunningTaskInfo> info = am.getRunningTasks(1);
-            Log.d(getPackageName(), String.format("\n-------------------" +
-                            "\n| [%s] | %s - logTask" +
-                            "\n| baseActivity    | %s" +
-                            "\n| topActivity     | %s" +
-                            "\n| numActivities   | %s" +
-                            "\n| numRunning      | %s" +
-                            "\n-------------------",
-                    TAG, title, info.get(0).baseActivity.getClassName(), info.get(0).topActivity.getClassName(), info.get(0).numActivities, info.get(0).numRunning));
-        } catch (Exception e) {
-            Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-        }
-    }
-
-
-    /* ------------------------------------------------------------
-        db control
-     */
-//    /**
-//     * SQLite3 instance 
-//     */
-//    protected LocalDB mdb;
-//    /**
-//     * write mode로 db의 connection create
-//     */
-//    protected final void mdb_write(){
-//        mdb = new LocalDB(_context);    
-//        mdb.openDB(Const.write);
-//    }
-//    /**
-//     * read mode로 db의 connection create
-//     */
-//    protected final void mdb_read(){
-//        mdb = new LocalDB(_context);    
-//        mdb.openDB(Const.read);
-//    }
-//    /**
-//     * db connection close
-//     */
-//    protected final void mdb_close(){
-//        if (mdb != null){
-//            mdb.close();
-//        } mdb = null;
-//    }
 
 }

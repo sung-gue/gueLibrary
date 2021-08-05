@@ -1,58 +1,60 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.breakout.sample"
-    android:installLocation="auto">
+    android:installLocation="auto"
+    tools:ignore="IntentFilterExportedReceiver">
 
 
-    <!-- use user data -->
+    <!-- INFO: permission | use user data -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!--<uses-permission android:name="android.permission.CALL_PHONE" /> -->
     <!--<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/> -->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS"/> -->
     <!--<uses-permission android:name="android.permission.USE_CREDENTIALS" />-->
 
 
-    <!-- use sd -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-    <!-- media -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
-
-    <!-- network -->
+    <!-- INFO: permission | network -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
 
-    <!-- bluetooth -->
+    <!-- INFO: permission | storage -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <!-- INFO: permission | media -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+
+    <!-- INFO: permission | bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
 
-    <!-- location -->
+    <!-- INFO: permission | location -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES"/> -->
 
 
-    <!-- carmara -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- INFO: permission | carmara -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <!--<uses-feature android:name="android.hardware.camera"/> -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.camera.front"
         android:required="false" />
@@ -61,28 +63,36 @@
         android:required="false" />
 
 
-    <!-- manage task -->
+    <!-- INFO: permission | manage process -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
 
-    <!-- device -->
+    <!-- INFO: permission | device -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" /> -->
 
 
+    <!-- INFO: etc -->
     <!-- Required to send logcat using ACRA -->
     <!--<uses-permission android:name="android.permission.READ_LOGS"/>-->
-
 
     <!-- use sendStickyBroadcast() -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- INFO: usb -->
+    <uses-feature android:name="android.hardware.usb.host" />
+
+
+    <!-- INFO: TTS -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
 
 
     <!--android:allowTaskReparenting="true"  :  Affinity allow -->
@@ -106,6 +116,23 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:label">
 
+        <!-- INFO: legacy library -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- INFO: boot receiver -->
+        <!--<receiver
+            android:name="kr.syscon.itp.kiosk.receiver.BootCompleteReceiver"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="false"
+            tools:targetApi="n">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>-->
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="${facebook_app_id}" />
@@ -113,10 +140,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="${kakao_app_key}" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
@@ -275,9 +298,57 @@
         </activity>
 
 
+        <!-- INFO: Navigation UI -->
+        <activity
+            android:name=".component.navigation.NavigationActivity"
+            android:label="Navigation">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <!-- INFO: LifeCycle -->
+        <activity
+            android:name=".architecture.lifecycle.LifeCycleActivity"
+            android:label="LifeCycle">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <!-- INFO: GrantPermission -->
+        <activity
+            android:name=".device.permission.GrantPermissionActivity"
+            android:label="GrantPermission">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".device.permission.GrantPermissionActivity1"
+            android:label="GrantPermission1">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".device.permission.GrantPermissionActivity2"
+            android:label="GrantPermission2">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
+
+        <!--
+            TODO 하단 정리 필요
+        -->
+
         <!-- sqlite 사용 예시 -->
         <activity
-            android:name=".sqlite.SQLiteActivity"
+            android:name=".storage.SQLiteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar"

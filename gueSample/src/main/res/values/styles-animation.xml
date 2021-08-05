@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        Info: Animation
+    -->
 
-    <style name="Animations"/>
+    <style name="Animations" />
 
     <style name="Animations.Zoom">
         <item name="android:windowEnterAnimation">@anim/zoom_in</item>

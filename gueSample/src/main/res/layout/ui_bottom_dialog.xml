@@ -23,7 +23,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize_large"
+            android:textSize="@dimen/text_large"
             android:visibility="gone"
             tools:text="Title"
             tools:visibility="visible" />
@@ -44,7 +44,7 @@
             android:includeFontPadding="false"
             android:padding="5dp"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize_medium"
+            android:textSize="@dimen/text_medium"
             android:visibility="gone"
             tools:text="message"
             tools:visibility="visible" />
@@ -79,7 +79,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/cancel"
                 android:textColor="@color/white"
-                android:textSize="@dimen/textSize_normal" />
+                android:textSize="@dimen/text_normal" />
         </LinearLayout>
 
         <View
@@ -111,7 +111,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/ok"
                 android:textColor="@color/white"
-                android:textSize="@dimen/textSize_normal" />
+                android:textSize="@dimen/text_normal" />
         </LinearLayout>
     </LinearLayout>
 

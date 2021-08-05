@@ -1,10 +1,11 @@
 package com.breakout.util.widget;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 
@@ -18,21 +19,21 @@ public class CustomDialog extends AlertDialog {
     private Context _context;
 
 
-    private CustomDialog(Context context, boolean cancelable, OnCancelListener cancelListener) {
-        super(context, cancelable, cancelListener);
-    }
-
-    private CustomDialog(Context context, int theme) {
-        super(context, theme);
-    }
-
     public CustomDialog(Context context) {
         super(context);
         _context = context;
         init();
     }
 
-    private void init() {
+    protected CustomDialog(@NonNull Context context, int themeResId) {
+        super(context, themeResId);
+    }
+
+    private CustomDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
+
+    protected void init() {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);

@@ -31,36 +31,45 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/appbar_height"
+            android:layout_height="@dimen/AppBar_Height"
+            android:minHeight="@dimen/AppBar_Height"
+            app:contentInsetStart="50dp"
             app:contentInsetStartWithNavigation="0dp"
             app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_back_black"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:theme="@style/AppBar.Toolbar"
-            app:titleTextAppearance="@style/AppBar.Toolbar.Title.TextStyle">
-            <!--android:fitsSystemWindows="true"-->
+            app:titleTextAppearance="@style/AppBar.Toolbar.Title.TextStyle"
+            tools:logo="@drawable/ic_emoticon">
+            <!--
+            android:background="@null"
+            android:fitsSystemWindows="true"
+            -->
         </androidx.appcompat.widget.Toolbar>
 
-        <!--<View
+        <!--
+        <View
             android:layout_width="match_parent"
             android:layout_height="0.4dp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:background="@color/boxMain_stroke" />-->
+            android:background="@color/boxMain_stroke" />
+        -->
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     <com.breakout.util.widget.TabLayoutEx
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tabLayout_height"
+        android:layout_height="@dimen/TabLayout_Height"
         app:tabBackground="@color/black"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/tabLayout_selectedTextColor"
+        app:tabIndicatorColor="@color/TabLayout_SelectedIndicator"
         app:tabIndicatorHeight="3dp"
         app:tabMode="fixed"
         app:tabPadding="10dp"
-        app:tabSelectedTextColor="@color/tabLayout_selectedTextColor"
+        app:tabSelectedTextColor="@color/TabLayout_SelectedText"
         app:tabTextAppearance="@style/AppBar.TabLayout.Tab.TextStyle"
-        app:tabTextColor="@color/tabLayout_textColor"
+        app:tabTextColor="@color/TabLayout_BaseText"
         app:theme="@style/AppBar.TabLayout" />
     <!--
     app:tabBackground="?attr/selectableItemBackground"
