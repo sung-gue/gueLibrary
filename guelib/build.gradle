@@ -98,8 +98,6 @@ android {
         exclude "META-INF/NOTICE.txt"
     }*/
 
-    // TODO: 2018-07-21 | http 라이브러리 교체 필요함
-    useLibrary "org.apache.http.legacy"     // api 23 : Apache HTTP Client Removal
 }
 
 repositories {
@@ -125,7 +123,7 @@ dependencies {
         Android KTX
             https://developer.android.com/kotlin/ktx
      */
-    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.core:core-ktx:1.8.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -224,4 +222,12 @@ dependencies {
 
     // Snacktory | https://github.com/karussell/snacktory
     implementation "com.github.karussell:snacktory:c05c5ec338"
+
+    /*
+        httpclient-android
+            https://github.com/smarek/httpclient-android
+            https://github.com/smarek/httpclient-android/wiki/Project-Introduction
+        implementation group: 'cz.msebera.android' , name: 'httpclient' , version: '4.5.8'
+     */
+    implementation "cz.msebera.android:httpclient:4.5.8"
 }

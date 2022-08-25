@@ -8,8 +8,6 @@ import com.breakout.util.storage.SharedStorage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.http.protocol.HTTP;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -18,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 
 /**

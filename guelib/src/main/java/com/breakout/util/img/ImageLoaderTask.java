@@ -3,26 +3,29 @@ package com.breakout.util.img;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.breakout.util.CodeAction;
 import com.breakout.util.Log;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.BufferedHttpEntity;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 
 class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
@@ -67,7 +70,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 
 
     public ImageLoaderTask(ImageView imageView, String cacheDir, ImageLoadCompleteListener imageLoadCompleteListener, int form) {
-        imageViewReference = new WeakReference<ImageView>(imageView);
+        imageViewReference = new WeakReference<>(imageView);
         this.imageLoadCompleteListener = imageLoadCompleteListener;
         this.loader = (ImageLoader) imageLoadCompleteListener;
         this.cacheDir = cacheDir;
@@ -76,7 +79,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
 
     // INFO gue/2014. 9. 16. : [임시코드] 이미지 라운드 처리 관련
     public ImageLoaderTask(ImageView imageView, String cacheDir, ImageLoadCompleteListener imageLoadCompleteListener, int form, int radiusPxToRound) {
-        imageViewReference = new WeakReference<ImageView>(imageView);
+        imageViewReference = new WeakReference<>(imageView);
         this.imageLoadCompleteListener = imageLoadCompleteListener;
         this.loader = (ImageLoader) imageLoadCompleteListener;
         this.cacheDir = cacheDir;
@@ -110,7 +113,7 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                     file = new File(cacheDir + CodeAction.EncodeMD5(_url));
                     if (file.exists()) {
                         fileLength = file.length();
-                        LoaderTaskQueue.getInstance().getQueue(TAG, String.format("[%d byte]-%s ", fileLength, _url));
+                        LoaderTaskQueue.getInstance().getQueue(TAG, String.format("[%s byte]-%s ", fileLength, _url));
                         bitmap = loadImageFromLocalCache(file);
                     } else {
                         LoaderTaskQueue.getInstance().getQueue(TAG, String.format("[download]-%s ", _url));
@@ -121,25 +124,25 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                 case 5:
                     file = new File(_url);
                     if (file.exists()) fileLength = file.length();
-                    LoaderTaskQueue.getInstance().getQueue(TAG, String.format("[%d byte]-%s ", fileLength, _url));
+                    LoaderTaskQueue.getInstance().getQueue(TAG, String.format("[%s byte]-%s ", fileLength, _url));
                     bitmap = loadImageFromLocalFile();
                     break;
             }
         } catch (OutOfMemoryError e) {
             decodeErr = true;
-            Log.w(TAG, String.format("[OutOfMemoryError:%s] decode image - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
+            Log.w(TAG, String.format("[OutOfMemoryError:%s] decode image - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
         } catch (Exception e) {
             decodeErr = true;
-            Log.w(TAG, String.format("[Exception:%s] decode image - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
+            Log.w(TAG, String.format("[Exception:%s] decode image - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
         }
-        LoaderTaskQueue.getInstance().removeQueue(TAG, String.format("[%d byte]-%s ", fileLength, _url));
+        LoaderTaskQueue.getInstance().removeQueue(TAG, String.format("[%s byte]-%s ", fileLength, _url));
         return bitmap;
     }
 
     @Override
     protected void onCancelled() {
         Log.e(TAG, String.format("(%s) onCancelled | url= %s", TAG, _url));
-        LoaderTaskQueue.getInstance().removeQueue(TAG, String.format("onCancelled [%d byte]-%s", fileLength, _url));
+        LoaderTaskQueue.getInstance().removeQueue(TAG, String.format("onCancelled [%s byte]-%s", fileLength, _url));
         super.onCancelled();
     }
 
@@ -167,36 +170,87 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
         }
     }
 
+    private void trustAllHosts() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        }};
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * download image
      */
-    private Bitmap downloadBitmap(String url) throws OutOfMemoryError {
+    private Bitmap downloadBitmap(String imageUrl) throws OutOfMemoryError {
         final int IO_BUFFER_SIZE = 2 * 1024;
 
-        final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
-        final HttpGet getRequest = new HttpGet(url);
         try {
-            HttpResponse response = client.execute(getRequest);
-            final int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 301 || statusCode == 302) {
-                Header redirect = response.getFirstHeader("Location");
-                if (client instanceof AndroidHttpClient) {
-                    ((AndroidHttpClient) client).close();
+            URL url = new URL(imageUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//            if (url.getProtocol() != null && url.getProtocol().equalsIgnoreCase("https")) {
+//                trustAllHosts();
+//                ((HttpsURLConnection) con).setHostnameVerifier(new HostnameVerifier() {
+//                    @Override
+//                    public boolean verify(String hostname, SSLSession session) {
+//                        return true;
+//                    }
+//                });
+//            }
+            con.setDoInput(true);
+            con.connect();
+            int statusCode = con.getResponseCode();
+            if (statusCode == HttpURLConnection.HTTP_MOVED_PERM || statusCode == HttpURLConnection.HTTP_MOVED_TEMP || statusCode == HttpURLConnection.HTTP_SEE_OTHER) {
+                String location = con.getHeaderField("Location");
+                if (location.startsWith("/")) {
+                    location = url.getProtocol() + "://" + url.getHost() + location;
                 }
-                return downloadBitmap(redirect.getValue());
-            }
-            if (statusCode != HttpStatus.SC_OK) {
+                con.disconnect();
+                return downloadBitmap(location);
+            } else if (statusCode != HttpURLConnection.HTTP_OK) {
                 Log.w(TAG, "Error " + statusCode + " while retrieving bitmap from " + _url);
                 return null;
             }
 
-            final HttpEntity entity = response.getEntity();
-            BufferedHttpEntity bufHttpEntity = new BufferedHttpEntity(entity);
-            if (entity != null) {
+            InputStream is = con.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+            if (bitmap != null) {
+                // image save
+                //if (loader.getCacheDir() != null) throw new IOException("파일 쓰기에러 강제 실현");
+                final File file = new File(cacheDir + CodeAction.EncodeMD5(_url));
+                final FileOutputStream fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+
+                fileLength = file.length();
+                Log.d(TAG, String.format("downloadBitmap | length[%s byte], -%s ", fileLength, _url));
+            }
+            if (false && is != null) {
                 FlushedInputStream flush = null;
                 byte[] result = null;
                 try {
-                    flush = new FlushedInputStream(bufHttpEntity.getContent());
+                    flush = new FlushedInputStream(is);
 
                     // inputstream -> byte[]
                     ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -207,48 +261,44 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                     os.close();
 
                     // image save
-//                    if (loader.getCacheDir() != null) throw new IOException("파일 쓰기에러 강제 실현"); 
+                    //if (loader.getCacheDir() != null) throw new IOException("파일 쓰기에러 강제 실현");
                     final File file = new File(cacheDir + CodeAction.EncodeMD5(_url));
                     final FileOutputStream fos = new FileOutputStream(file);
-                    fos.write(result);
                     fos.close();
 
-                    fileLength = result.length;
-                    Log.d(TAG, String.format("downloadBitmap | length[%d byte], -%s ", fileLength, _url));
 
-                    // sdcard의 용량 부족이나 파일 저장오류로 인해 file size가 down size와 같지 않을때에는 downstream을 그대로 decode한다. 
+                    fileLength = result.length;
+                    Log.d(TAG, String.format("downloadBitmap | length[%s byte], -%s ", fileLength, _url));
+
+                /*
+                    sdcard의 용량 부족이나 파일 저장오류로 인해 file size가
+                    download size와 같지 않을때에는 downstream을 그대로 decode한다.
+                 */
                     long saveFileLenth = file.length();
                     try {
                         if (fileLength == saveFileLenth) {
                             return loadImageFromLocalCache(file);
                         } else throw new Exception("file save error");
                     } catch (Exception e) {
-                        Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
-//                        throw new IOException("file save error");
+                        Log.e(TAG, String.format("[Exception:%s] - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
+                        //throw new IOException("file save error");
                         return BitmapFactory.decodeStream(new ByteArrayInputStream(result));
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     loader.sdcardErrToast();
-                    Log.e(TAG, String.format("[Exception:%s] - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
-//                    return BitmapFactory.decodeStream(new ByteArrayInputStream(result));
+                    Log.e(TAG, String.format("[Exception:%s] - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
+                    //return BitmapFactory.decodeStream(new ByteArrayInputStream(result));
                 } finally {
-                    if (flush != null) {
-                        flush.close();
-                    }
-                    entity.consumeContent();
+                    if (flush != null) flush.close();
                 }
             }
-        } catch (IOException e) {
-            getRequest.abort();
-            Log.w(TAG, "I/O error while retrieving bitmap from " + _url, e);
-        } catch (IllegalStateException e) {
-            getRequest.abort();
+            con.disconnect();
+        } catch (MalformedURLException e) {
             Log.w(TAG, "Incorrect URL: " + _url, e);
+        } catch (IOException e) {
+            Log.w(TAG, "I/O error while retrieving bitmap from " + _url, e);
         } catch (Exception e) {
-            getRequest.abort();
             Log.w(TAG, "Error while retrieving bitmap from " + _url, e);
-        } finally {
-            client.close();
         }
         return null;
     }
@@ -262,45 +312,47 @@ class ImageLoaderTask extends AsyncTask<String, Void, Bitmap> {
                 Bitmap bitmap = null;
                 // imageView가 thumbnail 형태의 작은 이미지일 경우 주어진 사이즈로 축소하여 decode 한다.
                 if (thumbWidth != 0) {
-                    Log.d(TAG, String.format("decode image cache thumbnail - [%d byte]-%s ", fileLength, _url));
+                    Log.d(TAG, String.format("decode image cache thumbnail - [%s byte]-%s ", fileLength, _url));
                     bitmap = ImageUtil.getBitmapBigRatio(file.getAbsolutePath(), thumbWidth, thumbWidth, Config.ARGB_8888);
                 } else if (wantImageInfo[0] != 0 && wantImageInfo[1] != 0) {
-                    Log.d(TAG, String.format("decode image cache device width - [%d byte]-%s ", fileLength, _url));
+                    Log.d(TAG, String.format("decode image cache device width - [%s byte]-%s ", fileLength, _url));
                     bitmap = ImageUtil.getBitmapBigRatio(file.getAbsolutePath(), wantImageInfo[0], wantImageInfo[1], Config.ARGB_8888);
                 } else {
-                    Log.d(TAG, String.format("decode image cache original - [%d byte]-%s ", fileLength, _url));
+                    Log.d(TAG, String.format("decode image cache original - [%s byte]-%s ", fileLength, _url));
                     bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                 }
                 return bitmap;
             }
         } catch (Exception e) {
-            Log.w(TAG, String.format("[Exception:%s] decode image cache - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
+            Log.w(TAG, String.format("[Exception:%s] decode image cache - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
         }
         return null;
     }
 
-    private final Bitmap loadImageFromLocalFile() throws OutOfMemoryError {
+    private Bitmap loadImageFromLocalFile() throws OutOfMemoryError {
         try {
             synchronized (this) {
                 Bitmap bitmap = null;
                 // BitmapFactory.Options.inSampleSize 사용
                 if (wantImageInfo[2] > 1) {
-                    Log.d(TAG, String.format("decode image inSampleSize(%d) - [%d byte]-%s ", wantImageInfo[2], fileLength, _url));
+                    Log.d(TAG, String.format("decode image inSampleSize(%s) - [%s byte]-%s ", wantImageInfo[2], fileLength, _url));
                     bitmap = ImageUtil.getBitmap(_url, wantImageInfo[2], Config.ARGB_8888);
                 }
                 // scale want size
                 else if (wantImageInfo[0] != 0 && wantImageInfo[1] != 0) {
-                    Log.d(TAG, String.format("decode image wantsize(%d/%d) - [%d byte]-%s ", wantImageInfo[0], wantImageInfo[1], fileLength, _url));
+
+                    Log.d(TAG, String.format("decode image wantsize(%s/%s) - [%s byte]-%s ", wantImageInfo[0], wantImageInfo[1], fileLength, _url));
                     bitmap = ImageUtil.getBitmapTinyRatio(_url, wantImageInfo[0], wantImageInfo[1], Config.ARGB_8888);
-                    // original image decode
-                } else {
-                    Log.d(TAG, String.format("decode image original - [%d byte]-%s ", wantImageInfo[0], wantImageInfo[1], fileLength, _url));
+                }
+                // original image decode
+                else {
+                    Log.d(TAG, String.format("decode image original - [%s byte]-%s ", fileLength, _url));
                     bitmap = ImageUtil.getBitmap(_url, wantImageInfo[2], Config.ARGB_8888);
                 }
                 return bitmap;
             }
         } catch (Exception e) {
-            Log.w(TAG, String.format("[Exception:%s] decode image File - [%d byte]-%s ", e.getMessage(), fileLength, _url), e);
+            Log.w(TAG, String.format("[Exception:%s] decode image File - [%s byte]-%s ", e.getMessage(), fileLength, _url), e);
         }
         return null;
     }

@@ -143,10 +143,10 @@ public final class ImageLoader implements ImageLoadCompleteListener {
         this._context = context;
         this.displaySize = DeviceUtil.getDisplaySize(_context);
         // get cache dir
-        if (_context.getExternalCacheDir() != null) {
-            _cacheDir = _context.getExternalCacheDir().getAbsolutePath() + "/";
-        } else {
+        if (_context.getCacheDir() != null) {
             _cacheDir = _context.getCacheDir().getAbsolutePath() + "/";
+        } else {
+            _cacheDir = _context.getExternalCacheDir().getAbsolutePath() + "/";
         }
         Log.i("ImageLoader Instance create");
     }

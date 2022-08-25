@@ -16,15 +16,15 @@ import com.breakout.util.net.BaseNet;
 import com.breakout.util.net.HttpMethod;
 import com.breakout.util.widget.ViewUtil;
 
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.URLDecoder;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.ParseException;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
 
 
 /**

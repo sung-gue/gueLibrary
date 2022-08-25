@@ -5,11 +5,11 @@ import android.content.Context;
 import com.breakout.util.net.BaseNet;
 import com.breakout.util.net.HttpMethod;
 
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-
 import java.io.IOException;
 import java.util.HashMap;
+
+import cz.msebera.android.httpclient.ParseException;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
 
 
 /**

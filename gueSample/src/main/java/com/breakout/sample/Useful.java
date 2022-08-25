@@ -8,7 +8,7 @@ import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.http.conn.util.InetAddressUtils;
+import cz.msebera.android.httpclient.conn.util.InetAddressUtils;
 
 public class Useful {
 
@@ -108,7 +108,7 @@ public class Useful {
     /**
      * Get IP address from first non-localhost interface
      *
-     * @param ipv4 true=return ipv4, false=return ipv6
+     * @param useIPv4 true=return ipv4, false=return ipv6
      * @return address or empty string
      */
     public static String getIPAddress(boolean useIPv4) {

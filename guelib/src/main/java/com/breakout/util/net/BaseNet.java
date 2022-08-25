@@ -7,38 +7,6 @@ import android.net.NetworkInfo;
 
 import com.breakout.util.Log;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.utils.URIUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -46,6 +14,38 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Vector;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.HttpVersion;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpDelete;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.client.methods.HttpPut;
+import cz.msebera.android.httpclient.client.methods.HttpRequestBase;
+import cz.msebera.android.httpclient.client.utils.URIUtils;
+import cz.msebera.android.httpclient.client.utils.URLEncodedUtils;
+import cz.msebera.android.httpclient.conn.ClientConnectionManager;
+import cz.msebera.android.httpclient.conn.scheme.PlainSocketFactory;
+import cz.msebera.android.httpclient.conn.scheme.Scheme;
+import cz.msebera.android.httpclient.conn.scheme.SchemeRegistry;
+import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder;
+import cz.msebera.android.httpclient.entity.mime.content.FileBody;
+import cz.msebera.android.httpclient.entity.mime.content.StringBody;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.impl.conn.tsccm.ThreadSafeClientConnManager;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import cz.msebera.android.httpclient.params.BasicHttpParams;
+import cz.msebera.android.httpclient.params.HttpConnectionParams;
+import cz.msebera.android.httpclient.params.HttpParams;
+import cz.msebera.android.httpclient.params.HttpProtocolParams;
+import cz.msebera.android.httpclient.protocol.HTTP;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
 
 /*
@@ -253,21 +253,19 @@ public class BaseNet {
             HttpMultipartMode.BROWSER_COMPATIBLE
             HttpMultipartMode.STRICT
          */
-        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.STRICT);
-
+        MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
         for (String key : requestImageMap.keySet()) {
             String value = requestImageMap.get(key);
             if (value != null) {
-                entity.addPart(key, new FileBody(new File(value), "image/jpeg"));
+                entityBuilder.addPart(key, new FileBody(new File(value), "image/jpeg"));
             }
             logBuilder.append(String.format("\n    | %s : %s", key, value));
             urlBuilder.append(String.format("%s=%s&", key, value));
         }
-
         for (String key : requestMap.keySet()) {
             String value = requestMap.get(key);
             if (value != null) {
-                entity.addPart(key, new StringBody(value, HTTP.PLAIN_TEXT_TYPE, Charset.forName(HTTP.UTF_8)));
+                entityBuilder.addPart(key, new StringBody(value, HTTP.PLAIN_TEXT_TYPE, Charset.forName(HTTP.UTF_8)));
             }
             logBuilder.append(String.format("\n    | %s : %s", key, value));
             urlBuilder.append(String.format("%s=%s&", key, value));
@@ -275,6 +273,7 @@ public class BaseNet {
         logBuilder.append("\nend set params --");
         logBuilder.append(urlBuilder);
 
+        HttpEntity entity = entityBuilder.build();
         HttpRequestBase httpRequest;
         switch (method) {
             case PUT:
