@@ -60,9 +60,9 @@ import com.breakout.sample.device.speech.TTSHelper;
 import com.breakout.sample.dto.UserDto;
 import com.breakout.sample.dto.data.User;
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
+import com.breakout.sample.google.GoogleSignInHelper;
 import com.breakout.sample.ui.IntroActivity;
 import com.breakout.sample.ui.MainActivity;
-import com.breakout.sample.util.GoogleSignInHelper;
 import com.breakout.sample.views.AppBar;
 import com.breakout.sample.views.LoginDialog;
 import com.breakout.sample.views.SlideMenuLayout;
@@ -82,7 +82,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
  * @author sung-gue
  * @version 1.0 (2013-11-27)
  */
-public abstract class BaseActivity extends AppCompatActivityEx implements SlideMenuLayout.OnSlideMenuClickListener, GoogleSignInHelper.GoogleLoginHelperListener {
+public abstract class BaseActivity extends AppCompatActivityEx
+        implements SlideMenuLayout.OnSlideMenuClickListener, GoogleSignInHelper.GoogleLoginHelperListener {
     protected SharedData _shared;
     protected ImageLoader _imageLoader;
     /**
@@ -487,6 +488,7 @@ public abstract class BaseActivity extends AppCompatActivityEx implements SlideM
 
     public <T extends ViewDataBinding> T setContentViewBinding(int layoutResID) {
         T viewDataBinding = DataBindingUtil.setContentView(this, layoutResID);
+        viewDataBinding.setLifecycleOwner(this);
         if (layoutResID == _baseLayoutResId) {
             _baseLayoutBinding = (UiBaseLayoutBinding) viewDataBinding;
             _uiBaseClMain = _baseLayoutBinding.uiBaseClMain;

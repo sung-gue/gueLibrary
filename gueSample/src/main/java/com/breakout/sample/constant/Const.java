@@ -39,6 +39,8 @@ public class Const {
      */
     public static final String AES_KEY = Const.APP_NAME;
 
+    public static boolean IS_RESPONSE_PARSE_LOG = false;
+
     public static final String YES = "y";
     public static final String NO = "n";
     public static final String ALL = "all";

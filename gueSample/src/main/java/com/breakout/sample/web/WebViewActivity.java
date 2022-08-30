@@ -116,7 +116,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
         _etUrl.setText(_url);
     }
 
-    public class CustomWebViewClient extends WebViewClient {
+    private class CustomWebViewClient extends WebViewClient {
 
         public CustomWebViewClient(WebView wv, int mode) {
             webViewSetting(wv, mode);

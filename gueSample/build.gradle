@@ -58,9 +58,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    /*
+        DSL element 'dexOptions' is obsolete and should be removed.
+        It will be removed in version 8.0 of the Android Gradle plugin.
+        Using it has no effect, and the AndroidGradle plugin optimizes dexing automatically.
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "4g"
+        jumboMode true
+    }
+     */
+
     buildTypes {
         release {
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
             manifestPlaceholders = [
@@ -136,7 +148,9 @@ android {
 }
 
 repositories {
+    mavenCentral()
     maven { url "https://jitpack.io" }
+    maven { url "https://devrepo.kakao.com/nexus/content/groups/public/" }
 }
 
 dependencies {
@@ -168,7 +182,7 @@ dependencies {
         Android KTX
             https://developer.android.com/kotlin/ktx
      */
-    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "androidx.core:core-ktx:1.8.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -208,7 +222,7 @@ dependencies {
         Annotation | https://developer.android.com/jetpack/androidx/releases/annotation
             도구 및 다른 개발자가 앱의 코드를 이해하는 데 도움이 되는 메타데이터를 노출합니다.
      */
-    implementation "androidx.annotation:annotation:1.2.0"
+    implementation "androidx.annotation:annotation:1.4.0"
     /*
         Multidex | https://developer.android.com/jetpack/androidx/releases/multidex
             Android 5 이전 기기에 여러 dex 파일이 있는 애플리케이션을 배포합니다.
@@ -223,11 +237,13 @@ dependencies {
         Lifecycle | https://developer.android.com/jetpack/androidx/releases/lifecycle
             활동 또는 프래그먼트의 현재 수명 주기 상태에 따라 동작을 조정할 수 있는 수명 주기 인식 구성요소를 빌드합니다.
      */
-    def lifecycle_version = "2.3.1"
+    def lifecycle_version = "2.5.1"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // optional - helpers for implementing LifecycleOwner in a Service
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
 
 
     /* ------------------------------------------------------------
@@ -313,7 +329,7 @@ dependencies {
     implementation "com.google.guava:guava:28.0-android"
 
     // Gson | https://github.com/google/gson
-    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "com.google.code.gson:gson:2.8.9"
 
     // Lottie | https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.4.1"

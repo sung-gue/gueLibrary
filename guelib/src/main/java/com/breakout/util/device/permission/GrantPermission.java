@@ -8,12 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
 
 import com.breakout.util.Log;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -24,10 +24,10 @@ import java.util.Map;
  * @version 1.0 (2020-08-26)
  */
 @SuppressWarnings("unused")
-public class GrantPermission implements LifecycleObserver {
+public class GrantPermission implements LifecycleEventObserver {
     private final String TAG = getClass().getSimpleName();
 
-    public interface GrantPermissionsListener {
+    public interface Listener {
         void onSuccessGrantPermissions();
 
         void onCancelGrantPermissions();
@@ -37,103 +37,122 @@ public class GrantPermission implements LifecycleObserver {
         void onFinishGrantPermissions();
     }
 
-    private final AppCompatActivity _activity;
-    private final Lifecycle _lifecycle;
+    private final AppCompatActivity activity;
+    private final Lifecycle lifecycle;
+    private final Listener listener;
 
-    public GrantPermission(AppCompatActivity activity) {
-        this._activity = activity;
-        this._lifecycle = activity.getLifecycle();
-        _lifecycle.addObserver(this);
+    private ActivityResultLauncher<String> requestPermissionLauncher;
+    private ActivityResultLauncher<String[]> requestMultiplePermissionsLauncher;
+
+    /**
+     * @throws Exception must be init in Activity.onCreate()
+     */
+    public GrantPermission(AppCompatActivity activity, @NonNull Listener listener) throws Exception {
+        this.activity = activity;
+        this.lifecycle = activity.getLifecycle();
+        this.listener = listener;
+        lifecycle.addObserver(this);
+        if (lifecycle.getCurrentState() != Lifecycle.State.INITIALIZED) {
+            throw new Exception("must be init in onCreate()");
+        }
+        initPermissionLauncher();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private void onCreate(LifecycleOwner source) {
-        Log.d(TAG, "lifecycle : onCreate");
+    @Override
+    public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            lifecycle.removeObserver(this);
+        }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private void onStart(LifecycleOwner source) {
-        Log.d(TAG, "lifecycle : onStart");
+    private void initPermissionLauncher() {
+        requestPermissionLauncher = activity.registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(), isGranted -> {
+                    Log.d(TAG, String.format("RequestPermission result: %s ", isGranted));
+                    if (isGranted) {
+                        onSuccessGrantPermissions();
+                    } else {
+                        onCancelGrantPermissions();
+                    }
+                    onFinishGrantPermissions();
+                });
+        requestMultiplePermissionsLauncher = activity.registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+                    boolean isGrantPermissions = true;
+                    if (result.size() > 0) {
+                        Log.d(TAG, String.format("RequestMultiplePermissions result: %s ", result));
+                        for (String key : result.keySet()) {
+                            // Log.d(TAG, String.format("RequestMultiplePermissions result: %s / %s", key, result.get(key)));
+                            isGrantPermissions = result.get(key);
+                            if (!isGrantPermissions) break;
+                        }
+                        if (isGrantPermissions) {
+                            onSuccessGrantPermissions();
+                        } else {
+                            onFailGrantPermissions(result);
+                        }
+                    } else {
+                        onCancelGrantPermissions();
+                    }
+
+                    onFinishGrantPermissions();
+                });
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void onDestroy() {
-        Log.d(TAG, "lifecycle : onDestroy");
-        _lifecycle.removeObserver(this);
+    public void checkPermissions(String[] permissions) {
+        if (hasPermissions(permissions)) {
+            onSuccessGrantPermissions();
+        } else {
+            requestPermissions(permissions);
+        }
     }
 
     public boolean hasPermissions(String[] permissions) {
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(_activity, permission) == PackageManager.PERMISSION_DENIED) {
+            if (ContextCompat.checkSelfPermission(
+                    activity,
+                    permission
+            ) == PackageManager.PERMISSION_DENIED) {
                 return false;
             }
         }
         return true;
     }
 
-    public void requestPermission(String permission, GrantPermissionsListener listener) {
-        ActivityResultLauncher<String> launcher = _activity.registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(), result -> {
-                    Log.d(TAG, String.format("onActivityResult: %s / %s", permission, result));
-                    if (result) {
-                        Log.d(TAG, "onActivityResult: PERMISSION GRANTED");
-                    } else {
-                        Log.d(TAG, "onActivityResult: PERMISSION DENIED");
-                    }
-                    onFinishGrantPermissions(listener);
-                });
-        launcher.launch(permission);
+    public void requestPermission(String permission) {
+        Log.d(TAG, String.format("RequestPermission : %s ", permission));
+        requestPermissionLauncher.launch(permission);
     }
 
-    public void requestPermissions(String[] permissions, GrantPermissionsListener listener) {
-        ActivityResultLauncher<String[]> launcher = _activity.registerForActivityResult(
-                new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-                    boolean isGrantPermissions = true;
-                    if (result.size() > 0) {
-                        for (String key : result.keySet()) {
-                            //noinspection ConstantConditions
-                            boolean isGranted = result.get(key);
-                            isGrantPermissions = isGrantPermissions && isGranted;
-                            Log.d(TAG, String.format("onActivityResult: %s / %s", key, result.get(key)));
-                        }
-                        if (isGrantPermissions) {
-                            onSuccessGrantPermissions(listener);
-                        } else {
-                            onFailGrantPermissions(listener, result);
-                        }
-                    } else {
-                        onCancelGrantPermissions(listener);
-                    }
-
-                    onFinishGrantPermissions(listener);
-                });
-        launcher.launch(permissions);
+    public void requestPermissions(String[] permissions) {
+        Log.d(TAG, String.format("RequestMultiplePermissions : %s ", Arrays.toString(permissions)));
+        requestMultiplePermissionsLauncher.launch(permissions);
     }
 
-    private boolean isActiveLifeCycle(GrantPermissionsListener listener) {
-        return _lifecycle != null
-                && _lifecycle.getCurrentState() != Lifecycle.State.DESTROYED
-                && listener != null;
+    private boolean isActiveLifeCycle() {
+        return lifecycle != null
+               && lifecycle.getCurrentState() != Lifecycle.State.DESTROYED
+               && listener != null;
     }
 
-    private void onSuccessGrantPermissions(GrantPermissionsListener listener) {
+    private void onSuccessGrantPermissions() {
         Log.d(TAG, "grant permissions success!");
-        if (isActiveLifeCycle(listener)) listener.onSuccessGrantPermissions();
+        if (isActiveLifeCycle()) listener.onSuccessGrantPermissions();
     }
 
-    private void onCancelGrantPermissions(GrantPermissionsListener listener) {
+    private void onCancelGrantPermissions() {
         Log.d(TAG, "grant permissions cancel!");
-        if (isActiveLifeCycle(listener)) listener.onCancelGrantPermissions();
+        if (isActiveLifeCycle()) listener.onCancelGrantPermissions();
     }
 
-    private void onFailGrantPermissions(GrantPermissionsListener listener, @NonNull Map<String, Boolean> result) {
+    private void onFailGrantPermissions(@NonNull Map<String, Boolean> result) {
         Log.d(TAG, "grant permissions fail!");
-        if (isActiveLifeCycle(listener)) listener.onFailGrantPermissions(result);
+        if (isActiveLifeCycle()) listener.onFailGrantPermissions(result);
     }
 
-    protected void onFinishGrantPermissions(GrantPermissionsListener listener) {
+    protected void onFinishGrantPermissions() {
         Log.d(TAG, "grant permissions finish!");
-        if (isActiveLifeCycle(listener)) listener.onFinishGrantPermissions();
+        if (isActiveLifeCycle()) listener.onFinishGrantPermissions();
     }
 
 }

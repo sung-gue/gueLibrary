@@ -49,7 +49,6 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 
 
 /*
-    TODO: 2018-07-21 | http 라이브러리 교체 필요
     useLibrary 'org.apache.http.legacy'     // api 23 : Apache HTTP Client Removal
  */
 
@@ -59,6 +58,7 @@ import cz.msebera.android.httpclient.util.EntityUtils;
  * @author sung-gue
  * @version 1.0 (2012. 5. 30.)
  */
+@Deprecated
 public class BaseNet {
     private final String TAG = getClass().getSimpleName();
     private HttpClient _client;

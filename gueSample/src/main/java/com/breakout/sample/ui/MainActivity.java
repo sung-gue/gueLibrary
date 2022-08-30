@@ -17,7 +17,6 @@ import com.breakout.sample.BaseActivity;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.ReceiverName;
 import com.breakout.sample.device.flash.FlashActivity;
-import com.breakout.sample.hybrid.phonegap.PhonegapActivity;
 import com.breakout.sample.image_filter_gue.ImageSelectActivity;
 import com.breakout.sample.storage.SQLiteActivity;
 import com.breakout.sample.test.HtmlTestActivity;
@@ -27,7 +26,6 @@ import com.breakout.sample.ui.viewpager.MultipleViewPagerActivity;
 import com.breakout.sample.views.AppBar;
 import com.breakout.sample.web.WebView2Activity;
 import com.breakout.sample.web.WebViewActivity;
-import com.breakout.sample.xmpp.ChatTestActivity;
 import com.breakout.util.device.DeviceUtil;
 import com.breakout.util.dto.media.ImageDTO;
 import com.breakout.util.widget.DialogView;
@@ -122,7 +120,6 @@ public class MainActivity extends BaseActivity {
         makeIntentView(Button(_bodyView, "Theme"), ThemeActivity.class);
         makeIntentView(Button(_bodyView, "Bookmark"), BookMarkActivity.class);
         makeIntentView(Button(_bodyView, "Notification"), NotificationActivity.class);
-        makeIntentView(Button(_bodyView, "Hybrid - phonegap"), PhonegapActivity.class);
         makeIntentView(Button(_bodyView, "Flash"), FlashActivity.class);
 
         /*TextView(_vParent, " - ");*/
@@ -131,7 +128,6 @@ public class MainActivity extends BaseActivity {
 
     private void setOpenSourceBtn() {
         TextView(_bodyView, "Open Source Test");
-        makeIntentView(Button(_bodyView, "XMPP Chat, aSmack 4.0.2"), ChatTestActivity.class);
         /*makeIntentView(Button(_vParent, ""), Activity.class);*/
     }
 

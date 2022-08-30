@@ -9,6 +9,7 @@ import java.io.InputStream;
  * @author sung-gue
  * @version 1.0 (2012. 6. 17.)
  */
+@Deprecated
 public abstract class Parsing {
     protected final String TAG = getClass().getSimpleName();
 

@@ -38,7 +38,7 @@ import cz.msebera.android.httpclient.client.ClientProtocolException;
  * </dd>
  * <dt>사용</dt>
  * <dd>
- * <li>see : {@link com.breakout.util.sample.BaseControllerEx}</li>
+ * <li>see : </li>
  * </dd>
  * </dl>
  * {@link #_requestMap}을 저장하여 통신 실패시 재전송이 가능하게 구성되어 있으므로
@@ -47,6 +47,7 @@ import cz.msebera.android.httpclient.client.ClientProtocolException;
  * @author sung-gue
  * @version 1.0 (2012. 12. 18.)
  */
+@Deprecated
 public abstract class BaseController<T extends Object> implements Runnable {
     protected final String TAG = getClass().getSimpleName();
 
@@ -231,6 +232,10 @@ public abstract class BaseController<T extends Object> implements Runnable {
      */
     protected final void setHeaderAfterNullCheck(String key, String value) {
         if (!TextUtils.isEmpty(value)) _requestHeaderMap.put(key, value);
+    }
+
+    protected final void setJsonContentType() {
+        _requestHeaderMap.put("Content-type", "application/json");
     }
 
     /**
@@ -679,6 +684,7 @@ public abstract class BaseController<T extends Object> implements Runnable {
             _currentNetState = _netState.code;
             _handler.sendEmptyMessage(_currentNetState);
         } else if (responseObject != null) {
+            _currentNetState = _netState.code;
             urlDecode(responseObject);
             initButtonFlag();
             controllerThreadWork(responseObject);

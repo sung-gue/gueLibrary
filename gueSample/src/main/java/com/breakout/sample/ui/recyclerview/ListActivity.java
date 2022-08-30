@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -116,7 +115,7 @@ public class ListActivity extends BaseActivity implements BaseActivity.SwipeRefr
         _scrollListener = new EndlessRecyclerViewScrollListener(_adapter.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                Log.d(TAG, String.format("%s onLoadMore | %s / %s", TAG, page, totalItemsCount));
+                Log.d(TAG, String.format("%s on load more list | %s / %s", TAG, page, totalItemsCount));
                 if (_adapter.page < page && _list.size() > 0) {
                     _adapter.page = page;
                     requestList(_list.size() + 1);
@@ -151,9 +150,9 @@ public class ListActivity extends BaseActivity implements BaseActivity.SwipeRefr
 
     private void setData(ArrayList<NaverImageDto.Item> list) {
         if (list != null && list.size() > 0) {
-            int curSize = _adapter.getItemCount();
             _list.addAll(list);
-            _adapter.notifyItemRangeInserted(curSize, list.size());
+            _rvList.post(() -> _adapter.notifyItemInserted(list.size()));
+
         }
         initEmptyView();
     }

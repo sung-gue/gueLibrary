@@ -21,11 +21,8 @@ public class GrantPermissionActivity1 extends AppCompatActivity {
 
     private final int PERMISSIONS_REQUEST_CODE = 1002;
     private final String[] PERMISSIONS = {
-            // <uses-permission android:name="android.permission.CAMERA" />
             Manifest.permission.CAMERA,
-            // <uses-permission android:name="android.permission.RECORD_AUDIO" />
             Manifest.permission.RECORD_AUDIO,
-            //<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
@@ -83,7 +80,8 @@ public class GrantPermissionActivity1 extends AppCompatActivity {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
                     for (int grantResult : grantResults) {
-                        isGrantPermissions = isGrantPermissions && grantResult == PackageManager.PERMISSION_GRANTED;
+                        isGrantPermissions = grantResult == PackageManager.PERMISSION_GRANTED;
+                        if (!isGrantPermissions) break;
                     }
                     if (isGrantPermissions) {
                         onSuccessGrantPermissions();

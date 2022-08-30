@@ -1,8 +1,6 @@
 package com.breakout.util;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,11 +13,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.breakout.util.constant.CValue;
 import com.breakout.util.widget.DialogView;
-
-import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -64,6 +58,7 @@ import java.util.Locale;
  * @version 1.0 (2016. 2. 3.)
  */
 public abstract class AppCompatActivityEx extends AppCompatActivity {
+    private final String _TAG = AppCompatActivityEx.class.getSimpleName();
     /**
      * Activity Tag : class simpleName
      */
@@ -87,78 +82,65 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(getPackageName(), TAG + " | onCreate");
+        Log.v(_TAG, TAG + " | onCreate");
         _appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
-        logTask("oncreate()");
 
-        if (CValue.DEBUG) {
-            try {
-                Intent intent = getIntent();
-                StringBuilder logBuilder = new StringBuilder("\n---------------");
-                logBuilder.append(String.format("\n| [%s] | onCreate() - check intent", TAG));
-                logBuilder.append(String.format("\n| intent      | %s", intent));
-                logBuilder.append(String.format("\n| component   | %s", intent.getComponent()));
-                logBuilder.append(String.format("\n| uri         | %s", intent.getData()));
-                try {
-                    if (intent.getExtras() != null) {
-                        Bundle bundle = intent.getExtras();
-                        for (String key : bundle.keySet()) {
-                            logBuilder.append(String.format("\n| extra       | %s : %s", key, bundle.get(key)));
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage(), e);
-                }
-                logBuilder.append("\n---------------");
-                Log.d(getPackageName(), logBuilder.toString());
-            } catch (Exception e) {
-                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-            }
+        Log.d(_TAG, LogUtil.getActivityTaskLog(this, String.format(
+                "%s - onCreate()", TAG
+        )));
+        try {
+            Log.d(_TAG, LogUtil.getIntentCheckLog(
+                    getIntent(), String.format("%s - onCreate()", TAG)
+            ));
+        } catch (Exception e) {
+            Log.e(_TAG, TAG + " | " + e.getMessage(), e);
         }
     }
 
     @Override
     protected void onStart() {
-        Log.v(getPackageName(), TAG + " | onStart");
+        Log.v(_TAG, TAG + " | onStart");
         super.onStart();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        Log.v(getPackageName(), TAG + " | onNewIntent");
+        Log.v(_TAG, TAG + " | onNewIntent");
         super.onNewIntent(intent);
     }
 
     @Override
     protected void onRestart() {
-        Log.v(getPackageName(), TAG + " | onRestart");
+        Log.v(_TAG, TAG + " | onRestart");
         super.onRestart();
     }
 
     @Override
     protected void onResume() {
-        Log.v(getPackageName(), TAG + " | onResume");
+        Log.v(_TAG, TAG + " | onResume");
         if (_appContext == null) _appContext = getApplicationContext();
         super.onResume();
     }
 
     @Override
     protected void onStop() {
-        Log.v(getPackageName(), TAG + " | onStop, isfinishing : " + isFinishing());
+        Log.v(_TAG, TAG + " | onStop, isfinishing : " + isFinishing());
         super.onStop();
     }
 
     @Override
     public void finish() {
-        Log.v(getPackageName(), TAG + " | finish, isfinishing : " + isFinishing());
-        logTask("finish()");
+        Log.v(_TAG, TAG + " | finish, isfinishing : " + isFinishing());
+        Log.d(_TAG, LogUtil.getActivityTaskLog(this, String.format(
+                "%s - finish()", TAG
+        )));
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-        Log.v(getPackageName(), TAG + " | onDestroy, isfinishing : " + isFinishing());
+        Log.v(_TAG, TAG + " | onDestroy, isfinishing : " + isFinishing());
         closeProgress();
         unregisterReceiver();
         /*
@@ -170,44 +152,8 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.v(getPackageName(), TAG + " | onBackPressed, isfinishing : " + isFinishing());
+        Log.v(_TAG, TAG + " | onBackPressed, isfinishing : " + isFinishing());
         super.onBackPressed();
-    }
-
-    protected void logTask(String title) {
-        if (!CValue.DEBUG) {
-            return;
-        }
-
-        // get activity task
-        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        // process & task check
-        /*List<RunningAppProcessInfo> processList = am.getRunningAppProcesses();
-        for (RunningAppProcessInfo runningAppProcessInfo : processList) {
-            if (getPackageName().equals(runningAppProcessInfo.processName))
-                Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName);
-            else Log.e(TAG + " | runningAppProcessInfo : " + runningAppProcessInfo.pid  + " / " + runningAppProcessInfo.processName );
-        }
-        List<RunningTaskInfo> taskList = am.getRunningTasks(processList.size());
-        for (RunningTaskInfo runningTaskInfo : taskList) {
-            if (getPackageName().equals(runningTaskInfo.topActivity.getPackageName()))
-                Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-            else Log.e(TAG + " | runningTaskInfo : " + runningTaskInfo.topActivity.getPackageName()  + " / " + runningTaskInfo.topActivity  );
-        }*/
-
-        try {
-            List<RunningTaskInfo> info = am.getRunningTasks(1);
-            Log.d(getPackageName(), String.format("\n-------------------" +
-                            "\n| [%s] | %s - logTask" +
-                            "\n| baseActivity    | %s" +
-                            "\n| topActivity     | %s" +
-                            "\n| numActivities   | %s" +
-                            "\n| numRunning      | %s" +
-                            "\n-------------------",
-                    TAG, title, info.get(0).baseActivity.getClassName(), info.get(0).topActivity.getClassName(), info.get(0).numActivities, info.get(0).numRunning));
-        } catch (Exception e) {
-            Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-        }
     }
 
     /*
@@ -277,7 +223,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
             try {
                 _pDialog.show();
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage(), e);
+                Log.e(_TAG, e.getMessage(), e);
             }
         }
         return _pDialog;
@@ -344,7 +290,7 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         registerReceiver(finishReceiver, new IntentFilter(filterName));
     }
 
-    private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             finish();
@@ -355,7 +301,10 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, String.format(Locale.getDefault(), "requestCode = %d, resultCode = %d, intent = %s", requestCode, resultCode, data));
+        Log.d(_TAG, String.format(
+                "%s | requestCode = %s, resultCode = %s, intent = %s",
+                TAG, requestCode, resultCode, data
+        ));
     }
 
     /**
@@ -364,25 +313,12 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @SuppressLint("DefaultLocale")
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        if (CValue.DEBUG) {
-            StringBuilder logBuilder = new StringBuilder("\n---------------");
-            logBuilder.append(String.format("\n| [%s] | startActivityForResult()", TAG));
-            logBuilder.append(String.format("\n| intent      | %s", intent));
-            logBuilder.append(String.format("\n| requestCode | %d", requestCode));
-            logBuilder.append(String.format("\n| component   | %s", intent != null ? intent.getComponent() : ""));
-            logBuilder.append(String.format("\n| uri         | %s", intent != null ? intent.getData() : ""));
-            try {
-                if (intent != null && intent.getExtras() != null) {
-                    Bundle bundle = intent.getExtras();
-                    for (String key : bundle.keySet()) {
-                        logBuilder.append(String.format("\n|  extra       | %s : %s", key, bundle.get(key)));
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(getPackageName(), TAG + " | " + e.getMessage(), e);
-            }
-            logBuilder.append("\n---------------");
-            Log.d(getPackageName(), logBuilder.toString());
+        try {
+            Log.d(_TAG, LogUtil.getIntentCheckLog(intent, String.format(
+                    "%s - startActivityForResult() - requestCode=%s", TAG, requestCode
+            )));
+        } catch (Exception e) {
+            Log.e(_TAG, TAG + " | " + e.getMessage(), e);
         }
         super.startActivityForResult(intent, requestCode);
     }

@@ -7,6 +7,7 @@ import com.breakout.sample.dto.DummyDto;
 import com.breakout.sample.dto.InitDto;
 import com.breakout.sample.dto.NaverImageDto;
 import com.breakout.sample.dto.UserDto;
+import com.breakout.sample.openapi.openweathermap.WeatherDto;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,43 +27,36 @@ import java.util.ArrayList;
  * @author sung-gue
  * @version 1.0 (2016.02.29)
  */
-enum ControllerType {
-    Init("/app/init",
-            InitDto.class, ApiType.IN
-    ),
-    Account("/app/account",
-            UserDto.class, ApiType.IN
-    ),
-    User("/app/user",
-            UserDto.class, ApiType.IN
-    ),
-    NaverImage("https://openapi.naver.com/v1/search/image",
-            NaverImageDto.class, ApiType.NAVER
-    ),
-    Dummy("/app/dummy",
-            DummyDto.class, ApiType.IN
-    );
+public enum ControllerType {
+    Init("/app/init", InitDto.class),
+    Account("/app/account", UserDto.class),
+    User("/app/user", UserDto.class),
+    NaverImage("https://openapi.naver.com/v1/search/image", NaverImageDto.class, false),
+    Weather("https://api.openweathermap.org", WeatherDto.class, false),
+    Dummy("/app/dummy", DummyDto.class);
 
-    enum ApiType {IN, NAVER}
+    private final String apiUrl;
+    private final Class<?> dtoClass;
+    private final boolean isThirdParty;
 
-    final String _controller;
-    final Class<?> _class;
-    final ApiType _apiType;
+    <E extends BaseDto<?>> ControllerType(String apiUrl, Class<E> dtoClass) {
+        this(apiUrl, dtoClass, false);
+    }
 
-    <E extends BaseDto<?>> ControllerType(String controller, Class<E> dto, ApiType apiType) {
-        _controller = controller;
-        _class = dto;
-        _apiType = apiType;
+    <E extends BaseDto<?>> ControllerType(String apiUrl, Class<E> dtoClass, boolean isThirdParty) {
+        this.apiUrl = apiUrl;
+        this.dtoClass = dtoClass;
+        this.isThirdParty = isThirdParty;
     }
 
     public String getApiUrl() {
-        switch (_apiType) {
-            case IN:
-            default:
-                return Const.API_SERVER + _controller;
-            case NAVER:
-                return _controller;
+        String url;
+        if (isThirdParty) {
+            url = apiUrl;
+        } else {
+            url = Const.API_SERVER + this.apiUrl;
         }
+        return url;
     }
 
     @SuppressWarnings("unchecked")
@@ -76,20 +70,20 @@ enum ControllerType {
             Log.e(TAG, e.getMessage(), e);
         }
         if (decodeStr != null) {
-            log += String.format("\n-- %s decode\n%s", _controller, decodeStr);
+            log += String.format("\n-- %s decode\n%s", apiUrl, decodeStr);
         } else {
-            log += String.format("\n-- %s decode\n%s", _controller, responseStr);
+            log += String.format("\n-- %s decode fail\n%s", apiUrl, responseStr);
         }
-        Log.d(TAG, log + "\n end resonse decode --");
+        Log.d(TAG, log + "\n-- end resonse decode");
 
         Gson gson = new Gson();
-        T t = (T) _class.newInstance();
+        T t = (T) dtoClass.newInstance();
         try {
             Object obj = new JSONTokener(responseStr).nextValue();
             if (obj instanceof JSONObject) {
-                t = (T) gson.fromJson(responseStr, _class);
+                t = (T) gson.fromJson(responseStr, dtoClass);
             } else if (obj instanceof JSONArray) {
-                Type type = TypeToken.getParameterized(ArrayList.class, _class).getType();
+                Type type = TypeToken.getParameterized(ArrayList.class, dtoClass).getType();
                 //Type type = new TypeToken<ArrayList<T>>() {}.getType();
                 t.datas = gson.fromJson(responseStr, type);
             } else {
@@ -103,11 +97,11 @@ enum ControllerType {
         }
         log = "start gson parser ...";
         try {
-            log += String.format("\n-- %s parse\n%s", _controller, gson.toJson(t));
+            log += String.format("\n-- %s parse\n%s", apiUrl, gson.toJson(t));
         } catch (Exception e) {
-            log += String.format("\n-- %s parse\n  code : %s, msg : %s", _controller, t.code, t.message);
+            log += String.format("\n-- %s parse fail\n  code : %s, msg : %s", apiUrl, t.code, t.message);
         }
-        Log.d(TAG, log + "\n end gson parser --");
+        Log.d(TAG, log + "\n-- end gson parser");
         return t;
     }
 }

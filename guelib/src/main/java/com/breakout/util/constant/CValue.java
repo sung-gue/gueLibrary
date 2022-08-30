@@ -1,5 +1,7 @@
 package com.breakout.util.constant;
 
+import com.breakout.util.BuildConfig;
+
 /**
  * constant values in library
  *
@@ -7,14 +9,21 @@ package com.breakout.util.constant;
  * @version 1.0 (2012. 10. 4.)
  */
 public class CValue {
+
     /**
-     * library의 console log에 대한 설정
+     * @see #DEBUG
+     * @see BuildConfig#DEBUG
+     */
+    public static final boolean TEST = BuildConfig.DEBUG;
+
+    /**
+     * library debug mode
      * <ul>
-     *     <li>true : development</li>
-     *     <li>flase : deployment</li>
+     *     <li>true : release</li>
+     *     <li>flase : debug</li>
      * </ul>
      */
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = TEST;
 
 
     /*

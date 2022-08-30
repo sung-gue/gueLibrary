@@ -36,7 +36,7 @@ import java.util.Locale;
  * @author sung-gue
  * @version 1.0 (2016.02.29)
  */
-abstract class ControllerEx<T extends BaseDto> extends BaseController<T> {
+public abstract class ControllerEx<T extends BaseDto> extends BaseController<T> {
     /**
      * server msg (Base)<br/>
      */

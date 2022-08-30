@@ -1,4 +1,4 @@
-package com.breakout.sample.util;
+package com.breakout.sample.google;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +20,18 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
 
-
+/**
+ * <h3>google sign-in</h3>
+ * google : https://developers.google.com/identity/sign-in/android/sign-in
+ * <p>
+ * firebase : https://firebase.google.com/docs/auth/android/google-signin
+ * <p>
+ * <p>
+ * TODO firebase-auth 테스트 필요
+ *
+ * @author sung-gue
+ * @version 1.0 (2020-05-07)
+ */
 public class GoogleSignInHelper {
     public interface GoogleLoginHelperListener {
         /**
@@ -48,12 +59,7 @@ public class GoogleSignInHelper {
     private final String REQUEST_CODE = "requestCode";
     private final int RC_GOOGLE_SIGN_IN = 2002;
     /**
-     * <h3>google sign-in</h3>
      * google : https://developers.google.com/identity/sign-in/android/sign-in
-     * <p>
-     * firebase : https://firebase.google.com/docs/auth/android/google-signin
-     * <p>
-     * TODO firebase-auth 테스트 필요
      */
     private GoogleSignInClient _googleSignInClient;
 

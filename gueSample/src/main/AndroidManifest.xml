@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.breakout.sample"
@@ -96,9 +97,6 @@
 
 
     <!--android:allowTaskReparenting="true"  :  Affinity allow -->
-    <!--android:largeHeap="true" -->
-    <!--android:hardwareAccelerated="true" -->
-    <!--android:name=".BaseApplication"-->
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -117,9 +115,9 @@
         tools:replace="android:label">
 
         <!-- INFO: legacy library -->
-        <uses-library
+        <!--<uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
+            android:required="false" />-->
 
         <!-- INFO: boot receiver -->
         <!--<receiver
@@ -151,7 +149,7 @@
 
         <activity
             android:name=".ui.IntroActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -448,16 +446,6 @@
             android:label="@string/app_name"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"></activity>
-
-
-        <!-- Hybrid - phonegap -->
-        <activity
-            android:name=".hybrid.phonegap.PhonegapActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="Hybrid : Phonegap"
-            android:screenOrientation="sensor"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"></activity>
 
 
         <!-- Share WebView -->

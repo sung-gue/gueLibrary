@@ -8,9 +8,7 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
-import com.breakout.sample.constant.Const;
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
-import com.breakout.util.constant.CValue;
 
 
 public class BaseApplication extends Application {
@@ -23,7 +21,6 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         Log.i(TAG + " | onCreate");
-        CValue.DEBUG = Const.DEBUG;
         MyFirebaseMessagingService.initChannel(this);
         super.onCreate();
     }
