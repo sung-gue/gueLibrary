@@ -7,7 +7,7 @@ import com.breakout.sample.constant.Headers;
 import com.breakout.sample.constant.Params;
 import com.breakout.sample.constant.Values;
 import com.breakout.sample.dto.UserDto;
-import com.breakout.sample.util.GetAdidTask;
+import com.breakout.sample.utils.GetAdidTask;
 import com.breakout.util.net.HttpMethod;
 import com.google.gson.Gson;
 

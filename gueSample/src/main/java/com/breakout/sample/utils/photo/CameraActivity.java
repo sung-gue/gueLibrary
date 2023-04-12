@@ -1,4 +1,4 @@
-package com.breakout.sample.util.photo;
+package com.breakout.sample.utils.photo;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,7 +10,7 @@ import com.breakout.sample.BaseActivity;
 import com.breakout.sample.Log;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.Const;
-import com.breakout.sample.util.photo.data.PhotoData;
+import com.breakout.sample.utils.photo.data.PhotoData;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.Util;
 import com.breakout.util.device.DeviceUtil;
@@ -66,7 +66,10 @@ public class CameraActivity extends BaseActivity {
             _cacheDir1 = Environment.getExternalStorageDirectory().toString() + "/folder_name/";
 
             // 사진첩 dir
-            File saveFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), Const.APP_NAME);
+            File saveFolder = new File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
+                    Const.APP_NAME
+            );
             if (!saveFolder.exists() && !saveFolder.mkdir()) {
                 Toast.makeText(this, R.string.al_sdcard_write_fail, Toast.LENGTH_SHORT).show();
             } else {

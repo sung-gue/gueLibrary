@@ -15,7 +15,7 @@ import com.breakout.sample.BaseActivity;
 import com.breakout.sample.R;
 import com.breakout.sample.constant.Extra;
 import com.breakout.sample.constant.ReceiverName;
-import com.breakout.sample.util.CustomWebViewClientExt;
+import com.breakout.sample.utils.CustomWebViewClientExt;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.widget.ViewUtil;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -73,7 +73,10 @@ public class WebpageActivity extends BaseActivity implements CustomWebViewClient
             flWeb.addView(_progressBar);
             _progressBar.getLayoutParams().width = FrameLayout.LayoutParams.MATCH_PARENT;
             _progressBar.getLayoutParams().height = (int) ViewUtil.dp2px(3, this);
-            _progressBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(this, R.color.progress_webView), PorterDuff.Mode.SRC_IN);
+            _progressBar.getProgressDrawable().setColorFilter(
+                    ContextCompat.getColor(this, R.color.progress_webView),
+                    PorterDuff.Mode.SRC_IN
+            );
         }
 
     }

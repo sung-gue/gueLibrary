@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
  * @version 1.0 (2011-10-04)
  */
 public final class Log {
-    private final static String TAG = "com.breakout.util";
+    private final static String TAG = "breakout";
 
     private final static boolean DEBUG = CValue.DEBUG;
     private final static boolean TRACE_ENABLE = true;

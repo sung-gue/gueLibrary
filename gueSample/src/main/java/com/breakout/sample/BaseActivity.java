@@ -55,8 +55,6 @@ import com.breakout.sample.constant.ReceiverName;
 import com.breakout.sample.constant.SharedData;
 import com.breakout.sample.controller.AccountController;
 import com.breakout.sample.databinding.UiBaseLayoutBinding;
-import com.breakout.sample.device.speech.STTHelper;
-import com.breakout.sample.device.speech.TTSHelper;
 import com.breakout.sample.dto.UserDto;
 import com.breakout.sample.dto.data.User;
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
@@ -196,14 +194,15 @@ public abstract class BaseActivity extends AppCompatActivityEx
         if (Const.DEBUG) {
             if (uri != null || !TextUtils.isEmpty(uriMsg)) {
                 Log.i(String.format("\n---------------" +
-                                "\n| [%s] | from custom scheme uri (deep links)" +
-                                "\n| uri                : %s" +
-                                "\n| scheme host        : %s" +
-                                "\n| msg                : %s" +
-                                "\n| extra scheme host  : %s" +
-                                "\n| extra msg          : %s" +
-                                "\n-------------------",
-                        TAG, uri, _uriSchemeHost, _uriMsg, uriSchemeHost, uriMsg));
+                                    "\n| [%s] | from custom scheme uri (deep links)" +
+                                    "\n| uri                : %s" +
+                                    "\n| scheme host        : %s" +
+                                    "\n| msg                : %s" +
+                                    "\n| extra scheme host  : %s" +
+                                    "\n| extra msg          : %s" +
+                                    "\n-------------------",
+                        TAG, uri, _uriSchemeHost, _uriMsg, uriSchemeHost, uriMsg
+                ));
             }
         }
         checkFromURI(uri);
@@ -221,18 +220,6 @@ public abstract class BaseActivity extends AppCompatActivityEx
      * @see Extra#EX_URI_SCHEME_HOST
      */
     protected void checkFromURI(Uri uri) {
-    }
-
-
-    /*
-        INFO: TTS, STT
-     */
-    private void initTTS() {
-        new TTSHelper(this);
-    }
-
-    private void initSTT() {
-        new STTHelper(this);
     }
 
 
@@ -357,20 +344,25 @@ public abstract class BaseActivity extends AppCompatActivityEx
 
     protected void showLoginDialog(boolean isVisibleCheckbox, boolean isImmediatelyLogin) {
         if (!isFinishing() && _loginDialog == null && _context != null) {
-            _loginDialog = new LoginDialog(_context, isVisibleCheckbox, isImmediatelyLogin, new LoginDialog.OnClickListener() {
-                @Override
-                public void onCancle(boolean isCheck) {
-                    if (isCheck) {
-                        _shared.setLastLoginDialogViewTime(false);
-                    }
-                    onLoginDialogCancel();
-                }
+            _loginDialog = new LoginDialog(
+                    _context,
+                    isVisibleCheckbox,
+                    isImmediatelyLogin,
+                    new LoginDialog.OnClickListener() {
+                        @Override
+                        public void onCancle(boolean isCheck) {
+                            if (isCheck) {
+                                _shared.setLastLoginDialogViewTime(false);
+                            }
+                            onLoginDialogCancel();
+                        }
 
-                @Override
-                public void startLogin() {
-                    googleSignIn();
-                }
-            });
+                        @Override
+                        public void startLogin() {
+                            googleSignIn();
+                        }
+                    }
+            );
             _loginDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -874,7 +866,10 @@ public abstract class BaseActivity extends AppCompatActivityEx
 
     private Dialog getProgress2() {
         ProgressBar progressBar = new ProgressBar(_context, null, DialogView.Size.medium.defStyle);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(_context, R.color.progress_swipeRefreshLayout), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(
+                _context,
+                R.color.progress_swipeRefreshLayout
+        ), PorterDuff.Mode.MULTIPLY); //PorterDuff.Mode.SRC_IN
         DialogView dv = new DialogView(_context, progressBar, null);
 //        DialogView dv = new DialogView(_context, new ProgressBar(_context, null, DialogView.Size.medium.defStyle), null);
 //        DialogView dv = new DialogView(_context, DialogView.Size.small);
@@ -903,7 +898,10 @@ public abstract class BaseActivity extends AppCompatActivityEx
             }
         }
         if (!isFinishing() && imageView != null && imageView.getVisibility() == View.VISIBLE) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -915,7 +913,10 @@ public abstract class BaseActivity extends AppCompatActivityEx
             }
             Drawable drawable = WallpaperManager.getInstance(_context).getDrawable();
             if (imageView.getVisibility() == View.VISIBLE) {
-                PorterDuffColorFilter filter = new PorterDuffColorFilter(ContextCompat.getColor(this, R.color.bg_box01), PorterDuff.Mode.SRC_ATOP);
+                PorterDuffColorFilter filter = new PorterDuffColorFilter(
+                        ContextCompat.getColor(this, R.color.bg_box01),
+                        PorterDuff.Mode.SRC_ATOP
+                );
                 drawable.setColorFilter(filter);
                 imageView.setImageDrawable(drawable);
                 try {

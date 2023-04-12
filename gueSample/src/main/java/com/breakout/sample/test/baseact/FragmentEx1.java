@@ -1,4 +1,4 @@
-package com.breakout.sample;
+package com.breakout.sample.test.baseact;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,29 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.breakout.sample.constant.SharedData;
+import com.breakout.sample.Log;
+import com.breakout.sample.R;
 import com.breakout.util.FragmentEx;
 import com.breakout.util.img.ImageLoader;
 import com.breakout.util.widget.DialogView;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Locale;
 
-
 /**
- * {@link FragmentEx}를 상속받아 자주 사용되는 member value & method를 정의하여 사용한다.<br>
- * {@link FragmentEx}의 docs 참고.
- *
  * @author sung-gue
- * @version 1.0 (2016.03.07)
+ * @version 1.0 (2020-11-24)
  */
-public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListener> extends FragmentEx {
+public abstract class FragmentEx1<SHARED extends SharedDataEx, BASE_ACTIVITY extends ActivityEx<SHARED>, T extends FragmentEx1.OnFragmentActionListener> extends FragmentEx {
     /**
      * Fragment에서 Activity로 전달할 사항이 있을경우 구현하여 사용
      * <pre>
@@ -58,15 +55,17 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     public interface FragmentActionType {
     }
 
-    protected SharedData _shared;
+    protected SHARED _shared;
     protected ImageLoader _imageLoader;
     private T _onFragmentActionListener;
-    protected BaseActivity _baseActivity;
+    protected BASE_ACTIVITY _baseActivity;
     protected int _containerId;
 
-    public BaseFragment() {
+    public FragmentEx1() {
         super();
     }
+
+    protected abstract SHARED getSharedInstance(Context appContext);
 
 
     /*
@@ -76,15 +75,17 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     /**
      * Fragment가 Activity에 최초로 연결될 때 호출
      */
+    @SuppressWarnings("unchecked")
     @Override
-    public void onAttach(@NotNull Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            _baseActivity = (BaseActivity) _context;
+            _baseActivity = (BASE_ACTIVITY) _context;
         } catch (Exception e) {
             throw new ClassCastException(_context.toString() + " activity must extends BaseActivity");
         }
-        _shared = SharedData.getInstance(_appContext);
+        //_shared = (SHARED) IMSharedData.getInstance(_appContext);
+        _shared = getSharedInstance(_appContext);
         _imageLoader = ImageLoader.getInstance(_appContext);
         _imageLoader.setsdErrStr(getString(R.string.al_sdcard_strange_condition));
     }
@@ -105,17 +106,12 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         if (container != null) {
             _containerId = container.getId();
         }
-        return null;
+        return view;
     }
 
     /**
@@ -138,12 +134,14 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
      */
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        Log.i(TAG, String.format(Locale.getDefault(), "-------------------------------------------------\n" +
-                                                      "%s | startActivity\n" +
-                                                      "|  %s\n" +
-                                                      "|  requestCode : %d\n" +
-                                                      "|  component : %s\n" +
-                                                      "-------------------------------------------------",
+        Log.i(TAG, String.format(
+                Locale.getDefault(),
+                "-------------------------------------------------\n" +
+                "%s | startActivity\n" +
+                "|  %s\n" +
+                "|  requestCode : %d\n" +
+                "|  component : %s\n" +
+                "-------------------------------------------------",
                 TAG, intent, requestCode, intent != null ? intent.getComponent() : ""
         ));
         super.startActivityForResult(intent, requestCode);
@@ -189,7 +187,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
 //            DialogView dv = new DialogView(_context, DialogView.Size.small);
             _pDialog = dv.getDialog(false, false);
         }
-        if (!_baseActivity.isFinishing() && _pDialog != null && !_pDialog.isShowing()) {
+        if (_baseActivity != null && !_baseActivity.isFinishing() && !_pDialog.isShowing()) {
             try {
                 _pDialog.show();
             } catch (Exception e) {
@@ -216,7 +214,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
      * Activity의 option menu를 변경할 경우 작성
      */
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
             /*
             menu.clear();
@@ -225,7 +223,7 @@ public abstract class BaseFragment<T extends BaseFragment.OnFragmentActionListen
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             /*case android.R.id.home: {
                 getFragmentManager().popBackStack();

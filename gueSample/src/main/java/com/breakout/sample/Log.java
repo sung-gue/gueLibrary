@@ -2,7 +2,6 @@ package com.breakout.sample;
 
 import com.breakout.sample.constant.Const;
 
-
 /**
  * log switch according to {@link Log#DEBUG }
  *

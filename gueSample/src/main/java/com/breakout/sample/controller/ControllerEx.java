@@ -20,7 +20,7 @@ import com.breakout.sample.constant.SharedData;
 import com.breakout.sample.constant.Values;
 import com.breakout.sample.dto.BaseDto;
 import com.breakout.sample.ui.IntroActivity;
-import com.breakout.sample.util.GetAdidTask;
+import com.breakout.sample.utils.GetAdidTask;
 import com.breakout.util.CodeAction;
 import com.breakout.util.Util;
 import com.breakout.util.device.DeviceUtil;
@@ -51,7 +51,8 @@ public abstract class ControllerEx<T extends BaseDto> extends BaseController<T> 
     public ControllerEx(Context context, Handler handler, String sendUrl) {
         super(context, handler, sendUrl, Const.TEST);
         // network exception로 인해 생성되는 dialog의 문자 설정
-        setStringForDialog(context.getString(R.string.al_net_not_wake),
+        setStringForDialog(
+                context.getString(R.string.al_net_not_wake),
                 context.getString(R.string.al_conFail),
                 context.getString(R.string.ok),
                 context.getString(R.string.retry)

@@ -1,4 +1,4 @@
-package com.breakout.sample.util;
+package com.breakout.sample.utils;
 
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -107,7 +107,12 @@ public class CustomWebViewClientExt extends CustomWebViewClient {
             public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
                 Log.d(TAG, "WebChromeClient : onCreateWindow");
                 final WebView wv = new WebView(_context);
-                CustomWebViewClientExt client = new CustomWebViewClientExt(_baseAct, _listener, wv, WebSettings.LOAD_DEFAULT);
+                CustomWebViewClientExt client = new CustomWebViewClientExt(
+                        _baseAct,
+                        _listener,
+                        wv,
+                        WebSettings.LOAD_DEFAULT
+                );
                 wv.setLayoutParams(new ViewGroup.LayoutParams(-1, -1));
 
                 if (isDialog && false) {
@@ -255,7 +260,7 @@ public class CustomWebViewClientExt extends CustomWebViewClient {
             if (resultUrl.contains("atype=user") && !resultUrl.contains("&auth_key=")) {
                 com.breakout.util.Log.i(TAG, "CWVC | addQuery key url encode : " + url);
                 resultUrl = url +
-                        "&auth_key=" + URLEncoder.encode(url, "UTF-8");
+                            "&auth_key=" + URLEncoder.encode(url, "UTF-8");
             }
             /*if (uri.getHost().contains(Const.DOMAIN)) {
                 if (resultUrl.contains("atype=user") && !resultUrl.contains("&auth_key=")) {
@@ -361,7 +366,8 @@ public class CustomWebViewClientExt extends CustomWebViewClient {
             // INFO: 2020-03-31 쇼핑폴더 웹페이지가 추가되면 쇼핑폴더 앱 화면으로 이동이 가능한 코드 작성
         }
         // INFO: 2019-12-03 사이트주소로 핸들링이 필요할 때 현재 부분에 코드 작성
-        else if ((HTTP.equalsIgnoreCase(scheme) || HTTPS.equalsIgnoreCase(scheme)) && host != null && host.contains(DOMAIN)) {
+        else if ((HTTP.equalsIgnoreCase(scheme) || HTTPS.equalsIgnoreCase(scheme)) && host != null && host.contains(
+                DOMAIN)) {
             /*String addQueryUrl = addQuery(url);
             if (addQueryUrl != null && !addQueryUrl.equals(url)) {
                 view.loadUrl(addQueryUrl);
@@ -440,7 +446,8 @@ public class CustomWebViewClientExt extends CustomWebViewClient {
             return true;
         }
         // INFO: play store 실행 scheme인 market:// 을 체크하여 특정 id일 경우 모바일 홈페이지를 구동
-        else if ("market".equalsIgnoreCase(scheme) && Arrays.asList(protectLaunchMarketIdList).contains(uri.getQueryParameter("id"))) {
+        else if ("market".equalsIgnoreCase(scheme) && Arrays.asList(protectLaunchMarketIdList)
+                .contains(uri.getQueryParameter("id"))) {
             String marketId = uri.getQueryParameter("id");
             for (int i = 0; i < protectLaunchMarketIdList.length; i++) {
                 if (protectLaunchMarketIdList[i].equalsIgnoreCase(marketId)) {

@@ -79,14 +79,15 @@ public class ImageEntryActivity extends BaseActivity {
 
         if (StringUtil.nullCheckB(_uriSchemeHost)) {
             String contents = String.format("-----------------------------------------\n" +
-                            "%s | -- from custom scheme uri --\n" +
-                            "|    uri : %s\n" +
-                            "|    scheme host : %s\n" +
-                            "|    msg : %s\n" +
-                            "|    extra scheme host : %s\n" +
-                            "|    extra msg : %s\n" +
-                            "-----------------------------------------",
-                    TAG, uri, _uriSchemeHost, _uriMsg, uriSchemeHost, uriMsg);
+                                            "%s | -- from custom scheme uri --\n" +
+                                            "|    uri : %s\n" +
+                                            "|    scheme host : %s\n" +
+                                            "|    msg : %s\n" +
+                                            "|    extra scheme host : %s\n" +
+                                            "|    extra msg : %s\n" +
+                                            "-----------------------------------------",
+                    TAG, uri, _uriSchemeHost, _uriMsg, uriSchemeHost, uriMsg
+            );
 
             Log.i(TAG, contents);
             TextView(_bodyView, contents);

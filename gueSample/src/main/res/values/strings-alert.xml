@@ -41,8 +41,7 @@
     <string name="al_img_handle_fail">"사진을 처리하데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
     <string name="al_img_alter">"사진을 변환하는데 실패했습니다. 잠시후 다시 시도해 주세요."</string>
     <string name="al_sdcard_not_found">"원활한 사용을 위한 SDCard를 찾을수 없습니다. 확인하시고 다시 시도하여 주세요."</string>
-    <string
-        name="al_sdcard_lack_capacity">"SD카드의 저장공간이 부족합니다. 어플의 원할한 사용을 위해서 저장공간을 확보해 주세요"</string>
+    <string name="al_sdcard_lack_capacity">"SD카드의 저장공간이 부족합니다. 어플의 원할한 사용을 위해서 저장공간을 확보해 주세요"</string>
     <string name="al_sdcard_strange_condition">"SD카드에 이상이 있어 원활한 진행을 할 수 없습니다."</string>
     <string name="al_sdcard_fail_write">"파일쓰기에 실패하였습니다. SDcard불량이거나 남은 용량을 확인해주세요."</string>
 

@@ -170,15 +170,15 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         type += "%";
         Cursor c = _db.rawQuery(
                 "    select type, '첫차' as timeType , min(id) as id , min(time) as time , arrivalStation " +
-                        "    from TrainTimetable " +
-                        "    where type like ? " +
-                        "    group by type " +
-                        "    union " +
-                        "    select type, '막차' as timeType , max(id) as id , max(time) as time , arrivalStation " +
-                        "    from TrainTimetable " +
-                        "    where type like ? " +
-                        "    group by type, arrivalStation " +
-                        "    order by type, time"
+                "    from TrainTimetable " +
+                "    where type like ? " +
+                "    group by type " +
+                "    union " +
+                "    select type, '막차' as timeType , max(id) as id , max(time) as time , arrivalStation " +
+                "    from TrainTimetable " +
+                "    where type like ? " +
+                "    group by type, arrivalStation " +
+                "    order by type, time"
                 , new String[]{type, type}
         );
         ArrayList<TrainTimeTable> list = new ArrayList<>();
@@ -214,14 +214,14 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         String result = "계양";
         Cursor c = _db.rawQuery(
                 "    select group_concat(type), arrivalStation, sum(cnt) as sum " +
-                        "    from (select type, arrivalStation, count() as cnt " +
-                        "      from TrainTimetable " +
-                        "      group by type, arrivalStation " +
-                        "    )  " +
-                        "    where type like '%상행' " +
-                        "    group by arrivalStation " +
-                        "    order by sum desc " +
-                        "    limit 1"
+                "    from (select type, arrivalStation, count() as cnt " +
+                "      from TrainTimetable " +
+                "      group by type, arrivalStation " +
+                "    )  " +
+                "    where type like '%상행' " +
+                "    group by arrivalStation " +
+                "    order by sum desc " +
+                "    limit 1"
                 , null
         );
         if (c.moveToFirst()) {
@@ -235,14 +235,14 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         String result = "송도달빛축제공원";
         Cursor c = _db.rawQuery(
                 "    select group_concat(type), arrivalStation, sum(cnt) as sum " +
-                        "    from (select type, arrivalStation, count() as cnt " +
-                        "      from TrainTimetable " +
-                        "      group by type, arrivalStation " +
-                        "    )  " +
-                        "    where type like '%하행' " +
-                        "    group by arrivalStation " +
-                        "    order by sum desc " +
-                        "    limit 1"
+                "    from (select type, arrivalStation, count() as cnt " +
+                "      from TrainTimetable " +
+                "      group by type, arrivalStation " +
+                "    )  " +
+                "    where type like '%하행' " +
+                "    group by arrivalStation " +
+                "    order by sum desc " +
+                "    limit 1"
                 , null
         );
         if (c.moveToFirst()) {

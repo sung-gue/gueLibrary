@@ -43,7 +43,8 @@ public class UriActivity extends BaseActivity {
             List<RunningAppProcessInfo> procesesList = am.getRunningAppProcesses();
             List<RunningTaskInfo> taskList = am.getRunningTasks(procesesList.size());
             for (RunningTaskInfo info : taskList) {
-                if (!TextUtils.isEmpty(packageName) && packageName.equals(info.baseActivity.getPackageName()) && !TextUtils.isEmpty(className) && !className.equals(info.baseActivity.getClassName())) {
+                if (!TextUtils.isEmpty(packageName) && packageName.equals(info.baseActivity.getPackageName()) && !TextUtils.isEmpty(
+                        className) && !className.equals(info.baseActivity.getClassName())) {
                     aliveAppTask = true;
                     break;
                 }

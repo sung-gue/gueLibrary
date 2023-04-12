@@ -5,6 +5,7 @@ import com.breakout.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 
 /**
@@ -14,7 +15,7 @@ import java.net.URLDecoder;
  * @version 1.0 (2020. 8. 17.)
  */
 public final class EncodeUtil {
-    public static String TAG = "EncodeUtil";
+    public static String TAG = EncodeUtil.class.getSimpleName();
 
     /**
      * URLEncode된 string을 URLDecode 한다.
@@ -27,6 +28,16 @@ public final class EncodeUtil {
             Log.e(TAG, e.getMessage(), e);
         }
         return decodeStr;
+    }
+
+    public static String urlEncode(String str) {
+        String encodeStr = null;
+        try {
+            if (str != null) encodeStr = URLEncoder.encode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        return encodeStr;
     }
 
     public static String urlDecodeAndDecryptAES(String value, String key) {

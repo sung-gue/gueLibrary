@@ -10,7 +10,6 @@ import androidx.multidex.MultiDex;
 
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
 
-
 public class BaseApplication extends Application {
     private final String TAG = getClass().getSimpleName();
 
@@ -39,7 +38,7 @@ public class BaseApplication extends Application {
      */
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        Log.i(TAG + " | onConfigurationChanged");
+        Log.v(TAG, "onConfigurationChanged | " + newConfig);
         super.onConfigurationChanged(newConfig);
     }
 

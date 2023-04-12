@@ -86,7 +86,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannelData channelData = NotificationChannelData.getInstance(context);
             channelId = channelData.id;
 
-            NotificationChannel channel = new NotificationChannel(channelData.id, channelData.name, channelData.importance);
+            NotificationChannel channel = new NotificationChannel(
+                    channelData.id,
+                    channelData.name,
+                    channelData.importance
+            );
             channel.setDescription(channelData.description);
             channel.enableVibration(channelData.vibration);
             channel.setLockscreenVisibility(channelData.lockscreenVisibility);
@@ -233,7 +237,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(Extra.FCM_DATA, data);
         }
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, pushRequestcode /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                pushRequestcode /* Request code */,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationChannelData channelData = NotificationChannelData.getInstance(this);

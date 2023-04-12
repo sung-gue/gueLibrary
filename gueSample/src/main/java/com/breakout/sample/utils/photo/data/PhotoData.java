@@ -1,4 +1,4 @@
-package com.breakout.sample.util.photo.data;
+package com.breakout.sample.utils.photo.data;
 
 import android.media.ExifInterface;
 import android.os.Parcel;

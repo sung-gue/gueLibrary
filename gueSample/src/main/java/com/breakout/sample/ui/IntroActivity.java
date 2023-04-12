@@ -29,7 +29,7 @@ import com.breakout.sample.controller.InitController;
 import com.breakout.sample.dto.InitDto;
 import com.breakout.sample.dto.data.AppUpdateInfo;
 import com.breakout.sample.fcm.MyFirebaseMessagingService;
-import com.breakout.sample.util.GetAdidTask;
+import com.breakout.sample.utils.GetAdidTask;
 import com.breakout.sample.views.AppBar;
 import com.breakout.util.device.DeviceUtil;
 import com.breakout.util.storage.SharedStorage;
@@ -111,7 +111,8 @@ public class IntroActivity extends BaseActivity {
             facebook 지연된 딥 링크
             https://developers.facebook.com/docs/app-ads/deep-linking
          */
-        AppLinkData.fetchDeferredAppLinkData(this,
+        AppLinkData.fetchDeferredAppLinkData(
+                this,
                 new AppLinkData.CompletionHandler() {
                     @Override
                     public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
@@ -154,10 +155,10 @@ public class IntroActivity extends BaseActivity {
 
                             Log.i(true, TAG, String.format(
                                     "google play onInstallReferrer SetupFinished " +
-                                            "\n     referrerUrl : %s" +
-                                            "\n     referrerClickTime : %s" +
-                                            "\n     appInstallTime : %s" +
-                                            "\n     instantExperienceLaunched : %s"
+                                    "\n     referrerUrl : %s" +
+                                    "\n     referrerClickTime : %s" +
+                                    "\n     appInstallTime : %s" +
+                                    "\n     instantExperienceLaunched : %s"
                                     , referrerUrl, referrerClickTime, appInstallTime, instantExperienceLaunched
                             ));
                             if (!TextUtils.isEmpty(referrerUrl)) {
@@ -283,7 +284,8 @@ public class IntroActivity extends BaseActivity {
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialog) {
-                        ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(_context, R.color.gray));
+                        ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE)
+                                .setTextColor(ContextCompat.getColor(_context, R.color.gray));
                     }
                 });
                 DialogInterface.OnClickListener updateListener = new DialogInterface.OnClickListener() {

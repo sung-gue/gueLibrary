@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.RemoteViews;
 
-import com.breakout.sample.constant.Const;
 import com.breakout.sample.Log;
 import com.breakout.sample.R;
+import com.breakout.sample.constant.Const;
 import com.breakout.util.device.CameraUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -80,7 +80,12 @@ public class FlashWidgetConfigure {
     public static void setNotification(Context context, boolean showFlag) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (showFlag) {
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, new Intent(Const.BR_FLASH_WIDGET_NOTIFICATION), PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    new Intent(Const.BR_FLASH_WIDGET_NOTIFICATION),
+                    PendingIntent.FLAG_ONE_SHOT
+            );
             Notification noti;
             if (Build.VERSION.SDK_INT >= 11) {
                 Notification.Builder builder = new Notification.Builder(context);
@@ -98,12 +103,28 @@ public class FlashWidgetConfigure {
                     noti = builder.getNotification();
                 }
             } else {
-                noti = new Notification(R.mipmap.ic_launcher, context.getString(R.string.nt_flash_on), System.currentTimeMillis());
+                noti = new Notification(
+                        R.mipmap.ic_launcher,
+                        context.getString(R.string.nt_flash_on),
+                        System.currentTimeMillis()
+                );
                 noti.flags = Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;
                 try {
                     // noti.setLatestEventInfo(context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
-                    Method deprecatedMethod = noti.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
-                    deprecatedMethod.invoke(noti, context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
+                    Method deprecatedMethod = noti.getClass().getMethod(
+                            "setLatestEventInfo",
+                            Context.class,
+                            CharSequence.class,
+                            CharSequence.class,
+                            PendingIntent.class
+                    );
+                    deprecatedMethod.invoke(
+                            noti,
+                            context,
+                            context.getString(R.string.nt_flash_title),
+                            context.getString(R.string.nt_flash_on),
+                            pIntent
+                    );
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {

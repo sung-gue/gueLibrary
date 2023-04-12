@@ -143,16 +143,17 @@ public class AppBar extends AppBarLayout {
     public AppBar setIsFragmentUI(boolean isFragment) {
         _isFragment = isFragment;
         setHomeIcon();
-        _activity.getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                if (_activity.getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    setHomeIcon(true);
-                } else {
-                    setHomeIcon(false);
-                }
-            }
-        });
+        _activity.getSupportFragmentManager()
+                .addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+                    @Override
+                    public void onBackStackChanged() {
+                        if (_activity.getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                            setHomeIcon(true);
+                        } else {
+                            setHomeIcon(false);
+                        }
+                    }
+                });
         return this;
     }
 

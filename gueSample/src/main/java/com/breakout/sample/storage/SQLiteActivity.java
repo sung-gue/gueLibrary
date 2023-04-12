@@ -128,7 +128,13 @@ public class SQLiteActivity extends BaseActivity {
                         _etBirth.setText(formater.format(c.getTime()));
                     }
                 };
-                new DatePickerDialog(_context, listener, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(
+                        _context,
+                        listener,
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH)
+                ).show();
             }
         });
 
@@ -149,7 +155,7 @@ public class SQLiteActivity extends BaseActivity {
                 String birth = _etBirth.getText().toString();
 
                 if (!TextUtils.isEmpty(nick) && !TextUtils.isEmpty(email) &&
-                        !TextUtils.isEmpty(gender) && !TextUtils.isEmpty(birth)) {
+                    !TextUtils.isEmpty(gender) && !TextUtils.isEmpty(birth)) {
                     int userId = _dbHelper.getLastUserId();
                     ContentValues values = new ContentValues();
                     values.put(User.Entry.nick, nick);

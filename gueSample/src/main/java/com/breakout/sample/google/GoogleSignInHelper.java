@@ -99,15 +99,16 @@ public class GoogleSignInHelper {
         String email = account.getEmail();
         Uri photoUri = account.getPhotoUrl();
         Log.d(TAG, String.format("\n---------------" +
-                        "\n| GoogleSignInAccount " +
-                        "\n| idToken    : %s" +
-                        "\n| authCode   : %s" +
-                        "\n| id         : %s" +
-                        "\n| name       : %s" +
-                        "\n| email      : %s" +
-                        "\n| photoUri   : %s" +
-                        "\n-------------------",
-                idToken, authCode, id, name, email, photoUri));
+                                 "\n| GoogleSignInAccount " +
+                                 "\n| idToken    : %s" +
+                                 "\n| authCode   : %s" +
+                                 "\n| id         : %s" +
+                                 "\n| name       : %s" +
+                                 "\n| email      : %s" +
+                                 "\n| photoUri   : %s" +
+                                 "\n-------------------",
+                idToken, authCode, id, name, email, photoUri
+        ));
     }
 
     public void checkGoogleSignIn() {
@@ -129,31 +130,34 @@ public class GoogleSignInHelper {
      */
     public void signIn() {
         if (_activityResultLauncher == null) {
-            _activityResultLauncher = _activity.registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                int resultCode = result.getResultCode();
-                Intent intent = result.getData();
-                if (intent != null) {
-                    int requestCode = intent.getIntExtra(REQUEST_CODE, 0);
-                    Log.d(TAG, String.format(
-                            "ActivityResultLauncher onActivityResult request code %s / %s ",
-                            RC_GOOGLE_SIGN_IN, requestCode
-                    ));
-                }
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        Log.d(TAG, "signIn onActivityResult code : " + Activity.RESULT_OK);
-                        onActivityResultGoogleLogin(intent);
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Log.d(TAG, "signIn onActivityResult code : " + Activity.RESULT_CANCELED);
-                        onActivityResultGoogleLogin(intent);
-                        break;
-                    default:
-                        Log.d(TAG, "signIn onActivityResult code : " + resultCode);
-                        onActivityResultGoogleLogin(intent);
-                        break;
-                }
-            });
+            _activityResultLauncher = _activity.registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        int resultCode = result.getResultCode();
+                        Intent intent = result.getData();
+                        if (intent != null) {
+                            int requestCode = intent.getIntExtra(REQUEST_CODE, 0);
+                            Log.d(TAG, String.format(
+                                    "ActivityResultLauncher onActivityResult request code %s / %s ",
+                                    RC_GOOGLE_SIGN_IN, requestCode
+                            ));
+                        }
+                        switch (resultCode) {
+                            case Activity.RESULT_OK:
+                                Log.d(TAG, "signIn onActivityResult code : " + Activity.RESULT_OK);
+                                onActivityResultGoogleLogin(intent);
+                                break;
+                            case Activity.RESULT_CANCELED:
+                                Log.d(TAG, "signIn onActivityResult code : " + Activity.RESULT_CANCELED);
+                                onActivityResultGoogleLogin(intent);
+                                break;
+                            default:
+                                Log.d(TAG, "signIn onActivityResult code : " + resultCode);
+                                onActivityResultGoogleLogin(intent);
+                                break;
+                        }
+                    }
+            );
         }
         Intent signInIntent = _googleSignInClient.getSignInIntent();
         signInIntent.putExtra(REQUEST_CODE, RC_GOOGLE_SIGN_IN);

@@ -1,27 +1,33 @@
 package com.breakout.sample.device.speech;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.OnLifecycleEvent;
 
 import com.breakout.sample.R;
+import com.breakout.util.Log;
 import com.breakout.util.widget.CustomDialog;
 
 import java.util.ArrayList;
 
-public class STTHelper implements LifecycleObserver {
+/**
+ * Google Speech to text (speech recognizer)
+ *
+ * @author sung-gue
+ * @version 1.0 (2020-08-26)
+ */
+public class STTHelper implements LifecycleEventObserver {
     private final String TAG = getClass().getSimpleName();
 
     public interface SttListener {
@@ -30,50 +36,38 @@ public class STTHelper implements LifecycleObserver {
         void onSttError(int error, String msg);
     }
 
-    private final AppCompatActivity _activity;
-    private final Lifecycle _lifecycle;
-    private Intent _sttIntent;
-    private SpeechRecognizer _stt;
-    private SttListener _sttListener;
+    private final Context context;
+    private final Lifecycle lifecycle;
+    private Intent sttIntent;
+    private SpeechRecognizer stt;
+    private SttListener sttListener;
 
-    public STTHelper(AppCompatActivity activity) {
-        this._activity = activity;
-        this._lifecycle = activity.getLifecycle();
+    public STTHelper(@NonNull Lifecycle lifecycle, @NonNull Context context) {
+        this.lifecycle = lifecycle;
+        this.context = context;
+        this.lifecycle.addObserver(this);
         init();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    private void onCreate(LifecycleOwner source) {
-        Log.d(TAG, "lifecycle : onCreate");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private void onStart(LifecycleOwner source) {
-        Log.d(TAG, "lifecycle : onStart");
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void onDestroy() {
-        Log.d(TAG, "lifecycle : onDestroy");
-        _lifecycle.removeObserver(this);
-        destroy();
-    }
-
-    public SpeechRecognizer getSpeechRecognizer() {
-        return _stt;
+    @Override
+    public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            lifecycle.removeObserver(this);
+            destroy();
+        }
     }
 
     public void init() {
-        _sttIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        _sttIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, _activity.getPackageName());
-        _sttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-        _stt = SpeechRecognizer.createSpeechRecognizer(_activity);
-        _stt.setRecognitionListener(new RecognitionListener() {
+        sttIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        sttIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.getPackageName());
+        sttIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
+        stt = SpeechRecognizer.createSpeechRecognizer(context);
+        stt.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
                 // startListening()호출 후 음성이 입력되기 전 상태
                 Log.d(TAG, "RecognitionListener.onReadyForSpeech");
-                Toast.makeText(_activity, "음성인식을 시작합니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "음성인식을 시작합니다.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -142,10 +136,10 @@ public class STTHelper implements LifecycleObserver {
                         msg = "음성인식이 정상적으로 작동하지 않습니다.";
                         break;
                 }
-                if (_sttListener != null) {
-                    _sttListener.onSttError(error, msg);
+                if (sttListener != null) {
+                    sttListener.onSttError(error, msg);
                 } else {
-                    new CustomDialog(_activity)
+                    new CustomDialog(context)
                             .setCancel(false)
                             .setContents("음성인식 오류", msg)
                             .setOkBt(R.string.ok, new DialogInterface.OnClickListener() {
@@ -167,10 +161,10 @@ public class STTHelper implements LifecycleObserver {
                     msg += matches.get(i);
                 }
                 Log.d(TAG, "RecognitionListener.onResults complete : " + msg);
-                if (_sttListener != null) {
-                    _sttListener.onSttComplete(msg);
+                if (sttListener != null) {
+                    sttListener.onSttComplete(msg);
                 } else {
-                    new CustomDialog(_activity)
+                    new CustomDialog(context)
                             .setCancel(false)
                             .setContents("음성인식 결과", msg)
                             .setOkBt(R.string.yes, new DialogInterface.OnClickListener() {
@@ -200,13 +194,17 @@ public class STTHelper implements LifecycleObserver {
     }
 
     public SpeechRecognizer getSTT() {
-        return _stt;
+        return stt;
     }
 
-    private SttListener _sttListenerSample = new SttListener() {
+    public SpeechRecognizer getSpeechRecognizer() {
+        return stt;
+    }
+
+    private SttListener sttListenerSample = new SttListener() {
         @Override
         public void onSttComplete(String msg) {
-            new CustomDialog(_activity)
+            new CustomDialog(context)
                     .setCancel(false)
                     .setContents("음성인식 결과", msg)
                     .setOkBt(R.string.yes, new DialogInterface.OnClickListener() {
@@ -226,7 +224,7 @@ public class STTHelper implements LifecycleObserver {
 
         @Override
         public void onSttError(int error, String msg) {
-            new CustomDialog(_activity)
+            new CustomDialog(context)
                     .setCancel(false)
                     .setContents("음성인식 결과", msg)
                     .setOkBt(R.string.ok, new DialogInterface.OnClickListener() {
@@ -239,20 +237,23 @@ public class STTHelper implements LifecycleObserver {
     };
 
     public void startListening(SttListener sttListener) {
-        _sttListener = sttListener;
-        _stt.startListening(_sttIntent);
+        Log.v(TAG, "stt startListening");
+        this.sttListener = sttListener;
+        stt.startListening(sttIntent);
     }
 
     public void stopListening() {
-        _stt.stopListening();
+        Log.v(TAG, "stt stopListening");
+        stt.stopListening();
     }
 
     public void destroy() {
-        if (_stt != null) {
-            _stt.stopListening();
-            _stt.cancel();
-            _stt.destroy();
-            _stt = null;
+        Log.v(TAG, "stt destroy");
+        if (stt != null) {
+            stt.stopListening();
+            stt.cancel();
+            stt.destroy();
+            stt = null;
         }
     }
 }

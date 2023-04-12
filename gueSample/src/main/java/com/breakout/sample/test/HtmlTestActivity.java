@@ -44,16 +44,23 @@ public class HtmlTestActivity extends BaseActivity {
         TextView tv = TextView(_bodyView, "html str test");
 //		TextView tv = new TextView(this);
         tv.setTextColor(Color.parseColor("#ff000000"));
-        tv.setLayoutParams(ViewUtil.getMarginLayoutParams(_context, new LinearLayout.LayoutParams(-2, -2), 10, 10, 10, 10));
+        tv.setLayoutParams(ViewUtil.getMarginLayoutParams(
+                _context,
+                new LinearLayout.LayoutParams(-2, -2),
+                10,
+                10,
+                10,
+                10
+        ));
         String str = "<p>hi~ !!</p>" +
-                "<p>hi~ !!</p>" +
-                "<p>last update : 2013-11-20 5:35</p>" +
-                "<p style='text-align: center; float: none; clear: none; font-weight: bold; color: red;'> 	download APK file </p>" +
-                "<p > <font color='red'>	download APK file </fonr></p>" +
-                "<p ><em> <font color='green'>	download APK file </fonr> </em></p>" +
-                "" +
-                "" +
-                "<hr width='100%'/><br/>";
+                     "<p>hi~ !!</p>" +
+                     "<p>last update : 2013-11-20 5:35</p>" +
+                     "<p style='text-align: center; float: none; clear: none; font-weight: bold; color: red;'> 	download APK file </p>" +
+                     "<p > <font color='red'>	download APK file </fonr></p>" +
+                     "<p ><em> <font color='green'>	download APK file </fonr> </em></p>" +
+                     "" +
+                     "" +
+                     "<hr width='100%'/><br/>";
         tv.setText(Html.fromHtml(str));
 //		_vParent.addView(tv);
 
@@ -77,7 +84,11 @@ public class HtmlTestActivity extends BaseActivity {
                 return drawable;
             }
         };
-        Spanned span = Html.fromHtml("<img src=\"(가나)\" style=\"width:50px;height:50px;\" />나 놀랐니? (놀람) <img src=\"(놀람)\" style=\"width:50px;height:50px;\" /> 응? <br/> 정말 그런가??? ㅋ<br/> <img src=\"(대표아이콘)\"  style=\"width:50px;height:50px;\" />", imageGetter, null);
+        Spanned span = Html.fromHtml(
+                "<img src=\"(가나)\" style=\"width:50px;height:50px;\" />나 놀랐니? (놀람) <img src=\"(놀람)\" style=\"width:50px;height:50px;\" /> 응? <br/> 정말 그런가??? ㅋ<br/> <img src=\"(대표아이콘)\"  style=\"width:50px;height:50px;\" />",
+                imageGetter,
+                null
+        );
         tvHtml.setText(span);
         tvHtml.setBackgroundColor(Color.BLUE);
     }

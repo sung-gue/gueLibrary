@@ -1,4 +1,4 @@
-package com.breakout.sample.util;
+package com.breakout.sample.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
