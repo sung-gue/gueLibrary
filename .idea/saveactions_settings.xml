@@ -14,8 +14,8 @@
     <option name="configurationPath" value="" />
     <option name="inclusions">
       <set>
-        <option value=".*\.java" />
-        <option value="res/.*\.xml" />
+        <option value=".*\.java1" />
+        <option value="res/.*\.xml1" />
       </set>
     </option>
   </component>
