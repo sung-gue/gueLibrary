@@ -107,7 +107,14 @@ public class BaseNet {
         logBuilder.append("\nend set params --");
 
         URI uri = new URI(sendUrl);
-        uri = URIUtils.createURI(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath(), URLEncodedUtils.format(params, HTTP.UTF_8), null);
+        uri = URIUtils.createURI(
+                uri.getScheme(),
+                uri.getHost(),
+                uri.getPort(),
+                uri.getPath(),
+                URLEncodedUtils.format(params, HTTP.UTF_8),
+                null
+        );
         HttpGet httpRequest = new HttpGet(uri);
 
         logBuilder.append("\n-- set header");
@@ -137,7 +144,10 @@ public class BaseNet {
     public String sendRequest(HttpMethod method, String sendUrl, HashMap<String, String> requestHeaderMap, HashMap<String, String> requestMap) throws Exception {
         if (_client == null) _client = createHttpClient();
 
-        StringBuilder logBuilder = new StringBuilder(String.format("start http %s request start ... \n-- set params", method));
+        StringBuilder logBuilder = new StringBuilder(String.format(
+                "start http %s request start ... \n-- set params",
+                method
+        ));
         StringBuilder urlBuilder = new StringBuilder(String.format("\n-- url : %s?", sendUrl));
 
         Vector<NameValuePair> params = new Vector<>();
@@ -160,7 +170,14 @@ public class BaseNet {
             case DELETE:
             default:
                 uri = new URI(sendUrl);
-                uri = URIUtils.createURI(uri.getScheme(), uri.getHost(), uri.getPort(), uri.getPath(), URLEncodedUtils.format(params, HTTP.UTF_8), null);
+                uri = URIUtils.createURI(
+                        uri.getScheme(),
+                        uri.getHost(),
+                        uri.getPort(),
+                        uri.getPath(),
+                        URLEncodedUtils.format(params, HTTP.UTF_8),
+                        null
+                );
                 switch (method) {
                     case DELETE:
                         httpRequest = new HttpDelete(uri);
@@ -246,7 +263,10 @@ public class BaseNet {
         }
         if (_client == null) _client = createHttpClient();
 
-        StringBuilder logBuilder = new StringBuilder(String.format("start http %s multipart request start ... \n-- set params", method));
+        StringBuilder logBuilder = new StringBuilder(String.format(
+                "start http %s multipart request start ... \n-- set params",
+                method
+        ));
         StringBuilder urlBuilder = new StringBuilder(String.format("\n-- url : %s?", sendUrl));
 
         /*
@@ -331,7 +351,8 @@ public class BaseNet {
 //        schemeReg.register(new Scheme("https", PlainSocketFactory.getSocketFactory(), 443));
 
         ClientConnectionManager conMgr = new ThreadSafeClientConnManager(params, schemeReg);
-        return new DefaultHttpClient(conMgr, params);
+        return new DefaultHttpClient(params);
+        // return new DefaultHttpClient(conMgr, params);
     }
 
     /**
