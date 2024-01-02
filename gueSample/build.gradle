@@ -360,6 +360,13 @@ dependencies {
     // RollingText | https://github.com/YvesCheung/RollingText
     implementation "com.github.YvesCheung:RollingText:1.2.5"
 
+    // Glide | https://github.com/bumptech/glide
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+
+    // OkHttp | https://square.github.io/okhttp/
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
 
     /* ------------------------------------------------------------
         Blurry View

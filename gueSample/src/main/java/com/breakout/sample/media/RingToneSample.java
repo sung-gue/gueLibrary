@@ -28,13 +28,21 @@ public class RingToneSample extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        playRingTone();
+        playRingTone(1);
     }
 
-    private void playRingTone() {
-        // playRingTone1(null);
-        playRingTone2(null);
-        // playRingTone3(null);
+    private void playRingTone(int num) {
+        switch (num) {
+            default:
+                playRingTone(null);
+                break;
+            case 1:
+                playRingTone1(null);
+                break;
+            case 2:
+                playRingTone2(null);
+                break;
+        }
     }
 
     private void stopRingTone() {
@@ -47,32 +55,7 @@ public class RingToneSample extends AppCompatActivity {
         }
     }
 
-    private void playRingTone1(View view) {
-        // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
-        if (view != null) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                    } else {
-                        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-                        mediaPlayer.setLooping(true);
-                        mediaPlayer.start();
-                    }
-                }
-            });
-        }
-    }
-
-    private void playRingTone2(View view) {
+    private void playRingTone(View view) {
         // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -118,7 +101,32 @@ public class RingToneSample extends AppCompatActivity {
         }
     }
 
-    private void playRingTone3(View view) {
+    private void playRingTone1(View view) {
+        // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        if (view != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    } else {
+                        mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+                        mediaPlayer.setLooping(true);
+                        mediaPlayer.start();
+                    }
+                }
+            });
+        }
+    }
+
+    private void playRingTone2(View view) {
         // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         // Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -141,4 +149,9 @@ public class RingToneSample extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopRingTone();
+    }
 }
