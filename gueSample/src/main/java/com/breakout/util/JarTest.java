@@ -1,6 +1,6 @@
 package com.breakout.util;
 
-public class Jar {
+public class JarTest {
 
     public static void main(String args[]) {
     }

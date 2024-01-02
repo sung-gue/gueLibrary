@@ -1,11 +1,12 @@
 ### gradlew 사용
+
 ```shell
 $ chmod 744 gradlew
 $ ./gradlew signingReport
 ```
 
-
 ### dev
+
 ```shell
 $ keytool -list -v -alias androiddebugkey -keystore ./keys/debug.keystore -storepass android -keypass android
     별칭 이름: androiddebugkey
@@ -28,8 +29,8 @@ $ keytool -exportcert -alias androiddebugkey -keystore ./keys/debug.keystore -st
     OMLmEYh9LkX72aLbfvD9qUhkaao=
 ```
 
-
 ### release
+
 ```shell
 $ keytool -list -v -alias breakout_release_key -keystore ./keys/breakout.keystore -storepass breakout2019 -keypass breakout2019
     별칭 이름: breakout_release_key
@@ -52,12 +53,15 @@ $ keytool -exportcert -alias breakout_release_key -keystore ./keys/breakout.keys
     kMO24LGIddJXBvqgTXPhxwkeJbc=
 ```
 
-
 ### playstore
+
 ```shell
     인증서 지문:
-         MD5:
-         SHA1:
-         SHA256:
-     key_hash:
+         MD5: 6A:97:8E:0C:23:DD:34:84:A7:6E:F7:C5:FE:45:F4:B4
+         SHA1: 12:96:23:86:E6:96:B9:ED:81:52:09:E9:21:23:24:57:BD:C0:DA:CD
+         SHA256: CA:30:66:D9:5A:48:27:E6:83:AB:4D:94:F1:95:82:C3:CC:52:64:14:BC:4B:4A:7D:9A:5C:6A:76:15:0C:9E:01
+     key_hash: EpYjhuaWue2BUgnpISMkV73A2s0=
+     
+$ echo "12:96:23:86:E6:96:B9:ED:81:52:09:E9:21:23:24:57:BD:C0:DA:CD" | xxd -r -p | openssl base64
+EpYjhuaWue2BUgnpISMkV73A2s0=
 ```

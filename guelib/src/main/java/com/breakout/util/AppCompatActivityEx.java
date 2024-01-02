@@ -130,6 +130,18 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.v(_TAG, TAG + " | onWindowFocusChanged, isfinishing : " + isFinishing());
+        super.onWindowFocusChanged(hasFocus);
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        Log.v(_TAG, TAG + " | onUserLeaveHint, isfinishing : " + isFinishing());
+        super.onUserLeaveHint();
+    }
+
+    @Override
     public void finish() {
         Log.v(_TAG, TAG + " | finish, isfinishing : " + isFinishing());
         Log.d(_TAG, LogUtil.getActivityTaskLog(this, String.format(

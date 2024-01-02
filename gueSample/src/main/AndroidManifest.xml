@@ -148,6 +148,7 @@
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -156,6 +157,7 @@
 
         <activity
             android:name=".ui.IntroActivity"
+            android:exported="true"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -178,6 +180,7 @@
 
         <activity
             android:name=".UriActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Translucent"
             android:windowSoftInputMode="adjustPan">
@@ -207,6 +210,7 @@
         <!--android:configChanges="orientation|keyboardHidden|keyboard|screenSize|loacal" -->
         <activity
             android:name=".ui.MainActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:windowSoftInputMode="adjustPan">
@@ -224,6 +228,7 @@
 
         <activity
             android:name=".ui.viewpager.MultipleViewPagerActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -240,6 +245,7 @@
 
         <activity
             android:name=".ui.viewpager.viewpager2.MultipleViewPagerActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -256,6 +262,7 @@
 
         <activity
             android:name=".ui.viewpager.viewpager3.MultipleViewPagerActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -272,6 +279,7 @@
 
         <activity
             android:name=".ui.recyclerview.ListActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -288,6 +296,7 @@
 
         <activity
             android:name=".ui.WebpageActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -306,6 +315,7 @@
         <!-- INFO: Navigation UI -->
         <activity
             android:name=".component.navigation.NavigationActivity"
+            android:exported="true"
             android:label="Navigation">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -315,6 +325,7 @@
         <!-- INFO: LifeCycle -->
         <activity
             android:name=".architecture.lifecycle.SampleActivity"
+            android:exported="true"
             android:label="LifeCycle">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -324,6 +335,7 @@
         <!-- INFO: GrantPermission -->
         <activity
             android:name=".device.permission.GrantPermissionActivity"
+            android:exported="true"
             android:label="GrantPermission">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -332,6 +344,7 @@
 
         <activity
             android:name=".device.permission.GrantPermissionActivity1"
+            android:exported="true"
             android:label="GrantPermission1">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -340,6 +353,7 @@
 
         <activity
             android:name=".device.permission.GrantPermissionActivity2"
+            android:exported="true"
             android:label="GrantPermission2">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -354,6 +368,7 @@
         <!-- sqlite 사용 예시 -->
         <activity
             android:name=".storage.SQLiteActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar"
@@ -363,6 +378,7 @@
         <!-- 사진 공유나 보내기 등을 이용하여 진입하게 될때 최초 intent를 받는 activity -->
         <activity
             android:name=".ImageEntryActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="sensor"
@@ -408,6 +424,7 @@
         <!-- 내부 라이브러리를 이용한 Image 선택 -->
         <activity
             android:name=".image_filter_gue.ImageSelectActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -415,6 +432,7 @@
         <!-- 내부 라이브러리를 이용한 Image Filter 적용 -->
         <activity
             android:name=".image_filter_gue.ImageFilterActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -423,6 +441,7 @@
         <!-- Custom View를 이용한 Dialog 변형 적용 -->
         <activity
             android:name=".ui.DialogActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -431,6 +450,7 @@
         <!-- 홈에 아이콘 추가 -->
         <activity
             android:name=".ui.BookMarkActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar.FullScreen.Translucent" />
@@ -439,6 +459,7 @@
         <!-- Notification -->
         <activity
             android:name=".ui.NotificationActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -447,6 +468,7 @@
         <!-- Theme -->
         <activity
             android:name=".theme.ThemeActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="sensor"
@@ -456,6 +478,7 @@
         <!-- Share WebView -->
         <activity
             android:name=".web.WebViewActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar"
@@ -471,6 +494,7 @@
 
         <activity
             android:name=".web.WebView2Activity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar"
@@ -480,6 +504,7 @@
         <!-- Camera Flash -->
         <activity
             android:name=".device.flash.FlashActivity"
+            android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -488,6 +513,7 @@
         <!-- Widget -->
         <receiver
             android:name=".device.flash.FlashWidget1x1Provider"
+            android:exported="true"
             android:label="GUE FLASH 1x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -500,6 +526,7 @@
 
         <receiver
             android:name=".device.flash.FlashWidget2x1Provider"
+            android:exported="true"
             android:label="GUE FLASH 2x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -510,12 +537,15 @@
                 android:resource="@xml/widget_flash_2x1" />
         </receiver>
 
-        <service android:name=".device.flash.FlashWidgetUpdateService" />
+        <service
+            android:name=".device.flash.FlashWidgetUpdateService"
+            android:exported="true" />
 
 
         <!-- test -->
         <activity
             android:name=".test.HtmlTestActivity"
+            android:exported="true"
             android:configChanges="orientation|keyboard"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme.NoActionBar"
