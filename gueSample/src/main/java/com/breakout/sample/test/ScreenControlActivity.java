@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.breakout.sample.Log;
 
 @SuppressWarnings("unused")
-public class ControlScreenActivity extends AppCompatActivity {
+public class ScreenControlActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     @Override
@@ -45,43 +45,69 @@ public class ControlScreenActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
+    private final String TagHideSystemUI = "hideSystemUI";
+    private View.OnSystemUiVisibilityChangeListener onSystemUiVisibilityChangeListener;
+
     private void hideSystemUI() {
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-        /*uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;*/
-        /*uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;*/
-        /*uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;*/
+        // WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+
         View decorView = getWindow().getDecorView();
-//        decorView.setSystemUiVisibility(uiOptions);
+        int uiOptions =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
+        Log.d(TagHideSystemUI, "run hideSystemUI");
+
         /*ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.show();
         }*/
+
         /*getWindow().getDecorView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 getWindow().getDecorView().setSystemUiVisibility(uiOptions);
             }
         });*/
-        /*getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                // Note that system bars will only be "visible" if none of the LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-                if ((visibility & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0 || (visibility & View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION) == 0) {
-                    // TODO: The system bars are visible. Make any desired
-                    // adjustments to your UI, such as showing the action bar or other navigational controls.
-                    Log.w("test onSystemUiVisibilityChange 1");
-                    hideSystemUI();
-                } else {
-                    // TODO: The system bars are NOT visible. Make any desired
-                    // adjustments to your UI, such as hiding the action bar or other navigational controls.
-                    Log.w("test onSystemUiVisibilityChange 2");
-                    hideSystemUI();
+
+        if (onSystemUiVisibilityChangeListener == null) {
+            onSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
+                @Override
+                public void onSystemUiVisibilityChange(int visibility) {
+                    // Note that system bars will only be "visible" if none of the LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+                    if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                        // TODO: The system bars are visible. Make any desired
+                        // adjustments to your UI, such as showing the action bar or other navigational controls.
+                        getWindow().getDecorView().setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                        Log.d(TagHideSystemUI, "onSystemUiVisibilityChange (system bars visible) : " + visibility);
+                    } else {
+                        // TODO: The system bars are NOT visible. Make any desired
+                        // adjustments to your UI, such as hiding the action bar or other navigational controls.
+                        Log.d(TagHideSystemUI, "onSystemUiVisibilityChange (system bars gone) : " + visibility);
+                    }
                 }
-            }
-        });*/
+            };
+            decorView.setOnSystemUiVisibilityChangeListener(onSystemUiVisibilityChangeListener);
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d(TagHideSystemUI, "onWindowFocusChanged : " + hasFocus);
+        if (hasFocus) {
+            hideSystemUI();
+        }
     }
 
     /**
