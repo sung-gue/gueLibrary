@@ -102,6 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return channelId;
     }
 
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // [START_EXCLUDE]
@@ -185,6 +186,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (TextUtils.isEmpty(data.subTitle)) data.subTitle = data.title;
         if (TextUtils.isEmpty(data.subBody)) data.subBody = data.body;
 
+
         /*
             check member
          */
@@ -241,7 +243,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 this,
                 pushRequestcode /* Request code */,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+                // PendingIntent.FLAG_UPDATE_CURRENT
         );
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 

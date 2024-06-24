@@ -35,7 +35,10 @@ import com.breakout.util.device.DeviceUtil;
 import com.breakout.util.storage.SharedStorage;
 import com.breakout.util.widget.CustomDialog;
 import com.facebook.applinks.AppLinkData;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 
@@ -99,6 +102,24 @@ public class IntroActivity extends BaseActivity {
                     checkAlarmAgree();
                 }
             }).execute();
+            FirebaseMessaging.getInstance().getToken()
+                    .addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            String token = null;
+                            if (!task.isSuccessful()) {
+                                Log.w(TAG, "Fetching FCM registration token failed ", task.getException());
+                                return;
+                            }
+                            try {
+                                // Get new FCM registration token
+                                token = task.getResult();
+                                Log.i(TAG, "Fetching FCM registration token :" + token);
+                            } catch (Exception e) {
+                                Log.e(TAG, e.getMessage(), e);
+                            }
+                        }
+                    });
         }
     }
 

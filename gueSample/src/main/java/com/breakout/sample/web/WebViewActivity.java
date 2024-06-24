@@ -136,7 +136,7 @@ public class WebViewActivity extends BaseActivity implements OnClickListener {
             settings.setLoadWithOverviewMode(true);
             settings.setUseWideViewPort(true);
             settings.setDomStorageEnabled(true);
-            settings.setAppCacheEnabled(true);
+            // settings.setAppCacheEnabled(true);
             settings.setJavaScriptCanOpenWindowsAutomatically(false);
             try {
                 settings.setJavaScriptEnabled(true);

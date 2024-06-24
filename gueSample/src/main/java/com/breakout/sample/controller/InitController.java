@@ -15,8 +15,7 @@ import com.breakout.sample.utils.GetAdidTask;
 import com.breakout.util.net.HttpMethod;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -43,22 +42,21 @@ public class InitController extends ControllerEx<InitDto> {
         new GetAdidTask(_context, new GetAdidTask.OnFinishGetAdidListener() {
             @Override
             public void OnFinishGetAdid(final String adid) {
-                FirebaseInstanceId.getInstance()
-                        .getInstanceId()
-                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
                             @Override
-                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            public void onComplete(@NonNull Task<String> task) {
                                 String token = null;
                                 if (!task.isSuccessful()) {
-                                    Log.w(TAG, "getInstanceId failed ", task.getException());
-                                } else {
-                                    try {
-                                        // Get new Instance ID token
-                                        token = task.getResult().getToken();
-                                        Log.w(TAG, "getInstanceId success, fcmToken :" + token);
-                                    } catch (Exception e) {
-                                        Log.e(TAG, e.getMessage(), e);
-                                    }
+                                    Log.w(TAG, "Fetching FCM registration token failed ", task.getException());
+                                    return;
+                                }
+                                try {
+                                    // Get new FCM registration token
+                                    token = task.getResult();
+                                    Log.i(TAG, "Fetching FCM registration token :" + token);
+                                } catch (Exception e) {
+                                    Log.e(TAG, e.getMessage(), e);
                                 }
 
                                 String androidId = null;
