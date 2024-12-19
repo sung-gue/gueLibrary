@@ -155,7 +155,6 @@ repositories {
 
 dependencies {
     /*  ex
-        implementation fileTree(dir: "libs", include: ["*.jar"])
         implementation project(":[module-name ]")
         implementation "[group-id]:[artifact-id]:[version]"
         implementation group: "[group-id]", name: "[artifact-id]", version: "[version]"
@@ -360,23 +359,24 @@ dependencies {
     implementation "org.jsoup:jsoup:1.13.1"
 
     // Snacktory | https://github.com/karussell/snacktory
-    implementation "com.github.karussell:snacktory:c05c5ec338"
+//    implementation "com.github.karussell:snacktory:c05c5ec338"
 
     // CameraView | https://github.com/natario1/CameraView
     api "com.otaliastudios:cameraview:2.7.1"
 
     // Facebook SDK
     implementation "com.facebook.android:facebook-android-sdk:[5,6)"
-    implementation group: "com.kakao.sdk", name: "v2-share", version: "2.20.1"
+    implementation "com.kakao.sdk:v2-share:2.20.6"
 
     // RemoteMonster | https://github.com/RemoteMonster/android-sdk
-    api "com.remotemonster:sdk:2.7.2"
+//    api "com.remotemonster:sdk:2.7.2"
 
     // RollingText | https://github.com/YvesCheung/RollingText
-    implementation "com.github.YvesCheung:RollingText:1.2.5"
+    // https://mvnrepository.com/artifact/com.github.YvesCheung.RollingText/RollingText
+//    implementation "com.github.YvesCheung.RollingText:RollingText:1.3.0"
 
     // Glide | https://github.com/bumptech/glide
-    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
     // OkHttp | https://square.github.io/okhttp/

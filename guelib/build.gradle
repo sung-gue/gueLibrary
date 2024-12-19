@@ -150,5 +150,7 @@ dependencies {
 
     // TODO delete
     // Snacktory | https://github.com/karussell/snacktory
-    implementation "com.github.karussell:snacktory:c05c5ec338"
+//    implementation "com.github.karussell:snacktory:c05c5ec338"
+//    implementation "com.github.karussell:snacktory:1.2-SNAPSHOT"
+//    implementation "de.jetwick:snacktory:1.2-SNAPSHOT"
 }
