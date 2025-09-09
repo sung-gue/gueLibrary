@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -86,13 +87,19 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
         _appContext = getApplicationContext();
         super.onCreate(savedInstanceState);
 
-        Log.d(_TAG, LogUtil.getActivityTaskLog(this, String.format(
-                "%s - onCreate()", TAG
-        )));
+        Log.d(
+                _TAG, LogUtil.getActivityTaskLog(
+                        this, String.format(
+                                "%s - onCreate()", TAG
+                        )
+                )
+        );
         try {
-            Log.d(_TAG, LogUtil.getIntentCheckLog(
-                    getIntent(), String.format("%s - onCreate()", TAG)
-            ));
+            Log.d(
+                    _TAG, LogUtil.getIntentCheckLog(
+                            getIntent(), String.format("%s - onCreate()", TAG)
+                    )
+            );
         } catch (Exception e) {
             Log.e(_TAG, TAG + " | " + e.getMessage(), e);
         }
@@ -144,9 +151,13 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @Override
     public void finish() {
         Log.v(_TAG, TAG + " | finish, isfinishing : " + isFinishing());
-        Log.d(_TAG, LogUtil.getActivityTaskLog(this, String.format(
-                "%s - finish()", TAG
-        )));
+        Log.d(
+                _TAG, LogUtil.getActivityTaskLog(
+                        this, String.format(
+                                "%s - finish()", TAG
+                        )
+                )
+        );
         super.finish();
     }
 
@@ -299,7 +310,9 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
      */
     protected void registerfinishReceiver(String filterName) {
         _finishReceiverIsRegistered = true;
-        registerReceiver(finishReceiver, new IntentFilter(filterName));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(finishReceiver, new IntentFilter(filterName), Context.RECEIVER_NOT_EXPORTED);
+        }
     }
 
     private final BroadcastReceiver finishReceiver = new BroadcastReceiver() {
@@ -313,10 +326,12 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(_TAG, String.format(
-                "%s | requestCode = %s, resultCode = %s, intent = %s",
-                TAG, requestCode, resultCode, data
-        ));
+        Log.d(
+                _TAG, String.format(
+                        "%s | requestCode = %s, resultCode = %s, intent = %s",
+                        TAG, requestCode, resultCode, data
+                )
+        );
     }
 
     /**
@@ -326,9 +341,13 @@ public abstract class AppCompatActivityEx extends AppCompatActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         try {
-            Log.d(_TAG, LogUtil.getIntentCheckLog(intent, String.format(
-                    "%s - startActivityForResult() - requestCode=%s", TAG, requestCode
-            )));
+            Log.d(
+                    _TAG, LogUtil.getIntentCheckLog(
+                            intent, String.format(
+                                    "%s - startActivityForResult() - requestCode=%s", TAG, requestCode
+                            )
+                    )
+            );
         } catch (Exception e) {
             Log.e(_TAG, TAG + " | " + e.getMessage(), e);
         }

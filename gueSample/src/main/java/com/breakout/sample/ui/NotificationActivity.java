@@ -50,7 +50,11 @@ public class NotificationActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://www.naver.com"));
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                // PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pIntent = PendingIntent.getActivity(
+                        _appContext, 0, intent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -82,7 +86,13 @@ public class NotificationActivity extends BaseActivity {
 //	    			noti.defaults = Notification.DEFAULT_ALL;			// sound, vibration, lights 동작
                     try {
                         // noti.setLatestEventInfo(context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
-                        Method deprecatedMethod = noti.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                        Method deprecatedMethod = noti.getClass().getMethod(
+                                "setLatestEventInfo",
+                                Context.class,
+                                CharSequence.class,
+                                CharSequence.class,
+                                PendingIntent.class
+                        );
                         deprecatedMethod.invoke(noti, _context, contentTitle, contentTitle, pIntent);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
@@ -109,7 +119,12 @@ public class NotificationActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://www.naver.com"));
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pIntent = PendingIntent.getActivity(
+                        _appContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -142,7 +157,12 @@ public class NotificationActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://www.naver.com"));
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pIntent = PendingIntent.getActivity(
+                        _appContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 Notification noti;
@@ -173,7 +193,13 @@ public class NotificationActivity extends BaseActivity {
 //	    			noti.defaults = Notification.DEFAULT_ALL;			// sound, vibration, lights 동작
                     try {
                         // noti.setLatestEventInfo(context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
-                        Method deprecatedMethod = noti.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                        Method deprecatedMethod = noti.getClass().getMethod(
+                                "setLatestEventInfo",
+                                Context.class,
+                                CharSequence.class,
+                                CharSequence.class,
+                                PendingIntent.class
+                        );
                         deprecatedMethod.invoke(noti, _context, contentTitle, contentTitle, pIntent);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
@@ -198,7 +224,12 @@ public class NotificationActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://www.naver.com"));
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pIntent = PendingIntent.getActivity(
+                        _appContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 Notification noti;
@@ -229,7 +260,13 @@ public class NotificationActivity extends BaseActivity {
 //	    			noti.defaults = Notification.DEFAULT_ALL;			// sound, vibration, lights 동작
                     try {
                         // noti.setLatestEventInfo(context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
-                        Method deprecatedMethod = noti.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                        Method deprecatedMethod = noti.getClass().getMethod(
+                                "setLatestEventInfo",
+                                Context.class,
+                                CharSequence.class,
+                                CharSequence.class,
+                                PendingIntent.class
+                        );
                         deprecatedMethod.invoke(noti, _context, contentTitle, contentTitle, pIntent);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
@@ -255,7 +292,12 @@ public class NotificationActivity extends BaseActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("http://www.naver.com"));
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                PendingIntent pIntent = PendingIntent.getActivity(_appContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent pIntent = PendingIntent.getActivity(
+                        _appContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
 
                 NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 Notification noti;
@@ -286,7 +328,13 @@ public class NotificationActivity extends BaseActivity {
 //	    			noti.defaults = Notification.DEFAULT_ALL;			// sound, vibration, lights 동작
                     try {
                         // noti.setLatestEventInfo(context, context.getString(R.string.nt_flash_title), context.getString(R.string.nt_flash_on), pIntent);
-                        Method deprecatedMethod = noti.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
+                        Method deprecatedMethod = noti.getClass().getMethod(
+                                "setLatestEventInfo",
+                                Context.class,
+                                CharSequence.class,
+                                CharSequence.class,
+                                PendingIntent.class
+                        );
                         deprecatedMethod.invoke(noti, _context, contentTitle, contentTitle, pIntent);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();

@@ -330,7 +330,7 @@ public class AnalyzeWebPage extends Thread {
                 settings.setLoadWithOverviewMode(true);
                 settings.setUseWideViewPort(true);
                 settings.setDomStorageEnabled(true);
-                settings.setAppCacheEnabled(true);
+                // settings.setAppCacheEnabled(true);
                 settings.setJavaScriptCanOpenWindowsAutomatically(false);
                 try {
                     settings.setJavaScriptEnabled(true);
@@ -364,16 +364,18 @@ public class AnalyzeWebPage extends Thread {
                         super.onPageFinished(view, url);
                         CookieSyncManager.getInstance().sync(); // 페이지 로드가 끝났을 경우 쿠키 분석
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!_isPageStart) {
-                                    //String js = "javascript:window.BreakOutJs.print(document.getElementsByTagName('html')[0].innerHTML);";
-                                    String js = "javascript:window.BreakOutJs.print(document.documentElement.outerHTML);";
-                                    view.loadUrl(js);
-                                }
-                            }
-                        }, 1000);
+                        new Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!_isPageStart) {
+                                            //String js = "javascript:window.BreakOutJs.print(document.getElementsByTagName('html')[0].innerHTML);";
+                                            String js = "javascript:window.BreakOutJs.print(document.documentElement.outerHTML);";
+                                            view.loadUrl(js);
+                                        }
+                                    }
+                                }, 1000
+                        );
                     }
 
                     @Override
@@ -390,14 +392,16 @@ public class AnalyzeWebPage extends Thread {
                         super.onReceivedError(view, request, error);
                     }
                 });
-                wv.addJavascriptInterface(new Object() {
-                    @JavascriptInterface
-                    public void print(String html) {
-                        Log.i("BreakOutJs.print " + html);
-                        analyzeWebPage.setHtml(html);
-                        analyzeWebPage.start();
-                    }
-                }, "BreakOutJs");
+                wv.addJavascriptInterface(
+                        new Object() {
+                            @JavascriptInterface
+                            public void print(String html) {
+                                Log.i("BreakOutJs.print " + html);
+                                analyzeWebPage.setHtml(html);
+                                analyzeWebPage.start();
+                            }
+                        }, "BreakOutJs"
+                );
 
                 Map<String, String> headers = new HashMap<>();
 //                headers.put("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
@@ -408,7 +412,9 @@ public class AnalyzeWebPage extends Thread {
     }
 
     private void completeAnalyze() {
-        Log.d(TAG, String.format(Locale.getDefault(),
+        Log.d(
+                TAG, String.format(
+                        Locale.getDefault(),
                         "-------------------------------------------------------------\n" +
                         "| analyze web page (%dms)\n" +
                         "| url          | %s\n" +

@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="gueSample">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-24T07:50:56.092097200Z">
+        <DropdownSelection timestamp="2025-09-09T06:58:40.555917600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R3CR50AL7CT" />
+              <DeviceId pluginId="Default" identifier="serial=192.168.0.202:35537;connection=b286e06c" />
             </handle>
           </Target>
         </DropdownSelection>

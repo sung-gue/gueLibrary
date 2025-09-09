@@ -80,11 +80,17 @@ public class FlashWidgetConfigure {
     public static void setNotification(Context context, boolean showFlag) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (showFlag) {
-            PendingIntent pIntent = PendingIntent.getBroadcast(
+            /*PendingIntent pIntent = PendingIntent.getBroadcast(
                     context,
                     0,
                     new Intent(Const.BR_FLASH_WIDGET_NOTIFICATION),
                     PendingIntent.FLAG_ONE_SHOT
+            );*/
+            PendingIntent pIntent = PendingIntent.getBroadcast(
+                    context,
+                    0,
+                    new Intent(Const.BR_FLASH_WIDGET_NOTIFICATION),
+                    PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
             );
             Notification noti;
             if (Build.VERSION.SDK_INT >= 11) {

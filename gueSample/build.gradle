@@ -42,15 +42,15 @@ android {
     project.ext.set("ouputDir", "~/Downloads/")
     project.ext.set("ouputDirMac", "~/Downloads/")
 
-    compileSdk 34
+    compileSdk 36
     //buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.breakout.sample"
         minSdk 23
-        targetSdk 34
-        versionCode 2
-        versionName "1.0.1"
+        targetSdk 36
+        versionCode 4
+        versionName "1.0.2"
 
         multiDexEnabled true
         //vectorDrawables.useSupportLibrary = true
@@ -128,6 +128,7 @@ android {
         viewBinding true
         dataBinding true
     }
+    namespace 'com.breakout.sample'
 
     // off lint options
     /*lintOptions {
@@ -136,6 +137,12 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }*/
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
 
     /*packagingOptions {
         exclude "META-INF/DEPENDENCIES"
@@ -162,8 +169,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation fileTree(dir: "libs/email", include: ["*.jar"])
     testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.ext:junit:1.3.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.7.0"
 
 
     implementation project(":guelib")
@@ -214,7 +221,7 @@ dependencies {
         appcompat | https://developer.android.com/jetpack/androidx/releases/appcompat
             이전 API 버전의 플랫폼에서 새 API에 액세스할 수 있습니다(대부분 머티리얼 디자인 사용).
      */
-    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "androidx.appcompat:appcompat:1.7.1"
     /*
         annotation | https://developer.android.com/jetpack/androidx/releases/annotation
             도구 및 다른 개발자가 앱의 코드를 이해하는 데 도움이 되는 메타데이터를 노출합니다.
@@ -296,7 +303,7 @@ dependencies {
             모바일 카메라 앱을 빌드합니다.
      */
     // CameraX core library using the camera2 implementation
-    def camerax_version = "1.0.2"
+    def camerax_version = "1.4.2"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
@@ -340,10 +347,10 @@ dependencies {
         Guava: Google Core Libraries for Java
             https://github.com/google/guava
      */
-    implementation "com.google.guava:guava:28.0-android"
+    implementation "com.google.guava:guava:33.4.8-android"
 
     // Gson | https://github.com/google/gson
-    implementation "com.google.code.gson:gson:2.8.9"
+    implementation "com.google.code.gson:gson:2.13.1"
 
     // Lottie | https://github.com/airbnb/lottie-android
     implementation "com.airbnb.android:lottie:3.4.1"
@@ -352,17 +359,17 @@ dependencies {
     implementation 'com.github.NaikSoftware:StompProtocolAndroid:1.6.6'
 
     // Stomp dependencies | rx java
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.5'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     // Java HTML Parser | https://jsoup.org/
-    implementation "org.jsoup:jsoup:1.13.1"
+    implementation "org.jsoup:jsoup:1.21.2"
 
     // Snacktory | https://github.com/karussell/snacktory
 //    implementation "com.github.karussell:snacktory:c05c5ec338"
 
     // CameraView | https://github.com/natario1/CameraView
-    api "com.otaliastudios:cameraview:2.7.1"
+    api "com.otaliastudios:cameraview:2.7.2"
 
     // Facebook SDK
     implementation "com.facebook.android:facebook-android-sdk:[5,6)"
@@ -376,8 +383,8 @@ dependencies {
 //    implementation "com.github.YvesCheung.RollingText:RollingText:1.3.0"
 
     // Glide | https://github.com/bumptech/glide
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+    implementation 'com.github.bumptech.glide:glide:5.0.4'
+    annotationProcessor 'com.github.bumptech.glide:compiler:5.0.4'
 
     // OkHttp | https://square.github.io/okhttp/
     implementation("com.squareup.okhttp3:okhttp:4.11.0")

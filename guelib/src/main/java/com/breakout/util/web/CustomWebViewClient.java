@@ -195,7 +195,7 @@ public class CustomWebViewClient extends WebViewClient {
         }
         //settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         //settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        settings.setAppCacheEnabled(true);
+        // settings.setAppCacheEnabled(true);
 
         return settings;
     }
@@ -214,15 +214,18 @@ public class CustomWebViewClient extends WebViewClient {
 
     protected void logWebResourceRequest(String functionName, WebResourceRequest request) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.i(TAG, String.format("%s %s request | url :  %s" +
+            Log.i(
+                    TAG, String.format(
+                            "%s %s request | url :  %s" +
                             "\ngesture: %s, main : %s, redirect : %s" +
                             "\nheader : %s",
-                    functionName, request.getMethod(), request.getUrl().toString(),
-                    request.hasGesture(),
-                    request.isForMainFrame(),
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? request.isRedirect() : "",
-                    request.getRequestHeaders()
-            ));
+                            functionName, request.getMethod(), request.getUrl().toString(),
+                            request.hasGesture(),
+                            request.isForMainFrame(),
+                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? request.isRedirect() : "",
+                            request.getRequestHeaders()
+                    )
+            );
         }
     }
 
@@ -317,10 +320,11 @@ public class CustomWebViewClient extends WebViewClient {
     @Override
     //@Deprecated
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        Log.i(TAG, "onReceivedError | " +
-                "   failingUrl : " + failingUrl +
-                "   errorCode : " + errorCode +
-                "   description : " + description
+        Log.i(
+                TAG, "onReceivedError | " +
+                     "   failingUrl : " + failingUrl +
+                     "   errorCode : " + errorCode +
+                     "   description : " + description
         );
         super.onReceivedError(view, errorCode, description, failingUrl);
         closeProgress();
@@ -332,9 +336,10 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        Log.i(TAG, "onReceivedHttpError | " +
-                "   request : " + request +
-                "   error : " + error
+        Log.i(
+                TAG, "onReceivedHttpError | " +
+                     "   request : " + request +
+                     "   error : " + error
         );
         super.onReceivedError(view, request, error);
         closeProgress();
@@ -345,18 +350,20 @@ public class CustomWebViewClient extends WebViewClient {
 
     @Override
     public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-        Log.i(TAG, "onReceivedHttpError | " +
-                "   request : " + request +
-                "   errorResponse : " + errorResponse
+        Log.i(
+                TAG, "onReceivedHttpError | " +
+                     "   request : " + request +
+                     "   errorResponse : " + errorResponse
         );
         super.onReceivedHttpError(view, request, errorResponse);
     }
 
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-        Log.i(TAG, "onReceivedSslError | " +
-                "   SslErrorHandler : " + handler +
-                "   SslError : " + error
+        Log.i(
+                TAG, "onReceivedSslError | " +
+                     "   SslErrorHandler : " + handler +
+                     "   SslError : " + error
         );
         super.onReceivedSslError(view, handler, error);
     }
@@ -559,7 +566,8 @@ public class CustomWebViewClient extends WebViewClient {
             return false;
         }
         // 단계 3. 외부 앱 및 안드로이드 마켓 호출 구현
-        else if ((url.startsWith("http://") || url.startsWith("https://")) && (url.contains("market.android.com") || url.contains("m.ahnlab.com/kr/site/download"))) {
+        else if ((url.startsWith("http://") || url.startsWith("https://")) && (url.contains("market.android.com") || url.contains(
+                "m.ahnlab.com/kr/site/download"))) {
             Uri uri = Uri.parse(url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             try {
@@ -571,10 +579,14 @@ public class CustomWebViewClient extends WebViewClient {
         } else if (url.startsWith("http://") || url.startsWith("https://")) {
             return false;
         } else if (url != null
-                && (url.contains("vguard") || url.contains("droidxantivirus") || url.contains("smhyundaiansimclick://") || url.contains("samsungpay")
-                || url.contains("smshinhanansimclick://") || url.contains("smshinhancardusim://") || url.contains("smartwall://") || url.contains("appfree://")
-                || url.contains("v3mobile") || url.endsWith(".apk") || url.contains("market://") || url.contains("ansimclick")
-                || url.contains("market://details?id=com.shcard.smartpay") || url.contains("shinhan-sr-ansimclick://"))) {
+                   && (url.contains("vguard") || url.contains("droidxantivirus") || url.contains(
+                "smhyundaiansimclick://") || url.contains("samsungpay")
+                       || url.contains("smshinhanansimclick://") || url.contains("smshinhancardusim://") || url.contains(
+                "smartwall://") || url.contains("appfree://")
+                       || url.contains("v3mobile") || url.endsWith(".apk") || url.contains("market://") || url.contains(
+                "ansimclick")
+                       || url.contains("market://details?id=com.shcard.smartpay") || url.contains(
+                "shinhan-sr-ansimclick://"))) {
             Intent intent = null;
             // 인텐트 정합성 체크 : 2014 .01추가
             try {
@@ -637,19 +649,24 @@ public class CustomWebViewClient extends WebViewClient {
                 }
                 return override;
             } else {
-                showAlert("확인버튼을 누르시면 구글플레이로 이동합니다.", "확인", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(("market://details?id=kr.co.uplus.ecredit")));
-                        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                        intent.putExtra(Browser.EXTRA_APPLICATION_ID, _activity.getPackageName());
-                        _activity.startActivity(intent);
-                        _activity.overridePendingTransition(0, 0);
-                    }
-                }, "취소", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                showAlert(
+                        "확인버튼을 누르시면 구글플레이로 이동합니다.", "확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse(("market://details?id=kr.co.uplus.ecredit"))
+                                );
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                intent.putExtra(Browser.EXTRA_APPLICATION_ID, _activity.getPackageName());
+                                _activity.startActivity(intent);
+                                _activity.overridePendingTransition(0, 0);
+                            }
+                        }, "취소", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }
+                );
                 return true;
             }
         }
@@ -668,15 +685,17 @@ public class CustomWebViewClient extends WebViewClient {
                 }
                 return override;
             } else {
-                showAlert("확인버튼을 누르시면 구글플레이로 이동합니다.", "확인", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        view.loadUrl("http://mobile.vpay.co.kr/jsp/MISP/andown.jsp");
-                    }
-                }, "취소", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                showAlert(
+                        "확인버튼을 누르시면 구글플레이로 이동합니다.", "확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                view.loadUrl("http://mobile.vpay.co.kr/jsp/MISP/andown.jsp");
+                            }
+                        }, "취소", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }
+                );
                 return true;
             }
         } else if (url.startsWith("paypin://")) {
@@ -694,8 +713,10 @@ public class CustomWebViewClient extends WebViewClient {
                 }
                 return override;
             } else {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(("market://details?id=com.skp.android.paypin&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5za3AuYW5kcm9pZC5wYXlwaW4iXQ..")));
+                Intent intent = new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(("market://details?id=com.skp.android.paypin&feature=search_result#?t=W251bGwsMSwxLDEsImNvbS5za3AuYW5kcm9pZC5wYXlwaW4iXQ.."))
+                );
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.putExtra(Browser.EXTRA_APPLICATION_ID, _activity.getPackageName());
                 _activity.startActivity(intent);
